@@ -1,0 +1,460 @@
+=head1 NAME
+
+xstow.ini, config file for XStow
+
+=head1 CONTENT
+
+The xstow.ini file contains some static informations about your
+system. It's possible setting most necessary values by setting the
+required command line option, but in some cases this won't make sense
+if you are using xstow quite often.
+
+=head1 SYNTAX
+
+The syntax of the configuration file is simple. It's the same as it is
+used by KDE and GNOME.
+
+The data is splitted into keys values and sections. The '#' sign marks
+a comment. Here is an example:
+
+	[traserve-links]
+	keep-targets = true
+	link = /usr/tmp  # comment
+
+=over 0
+
+=item B<[traserve-links]> 
+
+is a section with the name "traserve-links"
+
+=item B<keep-targets = true>
+
+is a key - value pair, where 'keep-targets' is the key and 'true' is
+the value.
+
+=back
+
+=head1 PROCESSING
+
+XStow processes the config files one after another. Static
+configuration options like the B<[debug]>=>B<module> option can be
+overwritten by the next config file. List keys like
+B<[traverse-links]>=>B<link> will be appended to the list.
+
+If you wan't more informations about the current stow setup call XStow
+like this:
+
+	xstow -s -dl 1 dummy-package | less
+
+For getting information about which config files were processed you
+will have to set some environment values (see xstow(1) for
+details).
+Eg.:
+
+	XSTOW_DEBUG_LEVEL=1 xstow -s -dl 1 dummy-package | less
+
+
+=head1 DESCRIPTION
+
+=head2 SECTION traserve-links
+
+In this section a number of links are listed, which xstow will
+identify as links that are not part of an xstow managed package.
+Eg.: 
+For conforming to the FHS it is common setting a link from /usr/share/man
+to /usr/man. This will cause old applications installing theire
+manpages in /usr/share/man, rather than in /usr/man.
+
+But xstow is paranoid and believes that the link contains to something
+else and it is not allowed writing data into the directory the link
+points to.
+
+The simple solution is telling xstow which links should be handled as
+normal directories. These links can be listed in this section.
+
+=over 0
+
+=item B<link> = LINK
+
+The value of this key must contain an absolute path to the link that
+should be handled as a normal directory. The link itself can be an
+absolute, or relativ link.
+It is allowed that there are more than one B<link> keys in this section.
+
+=item B<keep-targets> = BOOL
+
+Allowed values are 'true' and '1' (incasesensitive). Anything else
+will be interpreted as false.
+If keep-targets is set to true the target of the links in this section
+will automatically added to the B<keep-dirs> section. This avoids that
+these targets will be removed and the links will become dead links.
+
+=item B<add-if-target> = PATTERN
+
+Automatic add all links which targets match the pattern to the link
+list. XStow will use this as the last chance for solving
+dependencies. Only if all other tests failed the application will
+try appling this test. This means that it is no problem setting
+B<[links]>=>B<absolute-links> to true and using a pattern like /* here. 
+If B<keep-targets> is set to true the applied links will added to the
+B<keep-dirs> list too.
+
+=item B<add-if-target-regex> = REGEX
+
+Does the same as B<add-if-target>, but support regular
+expressions. XStow will always try matching the regular expressions
+before the normal shell patterns, cause a regex can be much more exact
+than a shell pattern.
+
+=back
+
+=head2 SECTION keep-dirs
+
+In this section directories are listed that should not be remove. When
+xstow removes a package and a directory becomes emty the directory
+will be removed too.
+
+=over 0
+
+=item B<dir> = DIR
+
+The value of this key must contain an absolute path to the directory
+that should be kept.
+It is allowed that there are more than one B<dir> keys in this
+section. B<The value should not end with a '/'!!>
+
+=back
+
+=head2 SECTION matches
+
+XStow will try matching this pattern to all file names that were found
+in packages. Only the file names. So you do not have to care about the
+slashes.
+
+=over 0
+
+=item B<ignore> = PATTERN
+
+Ignore files matching this pattern.
+It is allowed that there are more than one B<ignore> keys in this
+section.
+
+=item B<ignore-regex> = REGEX
+
+Does the same as B<ignore>, but support regular
+expressions. XStow will always try matching the regular expressions
+before the normal shell patterns, cause a regex can be much more exact
+than a shell pattern.
+
+=item B<copy> = PATTERN
+
+Copy files or directories matching this pattern instead of linking it.
+This makes sense in case of some global files that will be used by
+more than one package and will be updated in the course of the
+installation process. Files that were installed this way won't be
+removed in case of unstowing a package, since XStow can not handle
+package dependencies and does not know if any other package requires
+the file.
+If a directory matches this expression the content of the directory
+will be copied recoursively. This can be useful in case of some /etc
+files, installed by the installation process.
+It is allowed that there are more than one B<copy> keys in this
+section.
+
+=item B<copy-regex> = REGEX
+
+Does the same as B<copy>, but support regular
+expressions. XStow will always try matching the regular expressions
+before the normal shell patterns, cause a regex can be much more exact
+than a shell pattern.
+
+=item B<nignore> = NIGNORE_RULE
+
+Ignore everything except file and directories matching this
+expression. eg: "systree/bintree".
+For using nignore support fnmatch and configration file
+support has to be enabled. 
+A rule (eg.: "systree/headertree" ) has a set of subrules (eg.: "systree" and "headertree" ).
+These subrules are defined in a separate section which is named as the subrule.
+Eg, the subrule for "systree":
+
+	[systree]
+	dir       = /usr
+	dir       = /usr/local
+	follow    = false
+
+There is an example config file "nignore.ini" in the doc directory of this package.
+
+=back
+
+=head2 SECTION NIGNORE-SUB-RULE
+
+Description of a nignore subrule. This section is called like the nignore subrule, eg: "systree".
+
+=over 0
+
+=item B<dir> = DIR
+
+Directories where a file of the package should be installed. You can use shell pattern's too
+(eg.: "/man/man*"), but use this feature only if this subrule is the last one in an nignore rule. 
+
+=item B<follow> = BOOL
+
+Follow subdirs.
+
+=back
+
+=head2 SECTION stow-dirs
+
+=over 0
+
+=item B<dir> = DIR
+
+The value of this key must contain an absolute path to the directory
+that can be handled as it would be part of the own stow directory.
+This means xstow is allowed to make changes in packages that are
+related to this directory.
+It is allowed that there are more than one B<dir> keys in this
+section. B<The value should not end with a '/'!!>
+
+=item B<auto-add-dirs> = PATTERN
+
+Automatically add a directory if it matches this pattern. In Stow
+directories, which were detected with this pattern, never will be
+searched for configuration files.
+It is allowed that there are more than one B<auto-add-dirs> keys in
+this section.
+
+=item B<auto-add-dirs-regex> = REGEX
+
+Does the same as B<auto-add-dirs>, but support regular
+expressions. XStow will always try matching the regular expressions
+before the normal shell patterns, cause a regex can be much more exact
+than a shell pattern.
+
+=back
+
+=head2 SECTION protect-dirs
+
+The goal of this section is limiting the access within a legal target
+directory. Eg.: If your stow directory is '/stow' and you installing
+packages this way: 
+
+	make install DESTDIR=/stow/package_name
+
+But the 'prefix' is set to '/usr/local'. In this case target directory 
+will be '/', but the real target directory of package will be
+'/usr/local'. The following keys withing this section allowing to
+restrict the installation access within the valid target directory.
+
+=over 0
+
+=item B<dir> = DIR
+
+The value of this key must contain an absolute path to the directory
+that has not be changed. XStow is not allowed installing a package
+there and withing the subdirectories, and will report an error, 
+if it would. It is allowed that there are more than one B<dir> keys 
+in this section. B<The value should not end with a '/'!!>
+
+=item B<auto-add-dirs> = PATTERN
+
+Automatically add a directory if it matches this pattern.
+It is allowed that there are more than one B<auto-add-dirs> keys in
+this section.
+
+=item B<auto-add-dirs-regex> = REGEX
+
+Does the same as B<auto-add-dirs>, but support regular
+expressions. XStow will always try matching the regular expressions
+before the normal shell patterns, cause a regex can be much more exact
+than a shell pattern.
+
+=item B<target> = DIR
+
+The value of this key must contain an absolute path to the directory
+that is allowed to be changed. If this value is set, XStow will report
+an error if it would touch any other, or upper directory within the tree.
+It is allowed that there are more than one B<target> keys in this
+section. B<The value should not end with a '/'!!>
+
+=item B<target-add-traversable-links> = BOOL
+
+Automatically add the targets of traversable links to the targets list.
+This can be useful if you do not add manually all possible targets of 
+traversable links to the target list. By default this value is set to
+false.
+
+=back
+
+If your stow directory is '/stow' and all packages should be installed
+in '/usr/local/' such a config file will make sense:
+
+	[traverse-links]
+	link = /usr/local/etc
+
+	[protect-dirs]
+	target = /usr/local
+	target-add-traversable-links = true
+
+XStow will report an error if it would install a package outside of
+'/usr/local'
+
+=head2 SECTION debug
+
+These values will be ignored if one of these values is set by command
+line option.
+
+=over 0
+
+=item B<module> = MODULE
+
+Set the default debug module.
+
+=item B<level> = INTEGER
+
+Set the debug level.
+
+=back
+
+=head2 SECTION config-files
+
+=over 0
+
+=item B<in-home> = BOOL
+
+Search in home directory for a config file named "xstow.ini" or
+".xstow.ini". Only in the home directory will be searched for hidden
+files. 
+
+=item B<in-stow-dir> = BOOL
+
+Search in current stow directory for a config file
+
+=item B<in-other-stow-dirs> = BOOL
+
+Search in other public stow directories for config files.
+
+=item B<file> = FILE
+
+Read this config file too.
+
+It is allowed that there are more than one B<file> keys in this
+section.
+
+=back
+
+=head2 SECTION links
+
+=over 0
+
+=item B<absolute-paths> = BOOL
+
+Create links with absolute path names.
+
+=back
+
+=head2 SECTION exec
+
+=over 0
+
+If a package comes with some GNU info files, B<install-info> creates
+an index directory named 'dir' in STOWDIR/PACKAGE/share/info. If this
+is the first package with an info index file this won't be a
+problem. 
+
+If a second package creates another 'dir' file in
+the packages info directory, this file will not contain the
+informations from the first package too and xstow will report a
+problem unless you use the B<ignore> or B<copy> option.
+
+But using the B<copy> option is not a solution since the content of
+each of the files is incomplete.
+You can use the B<ignore> option and run B<mkinfodir> in the
+/usr/local/info directory after installing the package with
+xstow. (Such a script is available on various distributions.)
+
+The other solution is running a program that merges the old and the
+new 'dir' file.
+This section provides a hook, that allows executing such tools if
+a file or directory matches a condition.
+
+XStow shippes a programm called B<merge-info>(1) that can be used this
+way. 
+
+There can be more than one B<exec> Section within an ini file!
+
+=item B<match> = PATTERN
+
+=item B<exec> = COMMAND
+
+Executes the command if a file matches the B<match> expression. %t is
+replaces by the target file and %s is replaced by the source file.
+
+=item B<exec-unstow> = COMMAND
+
+Executes the command if a file matches the B<match> expression and a
+packages is unstowed. If B<exec-unstow> is not set and a package will
+be unstowed, nothing will be executed.
+%t is replaces by the target file and %s is replaced by the source
+file.
+
+
+=back
+
+=head1 EXAMPLE xstow.ini
+
+=head2 EXAMPLE 1
+
+Here is an example xstow.ini which is common for a system where xstow
+is managing the /usr/local tree.
+
+	[traverse-links]
+	keep-targets = true 
+	link = /usr/local/tmp
+	link = /usr/local/var
+	link = /usr/local/man
+	link = /usr/local/doc
+	link = /usr/local/info
+
+	[keep-dirs]
+	dir = /usr/local/bin
+	dir = /usr/local/sbin
+	dir = /usr/local/lib
+	dir = /usr/local/include
+
+	[matches]
+	ignore = *~ 
+	ignore = core
+	ignore = core.*
+	ignore = CVS
+
+	[exec]
+	match = dir # GNU info index file
+	exec = merge-info %t %s -o %t
+	exec-unstow = merge-info -u %t %s -o %t
+
+	[stow-dirs]
+	dir = /usr/local/stow
+	dir = /usr/local/stow2
+
+=head2 EXAMPLE 2
+
+This is an example xstow.ini for a system where xstow is managing the
+'/usr/local' tree, but the stow directory is '/stow'.
+
+	[matches]
+	ignore = *~
+	ignore = CVS
+	ignore = core*
+
+	[stow-dirs]
+	dir = /stow
+
+	[protect-dirs]
+	target = /usr/local
+
+=head1 SEE ALSO
+
+xstow(1) merge-info(1)
+xstow.ini file.
