@@ -2,11 +2,65 @@
 <configurationDescriptor version="80">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df name="xstow" root=".">
+      <df name=".svn">
+        <df name="prop-base">
+        </df>
+        <df name="props">
+        </df>
+        <df name="text-base">
+        </df>
+        <df name="tmp">
+          <df name="prop-base">
+          </df>
+          <df name="props">
+          </df>
+          <df name="text-base">
+          </df>
+        </df>
+        <in>entries</in>
+      </df>
       <df name="autom4te.cache">
       </df>
       <df name="doc">
+        <df name=".svn">
+          <df name="prop-base">
+          </df>
+          <df name="props">
+            <in>check-stow.sh.svn-work</in>
+          </df>
+          <df name="text-base">
+          </df>
+          <df name="tmp">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+            </df>
+            <df name="text-base">
+            </df>
+          </df>
+          <in>entries</in>
+        </df>
       </df>
       <df name="src">
+        <df name=".svn">
+          <df name="prop-base">
+          </df>
+          <df name="props">
+            <in>merge-info.svn-work</in>
+            <in>xstow.svn-work</in>
+          </df>
+          <df name="text-base">
+          </df>
+          <df name="tmp">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+            </df>
+            <df name="text-base">
+            </df>
+          </df>
+          <in>entries</in>
+        </df>
         <in>arg.cpp</in>
         <in>arg.h</in>
         <in>backtrace.cpp</in>
@@ -40,6 +94,23 @@
         <in>tree.h</in>
       </df>
       <df name="test">
+        <df name=".svn">
+          <df name="prop-base">
+          </df>
+          <df name="props">
+          </df>
+          <df name="text-base">
+          </df>
+          <df name="tmp">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+            </df>
+            <df name="text-base">
+            </df>
+          </df>
+          <in>entries</in>
+        </df>
       </df>
       <in>config.h</in>
     </df>
