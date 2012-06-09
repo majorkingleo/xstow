@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>XStow</title>
+  </head>
+
+  <body>
+      <table width="100%">
+	  <tr>
+	    <td width="33%">
+<A href="http://sourceforge.net/projects/xstow"> <IMG src="http://sourceforge.net/sflogo.php?group_id=54553&amp;type=5" width="210" height="62" border="0" alt="SourceForge Logo"></A> 
+	    </td>
+
+	    <td width="33%">
+
+	      <div align=center>
+		<h1>XStow</h1>
+	      </div>
+
+	    </td>
+	    <td>
+
+	      &nbsp;
+
+	    </td>
+	  </tr>
+      </table>
+
+      <div align=center>
+      <b>Current stable release: 0.5.1</b><br/>
+      <b>Current unstable release: 0.6.1-unstable</b><br/>
+      </div>
+
+    <blockquote>
+
+      <h2>News</h2>
+
+      <p>
+        <i>2008-09-27</i>
+      </p>
+
+	  <p>
+		Ported the unstable release to gcc 4.x series.
+	  </p>
+
+      <p>
+        <i>2005-03-06</i>
+      </p>
+
+      <p>
+        During the last 2 years I made some small bugfixes, added
+        small features and always thought that the changes are too
+        small for publishing a new release. But all together these
+        changes are to heavy for simple publishing it as a stable
+        release.</br>
+	So here it is: a preview <b>unstable</b> release of something
+        that may will become version 1.0.0.<br/>
+	From now on all unstable releases are <i>marked</i> explicit
+        as unstable!</br>
+	Sources are available on <a
+        href="http://sourceforge.net/projects/xstow">Sourceforge
+        Download Page</a>
+      </p>
+      
+
+      <p>
+        <i>2003-03-02</i>
+      </p>
+
+      <p>
+        XStow is now integrated in the ports system of 
+	<a href="http://www.freshports.org/sysutils/xstow/">Free BSD</a>.
+	<br>
+      </p>  
+
+      <p>
+        <i>2002-12-31</i>
+      </p>
+
+      <p>
+        XStow is now available on 
+	<a href="http://packages.debian.org/unstable/utils/xstow.html">debian/unstable</a>.
+	<br>
+	Thanks to Mats Rynge for uploading the package.
+
+      </p>  
+
+      <h2>About</h2>
+
+      <p>
+	XStow is a replacement of <a href="http://www.gnu.org/software/stow/">GNU Stow</a>
+	written in C++. It supports all features of Stow with some extensions.
+      </p>
+      
+      <p>
+	XStow as GNU Stow, are programs for managing the installation of
+	software packages, keeping them separate (/usr/local/stow/emacs
+	vs. /usr/local/stow/perl, for example) while making them appear to be
+	installed in the same place (/usr/local).
+      </p>
+      
+      <p>
+	Stow requires Perl. But what's on systems where no Perl is available, or not
+	yet installed? I tried compiling Stow with perlcc, but it failed.
+      </p>
+      
+      <p>
+	For compiling XStow a C++ compiler and a system with a couple of POSIX
+	functions is required. It does not depend on an interpreter. Static
+	compilation eg.: for resque disks is possible.
+      </p>
+      
+      <p>
+	XStow installs packages in exact the same way like stow, so you
+	even can start a Linux From Scratch installation with XStow and when
+	Perl is running, you can continue installation by using GNU Stow.
+      </p>
+      
+      <p>
+	Even the command line options are compatible.
+      </p>
+
+      <i>But there are:</i>
+
+      <h2>Special Features</h2>
+
+      <i>
+        All of them breaking compatibility with Stow!<br>
+        But who cares... :)
+      </i>
+
+      <ul>
+	<li>Creation of symlinks with absolute path names.</li>
+        <li>Traversal link support. <i>(create a link from /usr/share/man to /usr/man)</i></li>
+	<li>Multiple stow directories support.</li>
+	<li>Shell pattern matching.</li>
+	<li>Regular Expressions Support.</li>
+	<li>Global settings via configuration files.</li>
+	<li>Automatically merging GNU-Info's 'dir' files.</li>
+	<li>...</li>
+      </ul>      
+
+      <h2>Note</h2>
+
+      Even if there is the 'X' in XStow's name, it is a complete
+      command line based application. There is no X11 support in any way.
+
+    </blockquote>
+
+    <hr>
+
+<div align=center>
+
+<a href="xstow.html">Manpage XStow</a> &nbsp;
+<a href="xstow.ini.html">Manpage xstow.ini</a> &nbsp;
+<a href="merge-info.html">Manpage merge-info</a> &nbsp;
+<a href="http://sourceforge.net/projects/xstow">Sourceforge Page (download there)</a>
+
+</div>
+
+    <hr>
+
+    <table width="100%">
+	<tr>
+	  <td>
+
+    <address>Martin Oberzalek &lt;kingleo@gmx.at&gt;</address>
+<!-- Created: Thu May 30 11:47:33 CEST 2002 -->
+<!-- hhmts start -->
+Last modified: Sat Sep 27 10:56:52 CEST 2008
+<!-- hhmts end -->
+
+	  </td>
+	  <td> &nbsp; </td>
+
+	  <td> 
+	    <div align=right>
+
+	      <a href="http://kingleo.pages.at">
+		<img src="leo.gif" border="0" width="109" height="39" alt="http://kingleo.hoffer.cx">
+	      </a>
+
+	    </div>
+	  </td>
+	</tr>
+    </table>
+
+  </body>
+</html>
