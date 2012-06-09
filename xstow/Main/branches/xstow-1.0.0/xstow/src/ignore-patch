@@ -1,0 +1,85 @@
+Index: tree.cpp
+===================================================================
+RCS file: /data1/cvsroot/xstow/src/tree.cpp,v
+retrieving revision 1.4
+diff -u -r1.4 tree.cpp
+--- tree.cpp	21 Jul 2010 19:38:25 -0000	1.4
++++ tree.cpp	22 Jul 2010 20:09:18 -0000
+@@ -168,15 +168,18 @@
+ 	  setup.protect_dirs.dirs += ::getName( nn->file.get_name() );
+       }
+ 
++      DEBUG( OUT(2)( "xxxxx file %s type: %s match: %s\n",nn->file.get_name(), nn->getType(), match_ignore( nn->file.get_name() ) ) );
++      
+       if( nn->getType() == TYPE::FILE )
+-      {	  
++      {	      
+ 	  if( match_ignore( nn->file.get_name() ) || 
+ 	      match_ignore_file_in_dir( setup.current_package(), CppDir::concat_dir( getFullPathName(), nn->file.get_name() ) ) )
+ 	  {
+ 	      DEBUG( OUT(2)( "file %s ignored\n", CppDir::concat_dir( getFullPathName(), nn->file.get_name() ) ) );
+ 	      continue;
+ 	  }
+-      }
++	  
++      }	  
+ 
+       childs->push_back( nn );
+ 
+@@ -441,8 +444,8 @@
+ 		  }
+ 
+ 	      if( it->getType() == Node::TYPE::DIR )
+-		{
+-		    if( match_protect_dirs( ::getName( *dit ) ) )
++		{		 
++		  if( match_protect_dirs( ::getName( *dit ) ) )
+ 		    {
+ 			ERROR( "directory %s is protected\n", ::getName( *dit ) );
+ 
+@@ -632,6 +635,14 @@
+ 	{
+ 	  if( !setup.unstow() )
+ 	    {
++	      if( match_ignore( it->getName() ) )
++		{
++		  OUT(1)( "%s %s ignored\n", 
++			  it->getType() == Node::TYPE::FILE ? "File" : "Directory" , 
++			  it->getFullPathName() );
++		  continue;
++		} 
++
+ 		if( !match_protect_targets( CppDir::concat_dir( target->getFullPathName(), it->getName() )  ) )
+ 		{
+ 		    ERROR( "not allowed installing file %s there\n", CppDir::concat_dir( target->getFullPathName(), it->getName() ) );
+@@ -1131,7 +1142,13 @@
+   for( unsigned int i = 0; i < setup.matches.ignore.size(); ++i )
+     {
+       if( fnmatch( setup.matches.ignore[i].c_str(), file.c_str(), FNM_PATHNAME ) == 0 )
+-	return true;
++	{
++	  return true;
++	}
++      else
++	{
++	  DEBUG( OUT(3)( "fnmatch failed: '%s' != '%s'",  setup.matches.ignore[i], file ) );
++	}
+     }
+ #endif
+ 
+Index: leoini.cpp
+===================================================================
+RCS file: /data1/cvsroot/xstow/src/leoini.cpp,v
+retrieving revision 1.3
+diff -u -r1.3 leoini.cpp
+--- leoini.cpp	4 Jul 2005 21:59:42 -0000	1.3
++++ leoini.cpp	21 Jul 2010 20:25:05 -0000
+@@ -272,7 +272,7 @@
+ std::string::size_type Leo::Ini::find_comment( const std::string& str )
+ {
+   // maybe I'll add later an better implementation if this
+-  return str.find( ";" );
++  return str.find_first_of( ";#" );
+ }
+ 
+ bool Leo::Ini::find_tag( std::string::size_type& start, std::string::size_type& end, const std::string& str )
