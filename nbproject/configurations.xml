@@ -20,6 +20,23 @@
         <in>entries</in>
       </df>
       <df name="autom4te.cache">
+        <df name=".svn">
+          <df name="prop-base">
+          </df>
+          <df name="props">
+          </df>
+          <df name="text-base">
+          </df>
+          <df name="tmp">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+            </df>
+            <df name="text-base">
+            </df>
+          </df>
+          <in>entries</in>
+        </df>
       </df>
       <df name="doc">
         <df name=".svn">
@@ -42,6 +59,8 @@
         </df>
       </df>
       <df name="src">
+        <df name=".deps">
+        </df>
         <df name=".svn">
           <df name="prop-base">
           </df>
@@ -136,7 +155,7 @@
       <makefileType>
         <makeTool>
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
-          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <buildCommand>${MAKE} -f Makefile -j</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath></executablePath>
           <ccTool>
@@ -146,18 +165,11 @@
             <preprocessorList>
               <Elem>HAVE_CONFIG_H</Elem>
               <Elem>NDEBUG</Elem>
-              <Elem>SYSCONFDIR='"/usr/local/etc"'</Elem>
+              <Elem>SYSCONFDIR="/usr/local/etc"</Elem>
             </preprocessorList>
           </ccTool>
         </makeTool>
       </makefileType>
-      <item path="src/merge_info.cpp" ex="false" tool="1" flavor="0">
-        <ccTool>
-          <preprocessorList>
-            <Elem>SYSCONFDIR="/usr/local/etc"</Elem>
-          </preprocessorList>
-        </ccTool>
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>
