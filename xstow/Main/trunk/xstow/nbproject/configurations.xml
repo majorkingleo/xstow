@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="80">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df name="xstow" root=".">
+      <df name="autom4te.cache">
+      </df>
+      <df name="doc">
+      </df>
+      <df name="src">
+        <in>arg.cpp</in>
+        <in>arg.h</in>
+        <in>backtrace.cpp</in>
+        <in>backtrace.h</in>
+        <in>copy.cpp</in>
+        <in>cppdir.cpp</in>
+        <in>cppdir.h</in>
+        <in>debug.cpp</in>
+        <in>debug.h</in>
+        <in>file_option.cpp</in>
+        <in>file_option.h</in>
+        <in>format.cpp</in>
+        <in>format.h</in>
+        <in>iterator.h</in>
+        <in>leoini.cpp</in>
+        <in>leoini.h</in>
+        <in>local_config.h</in>
+        <in>main.cpp</in>
+        <in>merge_info.cpp</in>
+        <in>nignore.cpp</in>
+        <in>nignore.h</in>
+        <in>range.h</in>
+        <in>ref.h</in>
+        <in>setup.cpp</in>
+        <in>setup.h</in>
+        <in>setup_config.cpp</in>
+        <in>setup_config.h</in>
+        <in>string_utils.cpp</in>
+        <in>string_utils.h</in>
+        <in>tree.cpp</in>
+        <in>tree.h</in>
+      </df>
+      <df name="test">
+      </df>
+      <in>config.h</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>configure</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>.</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>HAVE_CONFIG_H</Elem>
+              <Elem>NDEBUG</Elem>
+              <Elem>SYSCONFDIR='"/usr/local/etc"'</Elem>
+            </preprocessorList>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="src/merge_info.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>SYSCONFDIR="/usr/local/etc"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

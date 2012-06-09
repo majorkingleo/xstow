@@ -1,0 +1,130 @@
+XStow is a replacement of GNU Stow (http://www.gnu.org/software/stow/)
+written in C++. It supports all features of Stow with some extensions.
+
+XStow as GNU Stow, are programs for managing the installation of
+software packages, keeping them separate (/usr/local/stow/emacs
+vs. /usr/local/stow/perl, for example) while making them appear to be
+installed in the same place (/usr/local).
+
+Stow requires Perl. But what's on systems where no Perl is available, or not
+yet installed? I tried compiling Stow with perlcc, but it failed.
+
+For compiling XStow a C++ compiler and a system with a couple of POSIX
+functions are required. It does not depend on an interpreter. Static
+compilation eg.: for resque disks are possible.
+
+XStow installs packages in exact the same way like stow, so you
+even can start a Linux From Scratch installation with XStow and when
+Perl is running continue installation by using GNU Stow.
+
+*) Name
+
+The X in the name has nothing to do with X11 It simple stands for
+Extended Stow (... I think).
+
+*) Status:
+
+It works fine.
+
+*) Features:
+
+  XStow generates Stow compatible symlinks. You can install a package
+  with XStow and uninstall it with Stow.
+
+  It also supports, the creation of symlinks with absolute path names,
+  but this will brake compatibilty with Stow.
+
+  *) automated stow directory detection
+  *) automated traversable link detection (/usr/man is a link to /usr/share/man)
+
+*) Planned Features:
+
+  If you have any other ideas send a mail to kingleo@gmx.at, or the
+  xstow mailing list: xstow-general@lists.sourceforge.net
+
+*) Future
+
+  * By default full Stow compatibilty should be obtained. But more
+    features will be impemented.
+
+*) Why
+
+  * Stow requires Perl. But what's on systems where is no Perl available,
+    or not yet installed? I tried compiling Stow with perlcc, but it
+    failed. This was the initial reason.
+
+  * Stow lacks some features and I'm not very common with perl... So I
+    implemented them in XStow.
+
+*) Static versions
+   
+  If you enable static compiling 3 binaries 'xstow', 'xstow-static' 
+  and 'xstow-stow' will be created.
+
+  The 'xstow-static' version has no ncurses support 
+  and the binary is compiled statically.
+
+  Some extensions in the 'xstow-stow' target are disabled. This 
+  results in a static replacement of GNU Stow, with less extensions and
+  the binary is smaller than the xstow-static binary.
+
+  If you are heaviliy using xstow it is recomended compiling these static 
+  versions, since you are using xstow like one of the base system tools.
+  Upgrading the libc with a static xstow is no problem.
+
+*) Getting the binary smaller
+
+  call ./configure --help and see which features can be disabled
+  espacially the ncurses support is absolutely not required!
+
+  An other way:
+
+       $ make mini
+
+  Will compile 2 binaries xstow-mini and xstow-mini-static
+  This should work with a gcc compiler on linux and may work with
+  other compilers on other systems.
+
+*) Libraries
+
+  - ncurses
+
+  For better --help screen support XStow uses the ncurses library.
+  With the help of this library XStow uses the available width of the
+  terminal it is running on.
+
+  If you don't compile XStow with ncurses support, the terminal width
+  will be guessed as 80 characters wide.
+
+  So the ncurses support is absolutely not required.
+  
+
+
+  All other required libraries are builtin (by side the libc and
+  libstdc++)
+
+  - format (builtin, required)
+
+  supports a kind of typesafe printf()
+  if the NFORMAT is defined the complete typechecking code of Format will
+  be skipped. Only a dummy version of Format will be used. This code
+  will be untypesafe. This feature was implemented cause we expect
+  that when your code is already clean and well tested no type
+  checking is required any more. It's just code ready to be released.
+
+  - LeoIni (builtin, optional)
+
+  supports configuration file reading. The library is not absolute
+  portable. It requires a GNU like STL. The configure script 
+  checks automatically if it can be used.
+
+  - Arg (builtin, required)
+
+  supports parsing of the command line, which can be a nitty gritty
+  case.
+
+  - CppDir (builtin, required)
+
+  abstracts files and directories and provides some path manipulating
+  functions.
+

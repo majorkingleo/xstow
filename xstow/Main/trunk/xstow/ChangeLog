@@ -1,0 +1,327 @@
+2010-07-22  Martin Oberzalek  <kinge@gmx.at>
+
+	* configure.ac: I call this Version 1.0.0 now.
+
+	* src/leoini.cpp (find_comment): added the numbersign as comment
+	sign in to the ini file parsing code.
+
+	* src/tree.cpp (check): Bug#589860: Ignore does not ignore directories
+	Von: Anthony DeRobertis <anthony@derobert.net>
+	An: Debian Bug Tracking System <submit@bugs.debian.org>
+	Datum: Gestern 20:13:19
+
+	Package: xstow
+	Version: 0.5.1-6
+	Severity: normal
+
+	--help says -i should ignore files and directories. However, it seems to
+	only work on files, and the source code seems to agree...
+
+	if( nn->getType() == FILE )   // <--- doesn't that mean files only?
+	{
+          if( match_ignore( nn->file.get_name() ) )
+          {
+              DEBUG( OUT(2)( "file %s ignored\n", CppDir::concat_dir( getFullPathName(), nn->file.get_name() ) ) );
+              continue;
+          }
+	}
+
+	This means its impossible to do a -i .svn, which is quite unforunate.
+
+
+2008-09-27  Martin Oberzalek  <kingleo@gmx.at>
+
+	* gcc 4.x port
+
+
+2005-03-06  Martin Oberzalek  <martin@graz.surfer.at>
+
+	* src/tree.cpp (match_auto_protect_dirs): Bug fixed (caused xstow
+	to crash.
+
+	* src/range.h (EnumRange): Bug fixed.
+
+	* src/main.cpp (main): Added current working dir to stow dir. This
+	will avoid problems, when setting the target dir and the stow dir
+	are setted manually. Thanks to Marcus Blomenkamp who repoted this bug.
+
+2004-03-16  Martin Oberzalek  <martin@graz.surfer.at>
+
+	* src/main.cpp (main): HP-UX and AIX compile check
+	ini-support disable, curses support disabled,...
+	buts seems to work now
+
+2004-03-13  Martin Oberzalek  <martin@graz.surfer.at>
+
+	* src/merge_info.cpp: merge-info tool as support added
+
+	* src/nignore.cpp (match_dir): bug fixed
+
+2004-03-02  Martin Oberzalek  <martin@graz.surfer.at>
+
+	* configure.ac: 
+	additional curses macro check (erase macro on HP-UX)	
+
+	* src/format.h (format_h): add missing <cstring>
+
+	* src/tree.cpp (check): ignore bug fixed (nothing was ignored)
+	(checkDirs): copy and ignore bug fixed
+
+2004-03-01  Martin Oberzalek  <martin@graz.surfer.at>
+
+	* src/setup.cpp (operator<<): added missing copy 
+	and copy_regex for debugging output
+
+	* src/tree.cpp (check): typo fixed
+	(checkDirs):  missing \n added
+
+2004-02-29  Martin Oberzalek  <martin@graz.surfer.at>
+
+	* doc/xstow.pod (variables): updated copyright info
+
+2004-01-07  Martin Oberzalek  <martin@graz.surfer.at>
+
+	* src/main.cpp (main): if installing a package failed
+	the installation of other packages will be aborted and 4
+	returned.
+
+2004-01-02  Martin Oberzalek  <kingleo@gmx.at>
+
+	* INSTALL: updated installing instruction
+
+	* src/main.cpp (main): updated copyright information (2002-2004)
+
+2004-01-01  Martin Oberzalek  <kingleo@gmx.at>
+
+	* format.h, format.cpp: merged with new Format lib (version 1.1)
+	  which includes some bugfixes
+	* configure.ac: 
+	  fixed little bug in configure script
+	  (calling configure with --disable-debug enabled debugging)
+
+2003-10-13  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/ref.h (Ref): fixed little bug
+
+2003-07-28  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/copy.cpp: put dir_copy() und file_copy() into copy.cpp to
+	get rid of some #ifdefs
+
+	* configure.ac: removed feof() check since the copy.cpp does not
+	require this
+
+2003-07-26  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/tree.cpp: applied patch by Jos Backus <jos@catnook.com>
+	partly.
+
+2003-07-07  Martin Oberzalek  <kingleo@gmx.at>
+
+	* doc/Makefile.am (EXTRA_DIST): bugfix: xstow.ini.pod was not
+	shipped with the .tar.gz
+
+	* configure.ac: enabled release version of Format by default
+
+	* src/main.cpp (main): -file option added
+	
+	* nignore stuff finished
+
+2003-07-03  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/main.cpp (main): bugfix: print usage if no command line
+	option was set
+
+2003-07-02  Martin Oberzalek  <kingleo@gmx.at>
+
+	* added nignore stuff started caused by this email:
+	
+	| Ari Pollak <ajp@aripollak.com>
+	| 
+	| Hi, I'm using xstow to manage a large (100+) repository of packages over 
+	| NFS.
+	| I have the Sun J2SDK v. 1.4.2 that I'm trying to link only certain 
+	| directories with (namely bin/, include/, and man/man1/). But I can't, 
+	| for the life of me, figure out from the documentation how to do this.
+	| How would I go about only linking certain directories when xstowing?
+
+	this resulted in the -nignore option
+	
+	Ignore everything execpt file and directories matching this expression.	
+	
+	* src/setup.cpp (operator<<): bugfix: print ignore_regex out
+
+2003-05-20  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/format.h: fake version of Format for release versions
+	(xstow's code ist at the moment not well enought tested for using
+	this feature) 
+
+	* src/main.cpp (main): -no-curses option won't be used if xstow is
+	not compiled with curses support
+
+	* configure.ac: improved configure script and added
+	--enable-release-format configuration flag
+
+	* compile check with g++ 3.3 and 2.95.3 
+	bugs fixed, all seems to be ok
+
+	* src/string_utils.h: bugfixes ( primary s2x<bool>() ) 
+	
+2003-05-16  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/arg.cpp: applied patch by Liyang HU
+	  (xstow dies when the TERM variable is not set => ncurses
+	  problem)
+
+	* src/arg.cpp (addOption): Fixed bug
+
+2003-03-02  Martin Oberzalek  <kingleo@gmx.at>
+
+	* configure.ac: added missing header files and fixed typos
+
+	* src/string_utils.h: removed unused tulower() function
+
+2003-02-02  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/setup_config.h: 
+	* src/tree.cpp: 
+	  coming closer to standards and manuals
+
+2002-12-31  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/tree.cpp (dir_copy): added directory copying support
+
+2002-12-23  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/tree.cpp (file_copy): added file copying support
+
+2002-12-06  Martin Oberzalek  <kingleo@gmx.at>
+
+	* configure.ac: Fixed typos
+
+2002-11-20  Martin Oberzalek  <kingleo@gmx.at>
+	* src/cppdir.cpp: applied patch by Jos Backus
+	* configure.ac: applied patch by Jos Backus
+
+        These patches fixing compiling problems on Solaris.
+
+2002-10-13  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/tree.cpp (unify_links): get rid of std::unique_copy and
+	privous sorting before. Simple remove duplicates.
+
+2002-10-10  Martin Oberzalek  <kingleo@gmx.at>
+
+	* : added protect-dirs stuff
+
+2002-10-09  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/tree.cpp (operator<): now, only a type sorting
+	  is done. The rest is untouched.
+
+2002-10-09  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/cppdir.cpp (is_in_dir): fixed bug, that caused problems with
+	  when the target dir is '/'
+
+2002-10-03  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/: Started with better reporting errors to stderr
+
+	* src/main.cpp (main): fixed bug that results
+	  in an incompatiblility to stow (package lookup
+	  in working dir)
+
+2002-10-03  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/main.cpp (main): target dir is now the parent dir
+	  of the working dir by default. That's the behavior of GNU Stow.
+	  XStow used the parent of the current directory.
+
+2002-10-02  Martin Oberzalek  <kingleo@gmx.at>
+
+	* configure.ac (LDFLAGS_DYNAMIC): added a static targets for xstow
+
+	* src/arg.cpp (parse): fixed a bug in arg.cpp that caused
+	  a crashed of xstow by calling it this way: xstow -dl
+	  -dl setState() was not set back to false
+
+2002-09-30  Martin Oberzalek  <kingleo@gmx.at>
+
+	* doc/Makefile.am: fixed bug with $(DESTDIR)
+	  closes sourceforge bug 581729
+
+	* src/arg.cpp: applied stderr.patch from Robin Green (greenrd)
+
+2002-08-29  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/format.h (STRSTREAM): STD_ENDS makro defined
+
+2002-06-23  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/cppdir.cpp (get_type): improved root detection
+
+2002-06-19  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/cppdir.cpp (get_type): fixed bug (ignore files userid, when
+	  beeing root) 
+
+2002-06-18  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/setup.cpp (strip): automatically strip the last slash from
+	  directory names.
+
+2002-06-17  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/tree.cpp (match_auto_*): use fnmatch in a POSIX conform way
+	
+	* src/string_utils.h: fixed compiling problems with gcc-2.95.3
+
+2002-06-16  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/tree.cpp (check): added auto traverse-link detection support
+	(match_ignore): added regex support
+
+2002-06-15  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/debug.h (DEBUG): Added DEBUG macro that causes to ignore
+	  all OUT(X) messages greater than 1 if NDEBUG is defined.
+	  This makes the binary about 60k smaller. 
+
+	* src/setup.cpp: got rid of ini.h and ini.cpp
+	  new setup structure now reads the config file informations
+	  itsself.
+
+2002-06-14  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/tree.cpp (check): bug fixed
+
+	* src/setup.h: switched to new setup structure
+
+2002-06-12  Martin Oberzalek - King Leo  <kingleo@gmx.at>
+
+	* src/cppdir.cpp (is_in_dir): added path compare function
+	
+	* src/tree.cpp (check): fixed a bug, by adding function 
+	  CppDir::is_in_dir
+
+	* : added ignore matches support
+
+	* : added traversable links support
+
+2002-06-01  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/cppdir.cpp (make_relative): fixed a bug
+
+2002-05-31  Martin Oberzalek  <kingleo@gmx.at>
+
+	* src/cppdir.cpp (split_name): 
+	  splitting /usr into / + usr works now
+
+	* src/main.cpp (main): added debug mudule CPPDIR
+
+2002-05-27  Martin Oberzalek  <kingleo@gmx.at>
+
+	* : initial release
+
