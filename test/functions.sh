@@ -3,7 +3,7 @@
 function exec_or_die() 
 {
     if test "${DEBUG}xx" != "xx" ; then
-        echo $*
+        echo $* >&2
     fi
 
     $*
@@ -15,6 +15,10 @@ function exec_or_die()
 
 function diff_and_log()
 {
+    if test "${DEBUG}xx" != "xx" ; then
+        echo "diff -u $2 $3 2>&1" >&2
+    fi
+
     res=`diff -u $2 $3 2>&1`
 
     if ! test -z "$res" ; then
