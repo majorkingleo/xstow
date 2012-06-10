@@ -137,6 +137,9 @@ class Tree
   bool checkDirs( Ref<Node> a, Ref<Node> b, std::string wpath, Ref<vec_link> links );
 
   void unify_links( Ref<vec_link> &links );
+  
+  bool compare_keep_dir( const std::string & a, const std::string &b );
+  bool keep_dir( const std::string & a );
 };
 
 std::ostream& operator<<( std::ostream &out, Ref<Node> node );

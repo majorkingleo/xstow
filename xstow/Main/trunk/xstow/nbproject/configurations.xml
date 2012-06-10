@@ -63,20 +63,192 @@
           </df>
         </df>
         <df name="t002_keepdirs">
+          <df name=".svn">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+              <in>test.sh.svn-work</in>
+            </df>
+            <df name="text-base">
+            </df>
+            <df name="tmp">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+            </df>
+            <in>entries</in>
+          </df>
           <df name="stow">
+            <df name=".svn">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+              <df name="tmp">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+              </df>
+              <in>entries</in>
+            </df>
             <df name="a">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
+                    <in>a</in>
                   </df>
                 </df>
               </df>
             </df>
             <df name="b">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
-                    <in>bin.b</in>
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
+                    <in>b</in>
                   </df>
                 </df>
               </df>
@@ -86,27 +258,231 @@
           <in>test.sh</in>
         </df>
         <df name="t003">
+          <df name=".svn">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+              <in>test.sh.svn-work</in>
+            </df>
+            <df name="text-base">
+            </df>
+            <df name="tmp">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+            </df>
+            <in>entries</in>
+          </df>
           <df name="stow">
+            <df name=".svn">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+              <df name="tmp">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+              </df>
+              <in>entries</in>
+            </df>
             <df name="a">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
             </df>
             <df name="b">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
-                    <in>bin.b</in>
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
             </df>
           </df>
           <df name="usr">
+            <df name=".svn">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+              <df name="tmp">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+              </df>
+              <in>entries</in>
+            </df>
             <df name="local">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <in>dummy</in>
             </df>
           </df>
@@ -114,20 +490,190 @@
           <in>test.sh</in>
         </df>
         <df name="t004_keepdirs">
+          <df name=".svn">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+              <in>test.sh.svn-work</in>
+            </df>
+            <df name="text-base">
+            </df>
+            <df name="tmp">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+            </df>
+            <in>entries</in>
+          </df>
           <df name="stow">
+            <df name=".svn">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+              <df name="tmp">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+              </df>
+              <in>entries</in>
+            </df>
             <df name="a">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
             </df>
             <df name="b">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
-                    <in>bin.b</in>
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
@@ -138,20 +684,190 @@
           <in>test.sh</in>
         </df>
         <df name="t005_keepdirs">
+          <df name=".svn">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+              <in>test.sh.svn-work</in>
+            </df>
+            <df name="text-base">
+            </df>
+            <df name="tmp">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+            </df>
+            <in>entries</in>
+          </df>
           <df name="stow">
+            <df name=".svn">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+              <df name="tmp">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+              </df>
+              <in>entries</in>
+            </df>
             <df name="a">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
             </df>
             <df name="b">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
-                    <in>bin.b</in>
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
@@ -161,20 +877,190 @@
           <in>test.sh</in>
         </df>
         <df name="t006_keepdirs">
+          <df name=".svn">
+            <df name="prop-base">
+            </df>
+            <df name="props">
+              <in>test.sh.svn-work</in>
+            </df>
+            <df name="text-base">
+            </df>
+            <df name="tmp">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+            </df>
+            <in>entries</in>
+          </df>
           <df name="stow">
+            <df name=".svn">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+              <df name="tmp">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+              </df>
+              <in>entries</in>
+            </df>
             <df name="a">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
             </df>
             <df name="b">
+              <df name=".svn">
+                <df name="prop-base">
+                </df>
+                <df name="props">
+                </df>
+                <df name="text-base">
+                </df>
+                <df name="tmp">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                </df>
+                <in>entries</in>
+              </df>
               <df name="usr">
+                <df name=".svn">
+                  <df name="prop-base">
+                  </df>
+                  <df name="props">
+                  </df>
+                  <df name="text-base">
+                  </df>
+                  <df name="tmp">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                  </df>
+                  <in>entries</in>
+                </df>
                 <df name="local">
+                  <df name=".svn">
+                    <df name="prop-base">
+                    </df>
+                    <df name="props">
+                    </df>
+                    <df name="text-base">
+                    </df>
+                    <df name="tmp">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                    </df>
+                    <in>entries</in>
+                  </df>
                   <df name="bin">
-                    <in>bin.b</in>
+                    <df name=".svn">
+                      <df name="prop-base">
+                      </df>
+                      <df name="props">
+                      </df>
+                      <df name="text-base">
+                      </df>
+                      <df name="tmp">
+                        <df name="prop-base">
+                        </df>
+                        <df name="props">
+                        </df>
+                        <df name="text-base">
+                        </df>
+                      </df>
+                      <in>entries</in>
+                    </df>
                   </df>
                 </df>
               </df>
@@ -198,15 +1084,9 @@
               <df name="usr">
                 <df name="local">
                   <df name="bin">
-                    <in>bin.b</in>
                   </df>
                 </df>
               </df>
-            </df>
-            <in>xstow.ini</in>
-          </df>
-          <df name="usr">
-            <df name="local">
             </df>
           </df>
           <in>RESULT</in>
@@ -246,12 +1126,79 @@
             </incDir>
             <preprocessorList>
               <Elem>HAVE_CONFIG_H</Elem>
-              <Elem>NDEBUG</Elem>
               <Elem>SYSCONFDIR="/usr/local/etc"</Elem>
             </preprocessorList>
           </ccTool>
         </makeTool>
       </makefileType>
+      <item path="src/arg.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/backtrace.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/debug.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/file_option.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/format.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/leoini.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/merge_info.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/setup_config.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/string_utils.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="test/t002_keepdirs/stow/b/usr/local/bin/b"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

@@ -951,16 +951,8 @@ bool Tree::exec_list()
 	      {
 		// remove directories
 		
-		// check if directory is in keep list
-
-		bool keep = false;
-
-		for( unsigned int i = 0; i < setup.keep_dirs.dirs.size(); ++i )
-		  if( it->origin == setup.keep_dirs.dirs[i] )
-		    {
-		      keep = true;
-		      break;
-		    }
+		// check if directory is in keep list               
+		bool keep = keep_dir( it->origin );
 
 		if( !keep )
 		  {
@@ -993,17 +985,9 @@ bool Tree::exec_list()
 	      {
 		// remove empty directories
 
-		// check if directory is in keep list
-
-		bool keep = false;
-
-		for( unsigned int i = 0; i < setup.keep_dirs.dirs.size(); ++i )
-		  if( it->origin == setup.keep_dirs.dirs[i] )
-		    {
-		      keep = true;
-		      break;
-		    }
-
+		// check if directory is in keep list                
+		bool keep = keep_dir( it->origin );
+                
 		if( !keep )
 		  {
 
@@ -1107,6 +1091,91 @@ bool Tree::exec_list()
     } // for
 
   return true;
+}
+
+/**
+ * compares 2 directories.
+ * /usr/local == /usr/local => true true
+ * /usr/local == local => true
+ * /usr/local == usr => false
+ * @param a
+ * @param b
+ * @return 
+ */
+bool Tree::compare_keep_dir( const std::string & a, const std::string &b )
+{
+    if( b.empty() )
+        return false;
+    
+    if( b[0] == '/' ) {
+        return a == b;
+    }
+    
+    if( b.size() > a.size() )
+        return false;
+    
+    // /usr/local/bin with local/bin
+    
+    // a_part1 is now /usr/
+    std::string a_part1 = a.substr(0,a.size()-b.size());
+    
+    // a_part2 is now local/bin
+    std::string a_part2 = a.substr(a.size()-b.size());
+    
+    if( a_part1[a_part1.size()-1] != '/' ) {
+        return false;
+    }
+    
+    return a_part2 == b;
+}
+
+bool Tree::keep_dir(const std::string & a) 
+{
+    for (unsigned int i = 0; i < setup.keep_dirs.dirs.size(); ++i) {
+
+        bool matches = compare_keep_dir(a,  setup.keep_dirs.dirs[i]);       
+        
+        std::string str_inode_a;
+        std::string str_inode_b;
+
+        /*
+         * if strcmp doesn't find a way, try comparing the inode numbers
+         * this works if the path points to the same directory by using
+         * different ways.         
+         */
+        if (!matches) 
+        {
+            CppDir::File dir_a(a);
+            CppDir::File dir_b(setup.keep_dirs.dirs[i]);
+
+            if (dir_a.is_valid() && dir_b.is_valid()) {
+                long inode_a = dir_a.get_inode();
+                long inode_b = dir_b.get_inode();
+
+                str_inode_a = format("(%d)", inode_a);
+                str_inode_b = format("(%d)", inode_b);
+
+                if (inode_a != 0) {
+                    if (inode_a == inode_b) {
+                        matches = true;
+                    }
+                }
+            }
+        }
+            
+        std::string comp = " != ";
+        if (matches) {
+            comp = " == ";
+        }            
+        
+        OUT(2) << "keepdir: " << a << str_inode_a << comp << setup.keep_dirs.dirs[i] << str_inode_b << '\n';
+        
+        if (matches) {
+            return true;
+        }        
+    }
+    
+    return false;
 }
 
 void make_relative_links( Ref<Tree::vec_link> links )
