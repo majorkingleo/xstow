@@ -2,84 +2,11 @@
 <configurationDescriptor version="80">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df name="xstow" root=".">
-      <df name=".svn">
-        <df name="prop-base">
-        </df>
-        <df name="props">
-        </df>
-        <df name="text-base">
-        </df>
-        <df name="tmp">
-          <df name="prop-base">
-          </df>
-          <df name="props">
-          </df>
-          <df name="text-base">
-          </df>
-        </df>
-        <in>entries</in>
-      </df>
       <df name="autom4te.cache">
-        <df name=".svn">
-          <df name="prop-base">
-          </df>
-          <df name="props">
-          </df>
-          <df name="text-base">
-          </df>
-          <df name="tmp">
-            <df name="prop-base">
-            </df>
-            <df name="props">
-            </df>
-            <df name="text-base">
-            </df>
-          </df>
-          <in>entries</in>
-        </df>
       </df>
       <df name="doc">
-        <df name=".svn">
-          <df name="prop-base">
-          </df>
-          <df name="props">
-            <in>check-stow.sh.svn-work</in>
-          </df>
-          <df name="text-base">
-          </df>
-          <df name="tmp">
-            <df name="prop-base">
-            </df>
-            <df name="props">
-            </df>
-            <df name="text-base">
-            </df>
-          </df>
-          <in>entries</in>
-        </df>
       </df>
       <df name="src">
-        <df name=".deps">
-        </df>
-        <df name=".svn">
-          <df name="prop-base">
-          </df>
-          <df name="props">
-            <in>merge-info.svn-work</in>
-            <in>xstow.svn-work</in>
-          </df>
-          <df name="text-base">
-          </df>
-          <df name="tmp">
-            <df name="prop-base">
-            </df>
-            <df name="props">
-            </df>
-            <df name="text-base">
-            </df>
-          </df>
-          <in>entries</in>
-        </df>
         <in>arg.cpp</in>
         <in>arg.h</in>
         <in>backtrace.cpp</in>
@@ -113,22 +40,194 @@
         <in>tree.h</in>
       </df>
       <df name="test">
-        <df name=".svn">
-          <df name="prop-base">
-          </df>
-          <df name="props">
-          </df>
-          <df name="text-base">
-          </df>
-          <df name="tmp">
+        <df name="t001">
+          <df name=".svn">
             <df name="prop-base">
             </df>
             <df name="props">
             </df>
             <df name="text-base">
             </df>
+            <df name="tmp">
+              <df name="prop-base">
+              </df>
+              <df name="props">
+              </df>
+              <df name="text-base">
+              </df>
+            </df>
+            <in>entries</in>
           </df>
-          <in>entries</in>
+          <df name="stow">
+            <df name="a">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="b">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+          </df>
+          <df name="usr">
+            <df name="local">
+            </df>
+          </df>
+        </df>
+        <df name="t002_keepdirs">
+          <df name="stow">
+            <df name="a">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="b">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                    <in>bin.b</in>
+                  </df>
+                </df>
+              </df>
+            </df>
+          </df>
+          <in>RESULT</in>
+          <in>test.sh</in>
+        </df>
+        <df name="t003">
+          <df name="stow">
+            <df name="a">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="b">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                    <in>bin.b</in>
+                  </df>
+                </df>
+              </df>
+            </df>
+          </df>
+          <df name="usr">
+            <df name="local">
+            </df>
+          </df>
+          <in>RESULT</in>
+          <in>test.sh</in>
+        </df>
+        <df name="t004_keepdirs">
+          <df name="stow">
+            <df name="a">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="b">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                    <in>bin.b</in>
+                  </df>
+                </df>
+              </df>
+            </df>
+          </df>
+          <in>RESULT</in>
+          <in>log</in>
+          <in>test.sh</in>
+        </df>
+        <df name="t005_keepdirs">
+          <df name="stow">
+            <df name="a">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="b">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                    <in>bin.b</in>
+                  </df>
+                </df>
+              </df>
+            </df>
+          </df>
+          <in>RESULT</in>
+          <in>test.sh</in>
+        </df>
+        <df name="t006_keepdirs">
+          <df name="stow">
+            <df name="a">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="b">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                    <in>bin.b</in>
+                  </df>
+                </df>
+              </df>
+            </df>
+            <in>xstow.ini</in>
+          </df>
+          <in>RESULT</in>
+          <in>log</in>
+          <in>test.sh</in>
+        </df>
+        <df name="work">
+          <df name="stow">
+            <df name="a">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="b">
+              <df name="usr">
+                <df name="local">
+                  <df name="bin">
+                    <in>bin.b</in>
+                  </df>
+                </df>
+              </df>
+            </df>
+          </df>
+          <df name="usr">
+            <df name="local">
+              <in>dummy</in>
+            </df>
+          </df>
         </df>
       </df>
       <in>config.h</in>
@@ -159,17 +258,132 @@
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath></executablePath>
           <ccTool>
-            <incDir>
-              <pElem>.</pElem>
-            </incDir>
             <preprocessorList>
               <Elem>HAVE_CONFIG_H</Elem>
-              <Elem>NDEBUG</Elem>
               <Elem>SYSCONFDIR="/usr/local/etc"</Elem>
             </preprocessorList>
           </ccTool>
         </makeTool>
       </makefileType>
+      <item path="src/arg.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/backtrace.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/copy.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cppdir.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/debug.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/file_option.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/format.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/leoini.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>NDEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="src/merge_info.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/nignore.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/setup.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/setup_config.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/string_utils.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/tree.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>. src ..</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="test/t002_keepdirs/test.sh" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="test/t003/test.sh" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="test/t004_keepdirs/test.sh" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="test/t005_keepdirs/test.sh" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="test/t006_keepdirs/test.sh" ex="true" tool="3" flavor="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

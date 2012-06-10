@@ -1,7 +1,7 @@
 AC_INIT
 AC_CONFIG_SRCDIR([src/main.cpp])
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(xstow, 1.0.0)
+AM_INIT_AUTOMAKE(xstow, 1.0.1)
 
 AC_ISC_POSIX
 AC_PROG_CXX
@@ -122,7 +122,7 @@ AC_ARG_WITH(curses,
 				     AC_MSG_CHECKING([for ominous macros in curses])
 				     AC_TRY_COMPILE([
 					#include <curses.h>
-					#include <list.h>
+					#include <list>
 					struct Foo { Foo() { std::list<int> il; il.erase(il.begin()); } };
 					],
 					[ Foo foo ],
@@ -218,24 +218,6 @@ AC_ARG_ENABLE(debug,
 	   support_debug=0
 	] )
 
-AC_MSG_CHECKING([for release format support])
-AC_ARG_ENABLE(release-format,
-	[  --enable-release-format   Enable Format's release code],
-	[
-	   if test "x$enableval" = "xno" ; then
-	      AC_MSG_RESULT(disabled)
-	      support_format=0
-           else
-	      AC_MSG_RESULT(enabled)
-	      support_format=1
-	      CXXFLAGS="$CXXFLAGS -DNFORMAT"
-	   fi   
-	],
-	[
-	  AC_MSG_RESULT(disable)
-	  support_format=0
-	] )
-
 AC_MSG_CHECKING([for new std::ios_base])
 AC_TRY_COMPILE([
 #include <fstream>
@@ -252,8 +234,6 @@ AC_TRY_COMPILE([
 )
 
 CXXFLAGS="$CXXFLAGS -DSYSCONFDIR='\"\$(sysconfdir)\"'"
-
-
 
 AC_MSG_CHECKING([for static support])
 AC_ARG_ENABLE(static,
@@ -367,7 +347,6 @@ echo "supported features:"
 
 
 echo "    debugging:                              $support_debug"
-echo "    release version of Format:              $support_format"
 echo "    configuration files:                    $support_ini"
 echo "    shell pattern matching:                 $support_fnmatch"
 echo "    regex pattern matching:                 $support_regex"
