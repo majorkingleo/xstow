@@ -66,9 +66,7 @@ struct Setup
   } traversable_links;
 
   struct KeepDirs : public Section
-  { 
-    VecDirChecker checker;
-
+  {    
     VecStringValue dirs;
 
     KeepDirs( const std::string &s );

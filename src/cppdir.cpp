@@ -138,6 +138,7 @@ CppDir::EFILE CppDir::File::get_type( const std::string& name )
   file_size = stat_buf.st_size;
   date  = stat_buf.st_mtime;
   access_date = stat_buf.st_atime;
+  inode_number = stat_buf.st_ino;
 
   /* getting ids */
   const uid_t fuid = stat_buf.st_uid;

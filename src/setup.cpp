@@ -49,9 +49,8 @@ Setup::TraversableLinks::TraversableLinks( const std::string &s )
 }
 
 Setup::KeepDirs::KeepDirs( const std::string &s )
-  : Section( s ),
-    checker( false ),
-    dirs( s, "dir", &checker )
+  : Section( s ),    
+    dirs( s, "dir" )
 {
   ON_INI( add( &dirs ) );
 
