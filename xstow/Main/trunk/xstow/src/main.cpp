@@ -593,8 +593,19 @@ int main( int argc, char** argv )
 #ifdef CAN_USE_INI
 
   // nothing would happen if we call these functions, but it simple isn't required
-
-  setup.config_files.files += CppDir::concat_dir( SYSCONFDIR, "xstow.ini" );
+  char *xstow_dont_read_sysconf_ini = getenv("XSTOW_DONT_READ_SYSCONF_INI");
+  
+  bool read_sysconf_ini = true;
+  
+  if( xstow_dont_read_sysconf_ini ) {
+      read_sysconf_ini = s2bool( xstow_dont_read_sysconf_ini );
+  }
+        
+  if( read_sysconf_ini ) {
+        // this is required for the testsuite
+        setup.config_files.files += CppDir::concat_dir( SYSCONFDIR, "xstow.ini" );
+  }
+  
   setup.config_files.files += CppDir::concat_dir( setup.working_dir(), "xstow.ini" );
 
   if( files.isSet() )

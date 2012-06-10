@@ -1,4 +1,10 @@
-2010-07-22  Martin Oberzalek  <kinge@gmx.at>
+2012-06-10 Martin Oberzalek  <kingleo@gmx.at>
+
+        * configure.ac: fixed bug when trying to detect curses library
+                        removed "release version" of format library. Nobody want's this.
+        * arg.cpp: added missing include when curses support is enabled
+
+2010-07-22  Martin Oberzalek  <kingeo@gmx.at>
 
 	* configure.ac: I call this Version 1.0.0 now.
 

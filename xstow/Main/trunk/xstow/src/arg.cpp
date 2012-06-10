@@ -7,6 +7,7 @@
 #include "arg.h"
 #include "string_utils.h"
 #include "debug.h"
+#include <stdlib.h>
 
 
 #define OUT(level) DEBUG_OUT( level, MODULE::ARG )
