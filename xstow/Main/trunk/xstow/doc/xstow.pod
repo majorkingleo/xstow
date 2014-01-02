@@ -32,7 +32,7 @@ Uninstall package
 
 =head1 OPTIONS
 
-=over 0
+=over
 
 =item B<-dl -debug-level> INT
 
@@ -194,6 +194,10 @@ Automatically add the targets of traversable links to the targets list.
 
 Skip conflicts if possible.
 
+=item B<-C -no-curses>
+
+Do not detect the terminal width by using curses.
+There is more description at the environment variable section.
 
 =item B<-F file>
 
@@ -203,7 +207,7 @@ Read this configuration file too.
 
 =head1 RETURN VALUES
 
-=over 0
+=over
 
 =item B<0>
 
@@ -234,7 +238,7 @@ Since the debugging of the command line parsing can be hard if the
 debugging level is set by the command line there are two evironment
 variables:
 
-=over 0
+=over
 
 =item B<XSTOW_DEBUG_LEVEL>
 

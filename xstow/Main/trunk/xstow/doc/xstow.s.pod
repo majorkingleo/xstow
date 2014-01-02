@@ -25,7 +25,7 @@ installed in the same place (/usr/local).
 #ifdef ENABLE_STATIC
 By default 3 versions of XStow will be compiled
 
-=over 0
+=over
 
 =item B<xstow>
 
@@ -58,7 +58,7 @@ Uninstall package
 
 =head1 OPTIONS
 
-=over 0
+=over
 
 =item B<-dl -debug-level> INT
 
@@ -259,7 +259,7 @@ Read this configuration file too.
 
 =head1 RETURN VALUES
 
-=over 0
+=over
 
 =item B<0>
 
@@ -290,7 +290,7 @@ Since the debugging of the command line parsing can be hard if the
 debugging level is set by the command line there are two evironment
 variables:
 
-=over 0
+=over
 
 =item B<XSTOW_DEBUG_LEVEL>
 

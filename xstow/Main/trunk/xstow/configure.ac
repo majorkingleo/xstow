@@ -1,9 +1,9 @@
-AC_INIT
+AC_INIT(xstow, 1.0.1)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(xstow, 1.0.1)
+AM_INIT_AUTOMAKE
 
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror],[cposix])
 AC_PROG_CXX
 AC_LANG(C++)
 AC_PROG_INSTALL
@@ -120,17 +120,14 @@ AC_ARG_WITH(curses,
 				  if test $support_curses -eq 1; then
 
 				     AC_MSG_CHECKING([for ominous macros in curses])
-				     AC_TRY_COMPILE([
+				     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 					#include <curses.h>
 					#include <list>
 					struct Foo { Foo() { std::list<int> il; il.erase(il.begin()); } };
-					],
-					[ Foo foo ],
-					[
+					]], [[ Foo foo ]])],[
 						AC_MSG_RESULT(no)
 						support_curses=1
-					],
-					[
+					],[
 						AC_MSG_RESULT(yes => curses support disabled)
 						support_curses=0
 					]) 
@@ -138,7 +135,18 @@ AC_ARG_WITH(curses,
 				  fi
 
 				  if test $support_curses -eq 1; then
-				  	AC_SUBST(LDFLAGS_DYNAMIC, "$LDFLAGS -l$curseslib")
+
+				     AC_CHECK_LIB([tinfo],[COLS],
+						[
+						  need_tinfo=1
+						  tinfolib="-ltinfo"
+						],
+						[ need_tinfo=0 ])
+
+				  fi
+
+				  if test $support_curses -eq 1; then
+				  	AC_SUBST(LDFLAGS_DYNAMIC, "$LDFLAGS -l$curseslib $tinfolib")
 				        AC_DEFINE(HAVE_CURSES_H, 1, [curses library can be used])
 				  fi
 
@@ -179,25 +187,22 @@ AC_ARG_ENABLE(ini,
         ] )
 
 AC_MSG_CHECKING([for GNU like STL containers])
-AC_TRY_COMPILE([ 
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[ 
 #include <list> 
 struct Foo { typedef std::list<Foo>::iterator it; }; 
-],
-		[ Foo foo ],
-		[
+]], [[ Foo foo ]])],[
 			AC_MSG_RESULT(yes)
 
 			if test $no_ini -eq 0; then
 			   AC_DEFINE(CAN_USE_INI, 1, [the ini class should compile clean])
 			   support_ini=1
 			fi
-		],
-		[
+		],[
 			AC_MSG_RESULT(no)
 			AC_MSG_WARN([cannot compile with configuration file support])
 			support_ini=0
-		]
-	)
+		
+	])
 
 AC_MSG_CHECKING([for debugging support])
 AC_ARG_ENABLE(debug,
@@ -219,19 +224,16 @@ AC_ARG_ENABLE(debug,
 	] )
 
 AC_MSG_CHECKING([for new std::ios_base])
-AC_TRY_COMPILE([
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <fstream>
-],
-	[ std::ifstream in( "foo", std::ios_base::in ); ],
-	[
+]], [[ std::ifstream in( "foo", std::ios_base::in ); ]])],[
 		AC_MSG_RESULT(yes)
 		AC_DEFINE(HAVE_IOS_BASE, 1, [ios_base can be used])
-	],
-	[
+	],[
 		AC_MSG_RESULT(no)
 		AC_DEFINE(ios_base, ios, [use old ios instead of ios_base])
-	]
-)
+	
+])
 
 CXXFLAGS="$CXXFLAGS -DSYSCONFDIR='\"\$(sysconfdir)\"'"
 
@@ -249,7 +251,7 @@ AC_ARG_ENABLE(static,
 	],
 	[
 	   AC_MSG_RESULT(enabled)
-	   support_static=1
+	   support_static=0
 	] )
 
 AC_MSG_CHECKING([create merge-info?])

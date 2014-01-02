@@ -1,3 +1,16 @@
+2014-01-02 Martin Oberzalkek <kingleo@gmx.at>
+
+	* ref.h added patch by 	Robin Lee <robinlee.sysu@gmail.com> fixed compilation bug with gcc 4.8
+
+	* doku added patch by  Robin Lee <robinlee.sysu@gmail.com> fixed pod2man bug 
+
+	* configure.ac: let it work with automake 1.13.4
+
+	* configure.ac: disable static compilation by default
+
+	* configure.ac: detect if libtinfo is required (seems to be outsourced fom curses)
+
+
 2012-06-10 Martin Oberzalek  <kingleo@gmx.at>
 
         * configure.ac: fixed bug when trying to detect curses library
