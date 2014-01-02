@@ -205,10 +205,10 @@ template <class V> class Ref
       return true;
     }
 
-  operator V() const { return *(address()); }
+  operator V&() const { return *(address()); }
   operator V*() const { return address(); }
 
-  operator V() { return *(address()); }
+  operator V&() { return *(address()); }
   operator V*() { return address(); }
 
  private:

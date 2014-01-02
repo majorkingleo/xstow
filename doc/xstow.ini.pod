@@ -21,7 +21,7 @@ a comment. Here is an example:
 	keep-targets = true
 	link = /usr/tmp  # comment
 
-=over 0
+=over
 
 =item B<[traserve-links]> 
 
@@ -72,7 +72,7 @@ points to.
 The simple solution is telling xstow which links should be handled as
 normal directories. These links can be listed in this section.
 
-=over 0
+=over
 
 =item B<link> = LINK
 
@@ -114,7 +114,7 @@ In this section directories are listed that should not be remove. When
 xstow removes a package and a directory becomes emty the directory
 will be removed too.
 
-=over 0
+=over
 
 =item B<dir> = DIR
 
@@ -131,7 +131,7 @@ XStow will try matching this pattern to all file names that were found
 in packages. Only the file names. So you do not have to care about the
 slashes.
 
-=over 0
+=over
 
 =item B<ignore> = PATTERN
 
@@ -191,7 +191,7 @@ There is an example config file "nignore.ini" in the doc directory of this packa
 
 Description of a nignore subrule. This section is called like the nignore subrule, eg: "systree".
 
-=over 0
+=over
 
 =item B<dir> = DIR
 
@@ -206,7 +206,7 @@ Follow subdirs.
 
 =head2 SECTION stow-dirs
 
-=over 0
+=over
 
 =item B<dir> = DIR
 
@@ -247,7 +247,7 @@ will be '/', but the real target directory of package will be
 '/usr/local'. The following keys withing this section allowing to
 restrict the installation access within the valid target directory.
 
-=over 0
+=over
 
 =item B<dir> = DIR
 
@@ -305,7 +305,7 @@ XStow will report an error if it would install a package outside of
 These values will be ignored if one of these values is set by command
 line option.
 
-=over 0
+=over
 
 =item B<module> = MODULE
 
@@ -319,7 +319,7 @@ Set the debug level.
 
 =head2 SECTION config-files
 
-=over 0
+=over
 
 =item B<in-home> = BOOL
 
@@ -346,7 +346,7 @@ section.
 
 =head2 SECTION links
 
-=over 0
+=over
 
 =item B<absolute-paths> = BOOL
 
@@ -355,8 +355,6 @@ Create links with absolute path names.
 =back
 
 =head2 SECTION exec
-
-=over 0
 
 If a package comes with some GNU info files, B<install-info> creates
 an index directory named 'dir' in STOWDIR/PACKAGE/share/info. If this
@@ -383,6 +381,8 @@ XStow shippes a programm called B<merge-info>(1) that can be used this
 way. 
 
 There can be more than one B<exec> Section within an ini file!
+
+=over
 
 =item B<match> = PATTERN
 

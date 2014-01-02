@@ -39,7 +39,7 @@ Remove the content of a 'dir' file from another 'dir' file
 
 =head1 OPTIONS
 
-=over 0
+=over
 
 =item B<-dl -debug-level> INT
 
@@ -55,6 +55,9 @@ Shows a help screen.
 Displays the verion number of the XStow package. B<merge-info> is
 shipped with B<xstow>(1).
 
+=item B<-C -no-curses>
+
+Do not detect the terminal width by using curses.
 
 =item B<-u -unmerge>
 
@@ -80,13 +83,32 @@ more than one section. If you do not wan't this, use this option.
 
 =head1 ENVIRONMENT VARIABLES
 
-=over 0
+=over
 
 =item B<XSTOW_DEBUG_LEVEL>
 
 Same as the B<-debug-level> option.
 
 
+=item B<XSTOW_USE_CURSES> 
+
+Same as the B<-no-curses> option.
+
+In previous versions xstow tried detecting the terminal width and height,
+by default at the startup routine. Even if this value is only used by
+the help screen. The result was:
+
+    $ TERM="" xstow 
+    Error opening terminal: unknown.
+
+The error message is reported by the ncurses lib. This can cause problems
+if you wan't start xstow as a cron job.
+Now xstow tries detecting the terminal width not in it's startup, but
+when the help screen is printed out. As an extra option you can set
+the environment variable B<XSTOW_USE_CURSES>="0" this will tell xstow
+not using curses anyway.
+
+merge-info has the same behaviour.
 
 =back
 

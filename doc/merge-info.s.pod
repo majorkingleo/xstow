@@ -39,7 +39,7 @@ Remove the content of a 'dir' file from another 'dir' file
 
 =head1 OPTIONS
 
-=over 0
+=over
 
 =item B<-dl -debug-level> INT
 
@@ -85,7 +85,7 @@ more than one section. If you do not wan't this, use this option.
 
 =head1 ENVIRONMENT VARIABLES
 
-=over 0
+=over
 
 =item B<XSTOW_DEBUG_LEVEL>
 
