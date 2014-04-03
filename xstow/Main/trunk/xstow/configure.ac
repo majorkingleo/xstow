@@ -294,12 +294,6 @@ else
 fi
 
 
-if test $support_format -gt 0 ; then
-  support_format=yes
-else
-  support_format=no
-fi
-
 if test $support_fnmatch -gt 0 ; then
   AM_CONDITIONAL(ENABLE_FNMATCH, true )
   support_fnmatch=yes
