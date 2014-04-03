@@ -1,0 +1,133 @@
+*) make it compile with gcc-4.0.x
+
+Version 0.6.0
+
+*) copy and ignore bugs fixed
+
+*) improved docu
+
+*) check-stow.sh script added
+
+*) return value behaviour changed
+
+*) Remerged with the Format lib 1.1 which fixes a bug
+
+*) bugfixes in the configure script
+
+*) merge-info tool added (With this tool you can automatically merge
+   the GNU-info index sites)
+
+Version 0.5.1
+
+*) Fixed compiling problems on Solaris.
+
+Version 0.5.0
+
+*) Added support for installing only specific directories, eg:
+   /usr/local/bin and /usr/local/man. Via the -nignore command line
+   option you can specify some rules, these rules are configurable
+   via a configuration file.
+
+*) -file option added, for reading an extra config file.
+
+*) bugfixes
+
+*) use the release version of Format by default
+
+Version 0.4.8
+
+*) format lib update and support for using the release version
+
+*) improved configure script
+
+*) bugfixes
+
+Version 0.4.7
+
+*) Coming closer to standards and manuals, this should avoid extra
+   patches on Free-BSD
+ 
+*) Fixed typos and improved configure script
+
+*) Don't die when TERM is not set.
+
+Version 0.4.6
+
+*) Added copying support for files and directories instead of linking it.
+   This makes sence for files like the 'dir' file of the info
+   directory, or configuration files in the /etc directory
+
+Version 0.4.5
+
+*) applied some pathes by Jos Backus, for fixing compiling problems 
+   on Solaris.
+
+Version 0.4.4
+
+*) [protect-dirs] configuration options added
+   This alows restricting the access within a legal target
+   tree. This is usefule if stow dir is '/stow' and the
+   target dir '/', but all packages should be installed
+   in '/usr/local'
+
+*) fixed some bugs
+
+Version 0.4.3
+
+*) fixed 'xstow -dl' crash bug
+
+*) fixed working dir bug
+
+*) improved compatibility with stow, by using
+   the same package detection technic, even if I think
+   this is a bug, not a feature 
+
+*) create static versions of xstow: xstow-static and xstow-stow
+
+Version 0.4.2
+
+*) Applied stderr Patch.
+   Errors in the option parsing system will be printed out to 
+   stderr now.
+
+*) Fixed installation bug
+
+Version 0.4.1
+
+*) made most config file settings available via command line options.
+
+*) made shell pattern matching as regular expression support optional
+
+*) improved help screen
+
+Version 0.4.0
+
+*) Regular Expressions support
+
+*) fixed compiling problems with gcc 2.95.x
+
+*) compile without debugging support by default
+
+Version 0.3.0
+
+*) Ignore matches support. Files like *~ core or CVS can be ignored.
+
+*) Make other stow dirs public by using the -stow-dirs option or
+   writing it into the config file
+
+*) automated traverse link dectection support
+   you can configure that absolute links will be automatically
+   detected as traversable links.
+
+*) a force mode
+
+Version 0.2.0
+
+*) Traversable link support was added. This allows setting a link from
+   /usr/share/man to /usr/man. It can be configured via the xstow.ini
+   file. See xstow(1) and xstow.ini(5) for details.
+
+
+
+
+

@@ -1,0 +1,453 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:none" />
+</head>
+
+<body style="background-color: white">
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#USAGE">USAGE</a></li>
+  <li><a href="#OPTIONS">OPTIONS</a></li>
+  <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
+  <li><a href="#ENVIRONMENT-VARIABLES">ENVIRONMENT VARIABLES</a></li>
+  <li><a href="#COFIGURATION-FILES">COFIGURATION FILES</a></li>
+  <li><a href="#EXAMPLES">EXAMPLES</a>
+    <ul>
+      <li><a href="#Common-Usage">Common Usage</a></li>
+      <li><a href="#Installing-XStow-by-using-XStow">Installing XStow by using XStow</a></li>
+    </ul>
+  </li>
+  <li><a href="#COMPATIBLE">COMPATIBLE</a>
+    <ul>
+      <li><a href="#Link-Creation">Link Creation</a></li>
+      <li><a href="#Command-Line-Options">Command Line Options</a></li>
+    </ul>
+  </li>
+  <li><a href="#BUGS">BUGS</a></li>
+  <li><a href="#WHY">WHY</a></li>
+  <li><a href="#AUTHORS">AUTHORS</a></li>
+  <li><a href="#COPYING">COPYING</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>XStow, replacement for GNU Stow</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<p>xstow [OPTION ...] PACKAGE</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>XStow is a replacement of GNU Stow (<b>stow</b>) written in C++. It supports all features of Stow with some extensions.</p>
+
+<p>XStow as GNU Stow, are programs for managing the installation of software packages, keeping them separate (/usr/local/stow/emacs vs. /usr/local/stow/perl, for example) while making them appear to be installed in the same place (/usr/local).</p>
+
+<h1 id="USAGE">USAGE</h1>
+
+<p>xstow [OPTION ...] PACKAGE</p>
+
+<p>Install a package</p>
+
+<pre><code>        xstow foobar</code></pre>
+
+<p>Uninstall package</p>
+
+<pre><code>        xstow -D foobar</code></pre>
+
+<h1 id="OPTIONS">OPTIONS</h1>
+
+<dl>
+
+<dt id="dl--debug-level-INT"><b>-dl -debug-level</b> INT</dt>
+<dd>
+
+<p>Set&#39;s the debug level. An unsigned integer is accepted. The default value is 0.</p>
+
+</dd>
+<dt id="dm--debug-module-ALL-ARG-MAIN-TREE-CPPDIR"><b>-dm -debug-module</b> [ALL|ARG|MAIN|TREE|CPPDIR]</dt>
+<dd>
+
+<p>Filter messages from a specific module.</p>
+
+</dd>
+<dt id="h--help"><b>-h -help</b></dt>
+<dd>
+
+<p>Shows a help screen.</p>
+
+</dd>
+<dt id="V--Version"><b>-V -Version</b></dt>
+<dd>
+
+<p>Displays XStows version number and supported features.</p>
+
+</dd>
+<dt id="n--no"><b>-n -no</b></dt>
+<dd>
+
+<p>Do not actually make changes</p>
+
+</dd>
+<dt id="c--conflicts"><b>-c -conflicts</b></dt>
+<dd>
+
+<p>Scan for conflicts, implies <b>-n</b>.</p>
+
+</dd>
+<dt id="s--simulate"><b>-s -simulate</b></dt>
+<dd>
+
+<p>Simulate installation. If this option is set permission problems will be ignored and <b>-verbose</b> will be set to 1.</p>
+
+</dd>
+<dt id="d--dir-DIR"><b>-d -dir</b> DIR</dt>
+<dd>
+
+<p>Set stow dir to DIR. The default is the current directory.</p>
+
+</dd>
+<dt id="d--target-DIR"><b>-d -target</b> DIR</dt>
+<dd>
+
+<p>Set target to DIR. The default is the parent of the stow directory.</p>
+
+</dd>
+<dt id="v--verbose-0-1-2-3"><b>-v -verbose</b> [0|1|2|3]</dt>
+<dd>
+
+<p>Increase verboseness. Possible levels are 0,1,2 or 3. Simple setting <b>-v</b> or <b>-verbose</b> adds 1.</p>
+
+</dd>
+<dt id="D--delete"><b>-D -delete</b></dt>
+<dd>
+
+<p>Unstow instead of stow. Deinstall the package.</p>
+
+</dd>
+<dt id="R--restow"><b>-R -restow</b></dt>
+<dd>
+
+<p>The same like <b>-delete</b> followed by an reinstall.</p>
+
+</dd>
+<dt id="ap--absolute-path"><b>-ap -absolute-path</b></dt>
+<dd>
+
+<p>Create symlinks with absolute path names. XStow can always handle packages which were installed with this option. Installing one package with absolute path names and one without is no problem. Only the creation of the symlinks will be affected by this option. This will cause that if one package is installed with this option and one without, some of the symlinks of the first package, when they have to be recreated will be recreated as relative ones. It is not good idea doing this, even XStow does not have any problems with it. <i>Warning:</i> Breaks compatibility with Stow!</p>
+
+</dd>
+<dt id="tr--traversable-LINKS"><b>-tr -traversable</b> LINKS</dt>
+<dd>
+
+<p>A list of links pointing to directories, that can be ignored. eg.: /usr/local/man is a link to /usr/local/share/man <i>Warning:</i> Breaks compatibility with Stow!</p>
+
+</dd>
+<dt id="tkt--tr-keep-targets"><b>-tkt -tr-keep-targets</b></dt>
+<dd>
+
+<p>Add the list of traversable links also to the keep targets list. This prevents the targets of the links from beeing removed by XStow, which would cause that the traversable link becomes a dead link.</p>
+
+</dd>
+<dt id="tre--tr-auto-PATTERN"><b>-tre -tr-auto</b> PATTERN</dt>
+<dd>
+
+<p>Automatically add links which target matches this pattern.</p>
+
+</dd>
+<dt id="tre--tr-auto-regex-REGEX"><b>-tre -tr-auto-regex</b> REGEX</dt>
+<dd>
+
+<p>Automatically add links which target matches this pattern.</p>
+
+</dd>
+<dt id="kd--keep-dirs-DIR"><b>-kd -keep-dirs</b> DIR</dt>
+<dd>
+
+<p>A list of directories, that should not be removed when a package will be removed. <i>Warning:</i> Breaks compatibility with Stow!</p>
+
+</dd>
+<dt id="i--ignore-PATTERN"><b>-i -ignore</b> PATTERN</dt>
+<dd>
+
+<p>Ignore files that matches this pattern.</p>
+
+</dd>
+<dt id="ire--ignore-regex-REGEX"><b>-ire -ignore-regex</b> REGEX</dt>
+<dd>
+
+<p>Ignore files that matches this expression.</p>
+
+</dd>
+<dt id="ni--nignore-PATTERN"><b>-ni -nignore</b> PATTERN</dt>
+<dd>
+
+<p>Ignore everything except file and directories matching this expression. eg: &quot;systree/bintree systree/headertree&quot;. For using nignore support fnmatch and configration file support has to be enabled. For more details see xstow.ini(5).</p>
+
+</dd>
+<dt id="cp--copy-PATTERN"><b>-cp -copy</b> PATTERN</dt>
+<dd>
+
+<p>Copy files or directories that matching this pattern.</p>
+
+</dd>
+<dt id="cre--copy-regex-REGEX"><b>-cre -copy-regex</b> REGEX</dt>
+<dd>
+
+<p>Copy files or directories that matching this expression.</p>
+
+</dd>
+<dt id="ifd--i-file-in-dir-DIR-FILE"><b>-ifd -i-file-in-dir</b> DIR/FILE</dt>
+<dd>
+
+<p>Ignore this file in this directory. (Relative to the package dir.)</p>
+
+</dd>
+<dt id="cfd--c-file-in-dir-DIR-FILE"><b>-cfd -c-file-in-dir</b> DIR/FILE</dt>
+<dd>
+
+<p>Copy this file in this directory. (Relative to the package dir.)</p>
+
+</dd>
+<dt id="sd--stow-dirs-DIR"><b>-sd -stow-dirs</b> DIR</dt>
+<dd>
+
+<p>A list of other stow dirs, that xstow is allowed change</p>
+
+</dd>
+<dt id="sda--sd-auto-PATTERN"><b>-sda -sd-auto</b> PATTERN</dt>
+<dd>
+
+<p>Automatically add directories to the list when matching this expression.</p>
+
+</dd>
+<dt id="sde--sd-auto-regex-REGEX"><b>-sde -sd-auto-regex</b> REGEX</dt>
+<dd>
+
+<p>Automatically add directories to the list when matching this expression.</p>
+
+</dd>
+<dt id="pd--protect-dirs-DIR"><b>-pd -protect-dirs</b> DIR</dt>
+<dd>
+
+<p>A list of other dirs, that xstow is not allowed change</p>
+
+</dd>
+<dt id="pda--pd-auto-PATTERN"><b>-pda -pd-auto</b> PATTERN</dt>
+<dd>
+
+<p>Automatically add directories to the list when matching this expression.</p>
+
+</dd>
+<dt id="pde--pd-auto-regex-REGEX"><b>-pde -pd-auto-regex</b> REGEX</dt>
+<dd>
+
+<p>Automatically add directories to the list when matching this expression.</p>
+
+</dd>
+<dt id="pdt--pd-targets-DIRS"><b>-pdt -pd-targets</b> DIRS</dt>
+<dd>
+
+<p>A list of dirs, xstow is allowed to change.</p>
+
+</dd>
+<dt id="pta--pdt-add-traversable-DIRS"><b>-pta -pdt-add-traversable</b> DIRS</dt>
+<dd>
+
+<p>Automatically add the targets of traversable links to the targets list.</p>
+
+</dd>
+<dt id="f--force"><b>-f -force</b></dt>
+<dd>
+
+<p>Skip conflicts if possible.</p>
+
+</dd>
+<dt id="C--no-curses"><b>-C -no-curses</b></dt>
+<dd>
+
+<p>Do not detect the terminal width by using curses. There is more description at the environment variable section.</p>
+
+</dd>
+<dt id="F-file"><b>-F file</b></dt>
+<dd>
+
+<p>Read this configuration file too.</p>
+
+</dd>
+</dl>
+
+<h1 id="RETURN-VALUES">RETURN VALUES</h1>
+
+<dl>
+
+<dt id="pod0"><b>0</b></dt>
+<dd>
+
+<p>On success.</p>
+
+</dd>
+<dt id="pod1"><b>1</b></dt>
+<dd>
+
+<p>On a missspelled call of xstow.</p>
+
+</dd>
+<dt id="pod2"><b>2</b></dt>
+<dd>
+
+<p>If an internal error occoured.</p>
+
+</dd>
+<dt id="pod3"><b>3</b></dt>
+<dd>
+
+<p>Installing the package failed of some reason. All the prechecking was ok, but the execution of the exec list failed.</p>
+
+</dd>
+<dt id="pod4"><b>4</b></dt>
+<dd>
+
+<p>Installing a package failed.</p>
+
+</dd>
+</dl>
+
+<h1 id="ENVIRONMENT-VARIABLES">ENVIRONMENT VARIABLES</h1>
+
+<p>Since the debugging of the command line parsing can be hard if the debugging level is set by the command line there are two evironment variables:</p>
+
+<dl>
+
+<dt id="XSTOW_DEBUG_LEVEL"><b>XSTOW_DEBUG_LEVEL</b></dt>
+<dd>
+
+<p>Same as the <b>-debug-level</b> option.</p>
+
+</dd>
+<dt id="XSTOW_DEBUG_MODULE"><b>XSTOW_DEBUG_MODULE</b></dt>
+<dd>
+
+<p>Same as the <b>-debug-module</b> option.</p>
+
+<p>Both values will be overwritten by the settings of the command line, after the command line was parsed.</p>
+
+</dd>
+<dt id="XSTOW_USE_CURSES"><b>XSTOW_USE_CURSES</b></dt>
+<dd>
+
+<p>Same as the <b>-no-curses</b> option.</p>
+
+<p>In later versions xstow tried detecting the terminal width and height, by default at the startup routine. Even if this value is only used by the help screen. The result was:</p>
+
+<pre><code>    $ TERM=&quot;&quot; xstow 
+    Error opening terminal: unknown.</code></pre>
+
+<p>The error message is reported by the ncurses lib. This can cause problems if you wan&#39;t start xstow as a cron job. Now xstow tries detecting the terminal width not in it&#39;s startup, but when the help screen is printed out. As an extra option you can set the environment variable <b>XSTOW_USE_CURSES</b>=&quot;0&quot; this will tell xstow not using curses anyway.</p>
+
+</dd>
+</dl>
+
+<h1 id="COFIGURATION-FILES">COFIGURATION FILES</h1>
+
+<p>The configuration file xstow.ini can be located in /etc and/or in the current stow directory. For possible settings and syntax of this file see xstow.ini(5)</p>
+
+<p>In this manpage there are some detailed informations of some special settings of XStow too. Please read it!</p>
+
+<h1 id="EXAMPLES">EXAMPLES</h1>
+
+<h2 id="Common-Usage">Common Usage</h2>
+
+<p>As an example we install the ixlib library into the /usr/local/ tree.</p>
+
+<pre><code>        tar xvfz ixlib-0.96.2.tar.gz
+        cd ixlib-0.96.2
+        ./configure
+        make</code></pre>
+
+<p>So far, this was business as usual.</p>
+
+<p><i>Note:</i> by default the configure script prepares the application for beeing installed into /usr/local/. Have a look at configure --help for more info.</p>
+
+<p>Now installation is done by not installing ixlib directly into /usr/local/, we install it into /usr/local/stow/ixlib-0.96.2/.</p>
+
+<pre><code>        make install prefix=/usr/local/stow/ixlib-0.96.2/</code></pre>
+
+<p>The last point is creating all necessare symlinks so that ixlib&#39;s include files can be found by the compiler in /usr/local/include. Therefore we are using xstow.</p>
+
+<pre><code>        cd /usr/local/stow
+        xstow ixlib-0.96.2</code></pre>
+
+<p>And all symlinks will be created.</p>
+
+<h2 id="Installing-XStow-by-using-XStow">Installing XStow by using XStow</h2>
+
+<p>After calling the configure script and make, XStow is installed into the stow directory as I showed it in the upper example.</p>
+
+<pre><code>        make install prefix=/usr/local/stow/xstow-0.1.0</code></pre>
+
+<p>Then you switch to the stow directory and call XStow</p>
+
+<pre><code>        cd /usr/local/stow
+        xstow-0.1.0/bin/xstow xstow-0.1.0</code></pre>
+
+<p>That is it.</p>
+
+<h1 id="COMPATIBLE">COMPATIBLE</h1>
+
+<h2 id="Link-Creation">Link Creation</h2>
+
+<p>By default XStow is fully Stow compatible. The usage of some of the advanced features can cause that Stow cannot handle the tree any more.</p>
+
+<h2 id="Command-Line-Options">Command Line Options</h2>
+
+<p>XStow supports all command line options of Stow. Even it&#39;s format.</p>
+
+<p>Eg.: xstow --verbose=2 foobar</p>
+
+<h1 id="BUGS">BUGS</h1>
+
+<p>There are some nitty gritty cases, but no known bugs.</p>
+
+<h1 id="WHY">WHY</h1>
+
+<p>Stow requires Perl. But what&#39;s on systems where no Perl is available, or not yet installed? I tried compiling Stow with <b>perlcc</b>, but it failed.</p>
+
+<h1 id="AUTHORS">AUTHORS</h1>
+
+<p>XStow was written by Martin Oberzalek &lt;kingleo@gmx.at&gt;.</p>
+
+<h1 id="COPYING">COPYING</h1>
+
+<p>XStow a replacement of GNU Stow written in C++.</p>
+
+<p>Copyright (C) 2002-2005 by Martin Oberzalek &lt;kingleo@gmx.at&gt;</p>
+
+<p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p>xstow.ini(5) merge-info(1) stow(1)</p>
+
+<p>GNU Stow has an excelent documentation. Have a look at the manual. http://www.gnu.org/software/stow/</p>
+
+
+</body>
+
+</html>
+
+
