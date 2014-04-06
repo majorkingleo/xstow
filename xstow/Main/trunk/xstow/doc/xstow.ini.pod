@@ -17,15 +17,15 @@ used by KDE and GNOME.
 The data is splitted into keys values and sections. The '#' sign marks
 a comment. Here is an example:
 
-	[traserve-links]
+	[traverse-links]
 	keep-targets = true
 	link = /usr/tmp  # comment
 
 =over
 
-=item B<[traserve-links]> 
+=item B<[traverse-links]> 
 
-is a section with the name "traserve-links"
+is a section with the name "traverse-links"
 
 =item B<keep-targets = true>
 
@@ -56,7 +56,7 @@ Eg.:
 
 =head1 DESCRIPTION
 
-=head2 SECTION traserve-links
+=head2 SECTION traverse-links
 
 In this section a number of links are listed, which xstow will
 identify as links that are not part of an xstow managed package.
