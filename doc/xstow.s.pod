@@ -133,7 +133,7 @@ I<Warning:> Breaks compatibility with Stow!
 =item B<-tkt -tr-keep-targets>
 
 Add the list of traversable links also to the keep targets list. This
-prevents the targets of the links from beeing removed by XStow, which
+prevents the targets of the links from being removed by XStow, which
 would cause that the traversable link becomes a dead link.
 
 #ifdef ENABLE_FNMATCH
@@ -350,7 +350,7 @@ As an example we install the ixlib library into the /usr/local/ tree.
 So far, this was business as usual. 
 
 I<Note:> by default the configure script prepares the application for
-beeing installed into /usr/local/. Have a look at configure --help for
+being installed into /usr/local/. Have a look at configure --help for
 more info. 
 
 Now installation is done by not installing ixlib directly into

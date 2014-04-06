@@ -18,7 +18,7 @@
   <li><a href="#PROCESSING">PROCESSING</a></li>
   <li><a href="#DESCRIPTION">DESCRIPTION</a>
     <ul>
-      <li><a href="#SECTION-traserve-links">SECTION traserve-links</a></li>
+      <li><a href="#SECTION-traverse-links">SECTION traverse-links</a></li>
       <li><a href="#SECTION-keep-dirs">SECTION keep-dirs</a></li>
       <li><a href="#SECTION-matches">SECTION matches</a></li>
       <li><a href="#SECTION-NIGNORE-SUB-RULE">SECTION NIGNORE-SUB-RULE</a></li>
@@ -53,16 +53,16 @@
 
 <p>The data is splitted into keys values and sections. The &#39;#&#39; sign marks a comment. Here is an example:</p>
 
-<pre><code>        [traserve-links]
+<pre><code>        [traverse-links]
         keep-targets = true
         link = /usr/tmp  # comment</code></pre>
 
 <dl>
 
-<dt id="traserve-links-"><b>[traserve-links]</b></dt>
+<dt id="traverse-links-"><b>[traverse-links]</b></dt>
 <dd>
 
-<p>is a section with the name &quot;traserve-links&quot;</p>
+<p>is a section with the name &quot;traverse-links&quot;</p>
 
 </dd>
 <dt id="keep-targets-true"><b>keep-targets = true</b></dt>
@@ -87,7 +87,7 @@
 
 <h1 id="DESCRIPTION">DESCRIPTION</h1>
 
-<h2 id="SECTION-traserve-links">SECTION traserve-links</h2>
+<h2 id="SECTION-traverse-links">SECTION traverse-links</h2>
 
 <p>In this section a number of links are listed, which xstow will identify as links that are not part of an xstow managed package. Eg.: For conforming to the FHS it is common setting a link from /usr/share/man to /usr/man. This will cause old applications installing theire manpages in /usr/share/man, rather than in /usr/man.</p>
 

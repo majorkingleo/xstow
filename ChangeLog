@@ -284,7 +284,7 @@
 2002-06-19  Martin Oberzalek - King Leo  <kingleo@gmx.at>
 
 	* src/cppdir.cpp (get_type): fixed bug (ignore files userid, when
-	  beeing root) 
+	  being root) 
 
 2002-06-18  Martin Oberzalek - King Leo  <kingleo@gmx.at>
 
