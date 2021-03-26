@@ -30,18 +30,21 @@ int main(int argc, char** argv)
 	out.set_debug_level( 0 );
 	vout.set_debug_level( 0 );
 
-	if( dl )
-	out.set_debug_level( s2x<int>( dl ) );
+	if( dl ) {
+		out.set_debug_level( s2x<int>( dl ) );
+	}
 
-	if( dm )
-	out.set_module( string2module( toupper( dm ) ) );
+	if( dm ) {
+		out.set_module( string2module( toupper( dm ) ) );
+	}
 
 	setup.use_curses( true );
 
 	if( uc &&
-			!std::string( uc ).empty() &&
-			std::string( uc ) == "0" )
-	setup.use_curses( false );
+		!std::string( uc ).empty() &&
+		std::string( uc ) == "0" ) {
+		setup.use_curses( false );
+	}
 
 	Arg::Arg arg( argc, argv );
 
@@ -374,8 +377,9 @@ int main(int argc, char** argv)
 
 			unsigned int console_width = 80;
 
-			if( setup.use_curses() )
-			console_width = Arg::get_terminal_width();
+			if( setup.use_curses() ) {
+				console_width = Arg::get_terminal_width();
+			}
 
 			out << arg.getHelp(5,20,30, console_width ) << std::endl;
 			return 0;
@@ -413,8 +417,9 @@ int main(int argc, char** argv)
 
 #ifdef HAVE_CURSES_H
 
-	if( setup.use_curses() )
-	setup.use_curses( !curses.getState() );
+	if( setup.use_curses() ) {
+		setup.use_curses( !curses.getState() );
+	}
 
 #endif
 
