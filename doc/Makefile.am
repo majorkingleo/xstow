@@ -3,10 +3,7 @@ EXTRA_DIST=xstow.s.pod xstow.ini.s.pod xstow.1 xstow.html \
 	   check-stow.sh ifdef.awk merge-info.1 merge-info.s.pod
 
 man1_MANS=xstow.1
-
-if ENABLE_INI
-  man5_MANS=xstow.ini.5
-endif
+man5_MANS=xstow.ini.5
 
 if ENABLE_MERGE
   man1_MANS+= merge-info.1
@@ -18,9 +15,7 @@ if ENABLE_STATIC
   DEFINES+= ENABLE_STATIC
 endif
 
-if ENABLE_INI
-  DEFINES+= ENABLE_INI
-endif
+DEFINES+= ENABLE_INI
 
 if ENABLE_FNMATCH
   DEFINES+= ENABLE_FNMATCH
@@ -34,11 +29,8 @@ if ENABLE_CURSES
   DEFINES+= ENABLE_CURSES
 endif
 
-
-if ENABLE_INI
 if ENABLE_FNMATCH
   DEFINES+= ENABLE_NIGNORE
-endif
 endif
 
 predef:

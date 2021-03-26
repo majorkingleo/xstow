@@ -19,7 +19,8 @@ Setup::Debug::Debug(const std::string &s)
   level(s, "level"),
   module(s, "module")
 {
-	ON_INI( add( &level ) ); ON_INI( add( &module ) );
+	add( &level );
+	add( &module );
 }
 
 Setup::TraversableLinks::TraversableLinks(const std::string &s)
@@ -30,10 +31,10 @@ Setup::TraversableLinks::TraversableLinks(const std::string &s)
   add_if_targets(s,"add-if-target"),
   add_if_targets_regex(s, "add-if-target-regex")
 {
-	ON_INI( add( &keep_targets ) );
-	ON_INI( add( &links ) );
-	ON_INI( add( &add_if_targets ) );
-	ON_INI( add( &add_if_targets_regex ) );
+	add( &keep_targets );
+	add( &links );
+	add( &add_if_targets );
+	add( &add_if_targets_regex );
 
 	links.match_only_once = true;
 	add_if_targets.match_only_once = true;
@@ -43,7 +44,7 @@ Setup::TraversableLinks::TraversableLinks(const std::string &s)
 Setup::KeepDirs::KeepDirs(const std::string &s)
 : Section(s), dirs(s, "dir")
 {
-	ON_INI( add( &dirs ) );
+	add( &dirs );
 
 	dirs.match_only_once = true;
 }
@@ -59,13 +60,13 @@ Setup::Matches::Matches(const std::string &s)
   copy_file_in_dir(s,"copy-file-in-dir")
 
 {
-	ON_INI( add( &ignore ) );
-	ON_INI( add( &ignore_regex ) );
-	ON_INI( add( &copy ) );
-	ON_INI( add( &copy_regex ) );
-	ON_INI( add( &nignore ) );
-	ON_INI( add( &ignore_file_in_dir ) );
-	ON_INI( add( &copy_file_in_dir ) );
+	add( &ignore );
+	add( &ignore_regex );
+	add( &copy );
+	add( &copy_regex );
+	add( &nignore );
+	add( &ignore_file_in_dir );
+	add( &copy_file_in_dir );
 
 	ignore.match_only_once = true;
 	ignore_regex.match_only_once = true;
@@ -83,9 +84,9 @@ Setup::StowDirs::StowDirs(const std::string &s)
   auto_add_dirs(s, "auto-add-dirs"),
   auto_add_dirs_regex(s, "auto-add-dirs-regex")
 {
-	ON_INI( add( &dirs ) );
-	ON_INI( add( &auto_add_dirs ) );
-	ON_INI( add( &auto_add_dirs_regex ) );
+	add( &dirs );
+	add( &auto_add_dirs );
+	add( &auto_add_dirs_regex );
 
 	dirs.match_only_once = true;
 	auto_add_dirs.match_only_once = true;
@@ -101,11 +102,11 @@ Setup::ProtectDirs::ProtectDirs(const std::string &s)
   targets(s, "target"),
   targets_add_traversable(s,"target-add-traversable-links")
 {
-	ON_INI( add( &dirs ) );
-	ON_INI( add( &auto_add_dirs ) );
-	ON_INI( add( &auto_add_dirs_regex ) );
-	ON_INI( add( &targets ) );
-	ON_INI( add( &targets_add_traversable ) );
+	add( &dirs );
+	add( &auto_add_dirs );
+	add( &auto_add_dirs_regex );
+	add( &targets );
+	add( &targets_add_traversable );
 
 	dirs.match_only_once = true;
 	auto_add_dirs.match_only_once = true;
@@ -120,10 +121,10 @@ Setup::ConfigFiles::ConfigFiles(const std::string &s)
   in_stow_dir(s, "in-stow-dir"),
   in_other_stow_dirs(s,"in-other-stow-dirs")
 {
-	ON_INI( add( &files ) );
-	ON_INI( add( &in_home ) );
-	ON_INI( add( &in_stow_dir ) );
-	ON_INI( add( &in_other_stow_dirs ) );
+	add( &files );
+	add( &in_home );
+	add( &in_stow_dir );
+	add( &in_other_stow_dirs );
 
 	files.match_only_once = true;
 }
@@ -132,10 +133,9 @@ Setup::Links::Links(const std::string &s)
 : Section(s),
   absolute_paths(s, "absolute-paths")
 {
-	ON_INI( add( &absolute_paths ) );
+	add( &absolute_paths );
 }
 
-#ifdef CAN_USE_INI
 Setup::Exec::Exec()
 : Section( "exec", false ),
   match( "exec", "match" ),
@@ -146,7 +146,6 @@ Setup::Exec::Exec()
 	add( &exec );
 	add( &exec_unstow );
 }
-#endif
 
 #ifdef CAN_USE_NIGNORE
 Setup::IniNIgnore::IniNIgnore( const std::string &s )
@@ -169,14 +168,14 @@ Setup::Setup()
   config_files("config-files"),
   links("links")
 {
-	ON_INI( add( &debug ) );
-	ON_INI( add( &traversable_links ) );
-	ON_INI( add( &keep_dirs ) );
-	ON_INI( add( &matches ) );
-	ON_INI( add( &stow_dirs ) );
-	ON_INI( add( &protect_dirs ) );
-	ON_INI( add( &config_files ) );
-	ON_INI( add( &links ) );
+	add( &debug );
+	add( &traversable_links );
+	add( &keep_dirs );
+	add( &matches );
+	add( &stow_dirs );
+	add( &protect_dirs );
+	add( &config_files );
+	add( &links );
 }
 
 void Setup::add(Section* s)
@@ -188,7 +187,6 @@ void Setup::add(Section* s)
 
 void Setup::read_ini()
 {
-#ifdef CAN_USE_INI
 	for( unsigned int i = 0; i < config_files.files.size(); ++i )
 	{
 		Tools::Leo::Ini ini( config_files.files[i], std::ios_base::in );
@@ -212,21 +210,17 @@ void Setup::read_ini()
 #endif
 
 		read_exec( ini );
-#endif
 
-	// add functions that do not require config file support here
+		// add functions that do not require config file support here
 
-	handle_keep_dirs();
-	handle_protect_dirs();
+		handle_keep_dirs();
+		handle_protect_dirs();
 
-#ifdef CAN_USE_INI
+		// add functions that require config file support here
 
-	// add functions that require config file support here
+		handle_config_files();
+	}
 
-	handle_config_files();
-
-}
-#endif
 }
 
 void Setup::handle_keep_dirs()
@@ -261,8 +255,6 @@ void Setup::handle_protect_dirs()
 
 void Setup::handle_config_files()
 {
-#ifdef CAN_USE_INI
-
 	if( config_files.in_home() )
 	{
 		char *home = getenv( "HOME" );
@@ -286,7 +278,6 @@ void Setup::handle_config_files()
 			config_files.files += CppDir::concat_dir( stow_dirs.dirs[i], "xstow.ini" );
 		}
 	}
-#endif  
 }
 
 namespace std
@@ -382,7 +373,6 @@ std::ostream& operator<<(std::ostream& out, const Setup &s)
 	out << "config_files:\n";
 	out << s.config_files.files;
 
-#ifdef CAN_USE_INI
 	for( unsigned i = 0; i < s.exec.size(); i++ )
 	{
 		out << "exec:\n";
@@ -390,7 +380,6 @@ std::ostream& operator<<(std::ostream& out, const Setup &s)
 		out << " exec: " << s.exec[i].exec << '\n';
 		out << " exec_unstow: " << s.exec[i].exec_unstow << '\n';
 	}
-#endif
 
 	return out;
 }
@@ -437,7 +426,6 @@ void Setup::read_nignore( Tools::Leo::Ini &ini )
 
 #endif
 
-#ifdef CAN_USE_INI
 void Setup::read_exec( Tools::Leo::Ini &ini )
 {
 	if( !ini ) {
@@ -480,9 +468,7 @@ void Setup::read_exec( Tools::Leo::Ini &ini )
 		}
 	}
 }
-#endif
 
-#ifdef CAN_USE_INI
 void Setup::check_ini( Tools::Leo::Ini &ini )
 {
 	if( !ini )
@@ -588,4 +574,3 @@ void Setup::check_ini( Tools::Leo::Ini &ini )
 		}
 	}
 }
-#endif

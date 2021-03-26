@@ -41,7 +41,12 @@ struct Setup
 			{
 			}
 
-			ON_INI( void read_ini( Tools::Leo::Ini &ini ) { if( !freeze() ) IntValue::read_ini( ini );} )
+			void read_ini(Tools::Leo::Ini &ini)
+			{
+				if (!freeze()) {
+					IntValue::read_ini(ini);
+				}
+			}
 		} level;
 
 		struct MValue : public Value<DModule>, public WrapFreeze
@@ -55,7 +60,12 @@ struct Setup
 				return string2module(s);
 			}
 
-			ON_INI( void read_ini( Tools::Leo::Ini &ini ) { if( !freeze() ) Value<DModule>::read_ini( ini );} )
+			void read_ini(Tools::Leo::Ini &ini)
+			{
+				if (!freeze()) {
+					Value<DModule>::read_ini(ini);
+				}
+			}
 		};
 
 		MValue module;
@@ -143,7 +153,6 @@ struct Setup
 		Links(const std::string &s);
 	} links;
 
-#ifdef CAN_USE_INI
 	struct Exec : public Section
 	{
 		Value<std::string> match;
@@ -154,7 +163,6 @@ struct Setup
 	};
 
 	std::vector<Exec> exec;
-#endif
 
 #ifdef CAN_USE_NIGNORE
 	struct IniNIgnore : public Section // for syntax check only
@@ -202,11 +210,9 @@ struct Setup
 	void read_nignore( Tools::Leo::Ini &ini );
 #endif
 
-#ifdef CAN_USE_INI
 	void read_exec( Tools::Leo::Ini &ini );
 
 	void check_ini( Tools::Leo::Ini &ini );
-#endif
 
 	public:
 

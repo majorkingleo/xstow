@@ -402,7 +402,6 @@ bool Tree::check(Ref<Node> target, Ref<Node> base, Ref<vec_link> links)
 
 				}
 
-#ifdef CAN_USE_INI
 				std::string s_exec;
 				if( it->getType() == Node::TYPE::FILE && match_exec( it->getName(), s_exec ) )
 				{
@@ -414,7 +413,6 @@ bool Tree::check(Ref<Node> target, Ref<Node> base, Ref<vec_link> links)
 
 					continue;
 				}
-#endif	      
 
 				if( it->getType() == Node::TYPE::FILE &&
 						( match_copy( it->getName() ) || match_copy_file_in_dir( setup.current_package(),
@@ -736,12 +734,10 @@ std::ostream& operator<<(std::ostream& out, const Tree::Link &link)
 		out << "COPY: " << link.origin;
 		break;
 
-#ifdef CAN_USE_INI
 		case Tree::Link::ACTION::EXEC:
 		out << "EXEC: " << command( link.exec, link.origin, link.target );
 		// out << "EXEC: " << link.origin << " => " << link.target << " => " << link.exec;
 		break;
-#endif
 
 		case Tree::Link::ACTION::FIRST__:
 		case Tree::Link::ACTION::LAST__:
@@ -1096,7 +1092,6 @@ bool Tree::exec_list()
 			}
 			break;
 
-#ifdef CAN_USE_INI
 			case Link::ACTION::EXEC:
 			{
 				std::string com = command( it->exec, it->origin, it->target );
@@ -1111,7 +1106,6 @@ bool Tree::exec_list()
 				}
 			}
 			break;
-#endif
 
 			case Link::ACTION::FIRST__:
 			case Link::ACTION::LAST__:
@@ -1416,7 +1410,6 @@ bool match_protect_targets(const std::string &file)
 	return false;
 }
 
-#ifdef CAN_USE_INI
 bool match_exec( const std::string &file, std::string &exec )
 {
 	BT;
@@ -1455,7 +1448,6 @@ std::string command( std::string exec, const std::string &source, const std::str
 
 	return exec;
 }
-#endif
 
 bool match_ignore_file_in_dir(const std::string working_dir, const std::string &file)
 {

@@ -32,19 +32,11 @@ typedef std::vector<std::string> vec_string;
 
 std::ostream& operator<<(std::ostream& out, const vec_string &v);
 
-#ifdef CAN_USE_INI
-# define ON_INI( expr ) expr
-#else
-# define ON_INI( expr )
-#endif
-
 #ifdef HAVE_REGEX_H
 # define ON_REGEX( expr )  expr
 #else
 # define ON_REGEX( expr )
 #endif
-
-#ifdef CAN_USE_INI
 
 namespace Leo {
 
@@ -55,7 +47,6 @@ namespace Leo {
 bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std::string &key, std::string &value );
 bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std::string &key, vec_string &values );
 
-#endif
 
 struct IniValue
 {
@@ -66,7 +57,7 @@ struct IniValue
 	{
 	}
 
-#ifdef CAN_USE_INI
+
 	IniValue( const std::string &is, const std::string &ik )
 	: ini_section( is ),
 	  ini_key( ik )
@@ -76,14 +67,6 @@ struct IniValue
 	std::string ini_key;
 
 	virtual void read_ini( Tools::Leo::Ini &ini ) = 0;
-
-#else
-
-	IniValue(const std::string &is, const std::string &ik)
-	{
-	}
-
-#endif
 };
 
 template<typename T>
@@ -214,7 +197,6 @@ template<typename T>
 
 		virtual T string2data(const std::string &s) = 0;
 
-#ifdef CAN_USE_INI
 		void read_ini( Tools::Leo::Ini &ini )
 		{
 			if( !ini_section.empty() && !ini_key.empty() )
@@ -238,8 +220,6 @@ template<typename T>
 				}
 			}
 		}
-
-#endif
 
 	};
 
@@ -289,7 +269,7 @@ struct VecStringValue : public Value<vec_string>
 		return data.size();
 	}
 
-	ON_INI( void read_ini( Tools::Leo::Ini &ini ); )
+	void read_ini( Tools::Leo::Ini &ini );
 
 	bool already_have(const std::string &s);
 };
@@ -365,13 +345,11 @@ struct Value<std::string> : public IniValue
 		return out << x2s(data);
 	}
 
-	ON_INI( void read_ini( Tools::Leo::Ini &ini ); )
+	void read_ini( Tools::Leo::Ini &ini );
 };
 
 class Section
 {
-#ifdef CAN_USE_INI
-
 	std::vector<IniValue*> values;
 	std::string ini_section;
 	bool auto_read_ini;
@@ -392,18 +370,6 @@ public:
 	bool check_ini( Tools::Leo::Ini &ini, const std::string &key );
 
 	std::string get_name() const {return ini_section;}
-#else
-
-public:
-	Section()
-	{
-	}
-
-	Section(const std::string &section)
-	{
-	}
-
-#endif
 };
 
 #endif

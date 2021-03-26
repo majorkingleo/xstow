@@ -187,10 +187,8 @@ bool match_protect_dirs(const std::string &file);
 bool match_auto_protect_dirs(const std::string &file);
 bool match_protect_targets(const std::string &file);
 
-#ifdef CAN_USE_INI
 bool match_exec( const std::string &file, std::string &exec_string );
 std::string command( std::string exec, const std::string &source, const std::string &target );
-#endif
 
 bool file_copy(std::string origin, std::string target);
 bool dir_copy(std::string origin, std::string target);

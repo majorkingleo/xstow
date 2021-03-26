@@ -10,8 +10,6 @@ using namespace std;
 
 #define OUT( level ) DEBUG_OUT( level, MODULE_SETUP )
 
-#ifdef CAN_USE_INI
-
 bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std::string &key, std::string &value )
 {
 	if( !ini ) {
@@ -58,8 +56,6 @@ bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std
 
 	return false;
 }
-
-#endif
 
 bool DirChecker::check(const std::string &s)
 {
@@ -150,8 +146,6 @@ vec_string VecStringValue::string2data(const std::string &s)
 	return split_simple(s);
 }
 
-#ifdef CAN_USE_INI
-
 void VecStringValue::read_ini( Tools::Leo::Ini &ini )
 {
 	if( !ini_section.empty() && !ini_key.empty() )
@@ -163,8 +157,6 @@ void VecStringValue::read_ini( Tools::Leo::Ini &ini )
 		}
 	}
 }
-
-#endif
 
 bool VecStringValue::already_have(const std::string &s)
 {
@@ -205,9 +197,6 @@ void RegExVecStringValue::operator+=(const std::string &s)
 
 #endif
 }
-
-#ifdef CAN_USE_INI
-
 void Value<std::string>::read_ini( Tools::Leo::Ini &ini )
 {
 	if( !ini_section.empty() && !ini_key.empty() )
@@ -224,8 +213,6 @@ void Value<std::string>::read_ini( Tools::Leo::Ini &ini )
 	}
 
 }
-
-#endif
 
 void Value<std::string>::operator()(const std::string &data_)
 {
@@ -247,8 +234,6 @@ std::ostream& operator<<(std::ostream& out, const vec_string &v)
 
 	return out;
 }
-
-#ifdef CAN_USE_INI
 
 void Section::read_ini( Tools::Leo::Ini &ini )
 {
@@ -280,5 +265,3 @@ bool Section::check_ini( Tools::Leo::Ini &ini, const std::string &key )
 
 	return false;
 }
-
-#endif

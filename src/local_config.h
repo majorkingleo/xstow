@@ -16,16 +16,13 @@
 #ifdef GNU_STOW
 
 #undef HAVE_CURSES_H
-#undef CAN_USE_INI
 #undef HAVE_FNMATCH_H
 #undef HAVE_REGEX_H
 
 #endif
 
-#ifdef CAN_USE_INI 
 #ifdef   HAVE_FNMATCH_H
 #define    CAN_USE_NIGNORE
-#endif
 #endif
 
 #endif

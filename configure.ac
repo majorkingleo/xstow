@@ -162,39 +162,6 @@ if test "$support_curses" -eq 1; then
 				])
 fi
 
-AC_MSG_CHECKING(for ini file support)
-AC_ARG_ENABLE(ini,
-	[  --disable-ini              Enable ini file support],
-	[
-	   if test "x$enableval" = "xno" ; then
-		AC_MSG_RESULT(disabled)
-		no_ini=1
-		support_ini=0
-	   fi
-        ],
-	[ 
-          no_ini=0 
-	  AC_MSG_RESULT(enabled)
-        ] )
-
-AC_MSG_CHECKING([for GNU like STL containers])
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[ 
-#include <list> 
-struct Foo { typedef std::list<Foo>::iterator it; }; 
-]], [[ Foo foo ]])],[
-			AC_MSG_RESULT(yes)
-
-			if test $no_ini -eq 0; then
-			   AC_DEFINE(CAN_USE_INI, 1, [the ini class should compile clean])
-			   support_ini=1
-			fi
-		],[
-			AC_MSG_RESULT(no)
-			AC_MSG_WARN([cannot compile with configuration file support])
-			support_ini=0
-		
-	])
-
 AC_MSG_CHECKING([for debugging support])
 AC_ARG_ENABLE(debug,
 	[  --enable-debug             Enable extra debugging code],
@@ -270,14 +237,6 @@ doc/Makefile])
 
 # report features:
 
-if test $support_ini -gt 0 ; then
-  AM_CONDITIONAL(ENABLE_INI, true )
-  support_ini=yes
-else
-  AM_CONDITIONAL(ENABLE_INI, false )
-  support_ini=no
-fi
-
 if test $support_debug -gt 0 ; then
   support_debug=yes
 else
@@ -334,7 +293,6 @@ echo "supported features:"
 
 
 echo "    debugging:                              $support_debug"
-echo "    configuration files:                    $support_ini"
 echo "    shell pattern matching:                 $support_fnmatch"
 echo "    regex pattern matching:                 $support_regex"
 echo "    using curses library:                   $support_curses"

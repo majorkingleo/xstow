@@ -86,12 +86,10 @@ int main(int argc, char** argv)
 
 #endif
 
-#ifdef CAN_USE_INI
 	Arg::FileOption files( "F", Arg::FILE::ANY );
 	files.addName( "file" );
 	files.setDescription( "Read this config file too");
 	arg.addOptionR( &files );
-#endif
 
 	Arg::OptionChain info;
 	arg.addChainR( &info );
@@ -361,11 +359,6 @@ int main(int argc, char** argv)
 #ifdef HAVE_FNMATCH_H
 			out << "\t shell pattern matching support\n";
 #endif
-
-#ifdef CAN_USE_INI
-			out << "\t configuration file support\n";
-#endif
-
 			return 0;
 		}
 
@@ -591,8 +584,6 @@ int main(int argc, char** argv)
 		setup.keep_dirs.dirs += split_simple( *keep_dirs.getValues()->begin() );
 	}
 
-#ifdef CAN_USE_INI
-
 	// nothing would happen if we call these functions, but it simple isn't required
 	char *xstow_dont_read_sysconf_ini = getenv("XSTOW_DONT_READ_SYSCONF_INI");
 
@@ -614,8 +605,6 @@ int main(int argc, char** argv)
 	}
 
 	setup.read_ini();
-
-#endif
 
 	if( setup.conflicts() ) {
 		setup.no_changes( true );
