@@ -1,17 +1,7 @@
-/*
- * $Log: leoini.cpp,v $
- * Revision 1.4  2010/07/22 21:44:21  martin
- * Release of Verion 1.0.0
- *
- * Revision 1.3  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
 #include "leoini.h"
 #include <iostream>
 
-
-#ifdef CAN_USE_INI
+using namespace Tools;
 
 bool Leo::Ini::Element::add( Element& element )
 {
@@ -74,7 +64,7 @@ std::string Leo::Ini::Line::get_line()
   return str;
 }
 
-void Leo::Ini::MemElement::operator=(const Element& e )
+Leo::Ini::MemElement & Leo::Ini::MemElement::operator=(const Element& e )
 {
   section = e.section;
   key = e.key; 
@@ -96,9 +86,23 @@ void Leo::Ini::MemElement::operator=(const Element& e )
     for( element_list_it it = e.elements.begin();
 	 it != e.elements.end(); it++ )
       *this = *it;
+
+  return *this;
 }
 
 Leo::Ini::Ini( std::string filename, int mode )
+: elements(),
+  comments(),
+  openmode(mode),
+  file_name( filename ),
+  file(),
+  is_open(false),
+  valid(false),
+  file_readed(false),
+  eof_reached(false),
+  line_number(0),
+  changed(false),
+  auto_global_section_name()
 {
   is_open = false;
   valid = false;
@@ -123,7 +127,11 @@ bool Leo::Ini::open( std::string f, int mode )
   line_number = 0;
   changed = false;
 
+#if __GNUC__ > 2
   file.open( file_name.c_str() , static_cast<std::ios_base::openmode>( mode ));
+#else
+  file.open( file_name.c_str() , static_cast<std::ios::openmode>( mode ));
+#endif
 
   if( !file )
     {
@@ -225,43 +233,55 @@ bool Leo::Ini::read()
       Line line = read_line();
 
       if( eof_reached && line.str.empty() )
-	break;
+		break;
 
       if( line.tag.str.empty() )
-	{
-	  // simple comment
-	  comments.push_back( line );
-	  continue;
-	}
+		{
+		  // simple comment
+		  comments.push_back( line );
+		  continue;
+		}
 
-      if( is_section( line.tag.str ) )
-	{
-	  if( in_section )
-	    {
-	      elements.push_back( current_section );
-	      current_section.clear();
-	    }
+	  if( is_section( line.tag.str ) )
+		{
+		  if( in_section )
+			{
+			  elements.push_back( current_section );
+			  current_section.clear();
+			}
 	  
-	  // create a new section
-	  current_section.line = line;
-	  current_section.section = extract_section_name( line.tag.str );
-	  current_section.type = Element::TYPE::SECTION;
+		  // create a new section
+		  current_section.line = line;
+		  current_section.section = extract_section_name( line.tag.str );
+		  current_section.type = Element::TYPE::SECTION;
 
-	  in_section = true;
-	}
-      else if( is_key( line.tag.str ) && in_section )
-	{
-	  // create a new key
-	  MemElement me;
+		  in_section = true;
+		}
+      else if( is_key( line.tag.str ) )
+		{
+		  if( !in_section && !auto_global_section_name.empty() )
+			{
+			  // create a new section
+			  current_section.line = line;
+			  current_section.section = auto_global_section_name;
+			  current_section.type = Element::TYPE::SECTION;
+			  in_section = true;
+			}
 
-	  me.line = line;
-	  me.section = current_section.section;
-	  me.key = extract_key_name( line.tag.str );
-	  me.value = extract_key_data( line.tag.str );
-	  me.type = Element::TYPE::KEY;
+		  if( in_section )
+			{
+			  // create a new key
+			  MemElement me;
 
-	  current_section.mem_elements.push_back( me );
-	}
+			  me.line = line;
+			  me.section = current_section.section;
+			  me.key = extract_key_name( line.tag.str );
+			  me.value = extract_key_data( line.tag.str );
+			  me.type = Element::TYPE::KEY;
+
+			  current_section.mem_elements.push_back( me );
+			}
+		}
     }
 
   if( !current_section.section.empty() )
@@ -275,7 +295,7 @@ bool Leo::Ini::read()
 std::string::size_type Leo::Ini::find_comment( const std::string& str )
 {
   // maybe I'll add later an better implementation if this
-  return str.find_first_of( ";#" );
+  return str.find( ";" );
 }
 
 bool Leo::Ini::find_tag( std::string::size_type& start, std::string::size_type& end, const std::string& str )
@@ -453,9 +473,15 @@ bool Leo::Ini::is_good_element_rec( Element& element )
 
 bool Leo::Ini::write( Element element )
 {
+#if __GNUC__ > 2
   if( is_open )
-    if( openmode & std::ios_base::out != std::ios_base::out )
+    if( ( openmode & std::ios_base::out ) != std::ios_base::out )
       return false; // file opened in read_only mode
+#else
+  if( is_open )
+    if( ( openmode & std::ios::out ) != std::ios::out )
+      return false; // file opened in read_only mode
+#endif
 
   if( !is_good_element_rec( element ) )
     return false;
@@ -525,8 +551,13 @@ bool Leo::Ini::write()
   if( !is_open )
     return false;
 
-  if( openmode & std::ios_base::out != std::ios_base::out )
+#if __GNUC__ > 2
+  if( ( openmode & std::ios_base::out ) != std::ios_base::out )
     return false;
+#else
+  if( ( openmode & std::ios::out ) != std::ios::out )
+    return false;
+#endif
 
   flush();
       
@@ -538,8 +569,13 @@ void Leo::Ini::flush()
   if( !is_open )
     return;
 
-  if( openmode & std::ios_base::out != std::ios_base::out )
+#if __GNUC__ > 2
+  if( ( openmode & std::ios_base::out ) != std::ios_base::out )
     return;
+#else
+  if( ( openmode & std::ios::out ) != std::ios::out )
+    return;
+#endif
   
   if( !changed )
     return;
@@ -547,10 +583,19 @@ void Leo::Ini::flush()
   file.close();
 
   // erase the file
+#if __GNUC__ > 2
   file.open( file_name.c_str(), std::ios_base::trunc | std::ios_base::in | std::ios_base::out );
+#else
+  file.open( file_name.c_str(), std::ios::trunc | std::ios::in | std::ios::out );
+#endif
   file.close();
 
+  file.clear();	
+#if __GNUC__ > 2
   file.open( file_name.c_str(), static_cast<std::ios_base::openmode>(openmode) );
+#else
+  file.open( file_name.c_str(), static_cast<std::ios::openmode>(openmode) );
+#endif
 
   int last_line = 1;
 
@@ -632,19 +677,33 @@ bool Leo::Ini::write_line( const Line& line, int last_line )
 bool Leo::Ini::erase()
 {
   if( is_open )
-    if( openmode & std::ios_base::out == std::ios_base::out )
+#if __GNUC__ > 2
+    if( ( openmode & std::ios_base::out ) == std::ios_base::out )
       {
 	clear();
 
 	return true;
       }
+#else
+    if( ( openmode & std::ios::out ) == std::ios::out )
+      {
+	clear();
+
+	return true;
+      }
+#endif
   return false;
 }
 
 bool Leo::Ini::erase( Element element )
 {
-  if( !is_open ||( openmode & std::ios_base::out != std::ios_base::out ) )
+#if __GNUC__ > 2
+  if( !is_open ||( ( openmode & std::ios_base::out ) != std::ios_base::out ) )
     return false;
+#else
+  if( !is_open ||( ( openmode & std::ios::out ) != std::ios::out ) )
+    return false;
+#endif
  
   if( !is_good_element_rec( element ) )
     return false;
@@ -741,7 +800,7 @@ bool Leo::operator == ( const Ini::MemElement& a, const Ini::MemElement& b )
   return false;
 }
 
-std::ostream& operator << ( std::ostream& out, const Leo::Ini::Element& e )
+std::ostream& Tools::operator << ( std::ostream& out, const Leo::Ini::Element& e )
 {
   out << "Section: " << e.section;
 
@@ -757,13 +816,11 @@ std::ostream& operator << ( std::ostream& out, const Leo::Ini::Element& e )
     case Leo::Ini::Element::TYPE::SECTION: out << " type: SECTION "; break;
     case Leo::Ini::Element::TYPE::KEY: out << " type: KEY "; break;
     case Leo::Ini::Element::TYPE::UNDEF: out << " type: UNDEF"; break;
-	case Leo::Ini::Element::TYPE::LAST__:
-	case Leo::Ini::Element::TYPE::FIRST__:
-		break;
+    case Leo::Ini::Element::TYPE::FIRST__:
+    case Leo::Ini::Element::TYPE::LAST__: break;
     }
   
   return out;
 }
 
-#endif
 

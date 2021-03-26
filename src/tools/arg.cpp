@@ -1,16 +1,14 @@
-/*
- * $Log: arg.cpp,v $
- * Revision 1.3  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
 #include "arg.h"
 #include "string_utils.h"
-#include "debug.h"
-#include <stdlib.h>
+// #include "debug.h"
 
+using namespace Tools;
 
+#undef OUT
 #define OUT(level) DEBUG_OUT( level, MODULE::ARG )
+#define DEBUG( x )
+#define ERROR std::cerr
+#define eout std::cerr
 
 #include <iostream>
 
@@ -27,7 +25,7 @@ int Arg::get_terminal_width()
     
 #ifdef HAVE_CURSES_H
     
-    const char *tm  = getenv( "TERM" );
+    const char *tm  = termname();
     
     if( !tm || std::string( tm ).empty() )
 	return DEFAULT_COLS;
@@ -108,9 +106,9 @@ Arg::OptionNameRule::OptionNameRule()
   names = new vec_string();
 }
 
-Arg::OptionNameRule::OptionNameRule( Ref<vec_string> prefixes, Ref<vec_string> names )
+Arg::OptionNameRule::OptionNameRule( Ref<vec_string> prefixes_, Ref<vec_string> names_ )
   : Rule( true, true ),
-    prefixes( prefixes ), names( names )
+    prefixes( prefixes_ ), names( names_ )
 {
 
 }
@@ -151,7 +149,7 @@ bool Arg::OptionNameRule::match( const std::string &option ) const
   return false;
 }
 
-std::string Arg::OptionNameRule::getDescription( unsigned int s1, unsigned int s2 ) const
+std::string Arg::OptionNameRule::getFormattedDescription( unsigned int s1, unsigned int s2 ) const
 {
   std::string s;
   std::string p;
@@ -199,9 +197,9 @@ std::string Arg::OptionNameRule::getDescription( unsigned int s1, unsigned int s
 }
 
 
-Arg::IsOptionRule::IsOptionRule( Ref<vec_string> prefixes )
+Arg::IsOptionRule::IsOptionRule( Ref<vec_string> prefixes_ )
   : Rule( true, true ),
-    prefixes( prefixes )
+    prefixes( prefixes_ )
 {
   
 }
@@ -215,18 +213,18 @@ bool Arg::IsOptionRule::match( const std::string &option ) const
   return false;
 }
 
-Arg::IsValueRule::IsValueRule( bool cs )
+Arg::IsValueRule::IsValueRule( bool cs_ )
   : Rule( true, false ),
-    cs(cs)
+    cs(cs_)
 {
   states = new vec_string();
   error = "value does not matches one of the valid states";
 }
 
-Arg::IsValueRule::IsValueRule( Ref<vec_string> states, bool cs )
+Arg::IsValueRule::IsValueRule( Ref<vec_string> states_, bool cs_ )
   : Rule( true, false ),
-    states( states ),
-    cs( cs )
+    states( states_ ),
+    cs( cs_ )
 {
   error = "value does not matches one of the valid states";
 }
@@ -305,8 +303,8 @@ Arg::Option::Option()
   option_id = infinite;
 }
 
-Arg::Option::Option( Ref< Rule > name_rule, Ref< Rule > value_rule )
-  : name_rule( name_rule ), value_rule( value_rule )
+Arg::Option::Option( Ref< Rule > name_rule_, Ref< Rule > value_rule_ )
+  : name_rule( name_rule_ ), value_rule( value_rule_ )
 {
   isset = false;
   min_values = 0;
@@ -371,7 +369,7 @@ std::string Arg::Option::getDescription( unsigned int s1, unsigned int s2, unsig
       Ref<OptionNameRule> name;
 
       if( convert( name_rule, name ) )
-	s += name->getDescription( s1, s2 );
+	s += name->getFormattedDescription( s1, s2 );
       else
 	s += name_rule->getDescription();
     }
@@ -509,16 +507,16 @@ Arg::OptionChain::OptionChain( LINK m )
   arg = 0;
 }
 
-bool Arg::OptionChain::parse( list_soption &arg )
+bool Arg::OptionChain::parse( list_soption &marg )
 {
-  DEBUG( OUT(1) << "=====\n" << arg << std::endl );
+  DEBUG( OUT(1) << "=====\n" << marg << std::endl );
 
   err_options.clear();
 
   unsigned int matches = 0;
   bool not_inc = false;
 
-  for( unsigned int j = 0; j < options->size() && arg.begin() != arg.end(); ++j )
+  for( unsigned int j = 0; j < options->size() && marg.begin() != marg.end(); ++j )
     {
       Ref<Option> o = (*options)[j];
   
@@ -537,7 +535,7 @@ bool Arg::OptionChain::parse( list_soption &arg )
       bool first = true;
       bool failed = false;
 
-      for( list_soption::iterator it = arg.begin(); it != arg.end(); )
+      for( list_soption::iterator it = marg.begin(); it != marg.end(); )
 	{
 	  DEBUG( OUT(1) << "arg option: " << it->option << std::endl );
 	  
@@ -548,7 +546,7 @@ bool Arg::OptionChain::parse( list_soption &arg )
 	    if( !first )
 	      {
 		++it;
-		if( it == arg.end() )
+		if( it == marg.end() )
 		  break;
 	      }
 	  
@@ -638,15 +636,15 @@ bool Arg::OptionChain::parse( list_soption &arg )
 
 		  list_soption::iterator bit = it;
 
-		  if( bit != arg.begin() )
+		  if( bit != marg.begin() )
 		    {
 		      --bit;		  
-		      arg.erase( it );
+		      marg.erase( it );
 		    }
 		  else
 		    {
-		      arg.erase( it );
-		      bit = arg.begin();
+		      marg.erase( it );
+		      bit = marg.begin();
 		    }
 
 		  it = bit;
@@ -701,9 +699,9 @@ void Arg::OptionChain::addOption( Ref<Option> option )
   options->push_back( option );
 }
 
-Arg::Arg::Arg( int argc, char** argv )
-  : argc( argc ),
-    argv( argv )
+Arg::Arg::Arg( int argc_, char** argv_ )
+  : argc( argc_ ),
+    argv( argv_ )
 {
   prefixes = new vec_string();
 
@@ -762,7 +760,7 @@ bool Arg::Arg::parse()
 	  eout << std::endl;
 
 	  if( !err_options.empty() )
-	    eout.out << "Errors: \n" << err_options << std::endl;	    
+	    eout << "Errors: \n" << err_options << std::endl;	    
 	}
 
       return false;
@@ -994,7 +992,7 @@ std::string Arg::FlagOption::getDescription( unsigned int s1,
       Ref<OptionNameRule> name;
 
       if( convert( name_rule, name ) )
-	s += name->getDescription( s1, s2 );
+	s += name->getFormattedDescription( s1, s2 );
       else
 	s += name_rule->getDescription();
     }

@@ -10,6 +10,7 @@
 #include "setup_config.h"
 #include "ref.h"
 
+
 #ifdef CAN_USE_NIGNORE
 class NIgnoreChain;
 #endif
@@ -35,7 +36,7 @@ struct Setup
     {
       DIntValue( const std::string &s, const std::string &k ) : IntValue( s, k ), WrapFreeze() {}
 
-      ON_INI( void read_ini( Leo::Ini &ini ) { if( !freeze() ) IntValue::read_ini( ini ); } )
+      ON_INI( void read_ini( Tools::Leo::Ini &ini ) { if( !freeze() ) IntValue::read_ini( ini ); } )
     } level;
 
     struct MValue : public Value<DModule>, public WrapFreeze
@@ -43,7 +44,7 @@ struct Setup
       MValue( const std::string &s, const std::string &k ) : Value<DModule>( s, k ), WrapFreeze() {}
       DModule string2data( const std::string &s ) { return string2module( s ); }
 
-      ON_INI( void read_ini( Leo::Ini &ini ) { if( !freeze() ) Value<DModule>::read_ini( ini ); } )
+      ON_INI( void read_ini( Tools::Leo::Ini &ini ) { if( !freeze() ) Value<DModule>::read_ini( ini ); } )
     };
 
     MValue module;
@@ -187,13 +188,13 @@ private:
   void handle_config_files();
 
 #ifdef CAN_USE_NIGNORE
-  void read_nignore( Leo::Ini &ini );
+  void read_nignore( Tools::Leo::Ini &ini );
 #endif
 
 #ifdef CAN_USE_INI
-  void read_exec( Leo::Ini &ini );
+  void read_exec( Tools::Leo::Ini &ini );
 
-  void check_ini( Leo::Ini &ini );
+  void check_ini( Tools::Leo::Ini &ini );
 #endif
 
 public:
@@ -205,6 +206,6 @@ public:
 extern Setup setup;
 
 std::ostream& operator<<( std::ostream& out, const Setup &setup );
-std::ostream& operator<<( std::ostream& out, const vec_string &v );
+
 
 #endif

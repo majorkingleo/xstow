@@ -1,11 +1,26 @@
+#ifndef TOOLS_iterator_h
+#define TOOLS_iterator_h
+
 /*
- * $Log: iterator.h,v $
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
+ * $Log$
+ * Revision 1.1  2008/09/23 13:01:39  wamas
+ * moved xml.h and c and iterator to cpputils
+ *
+ * Revision 1.3  2006/11/24 09:47:27  wamas
+ * -Wshadow Warnings ausgebaut
+ *
+ * Revision 1.2  2006/11/22 22:48:30  wamas
+ * Implementet postfix++ operator
+ *
+ * Revision 1.1.1.1  2006/03/17 19:49:15  wamas
+ * own tools reponsitority
+ *
+ * Revision 1.1  2006/03/15 07:23:10  wamas
+ * Brauchbares Tool hinzugefuegt, kommt aus xstow
+ *
  *
  */
-#ifndef iterator_h
-#define iterator_h
+
 
 /**
    This template is so simple that it can be used without
@@ -14,6 +29,8 @@
 */
 
 #include <iterator>
+
+namespace Tools {
 
   /** template that returns the real type of a pointer */
   template<typename T> struct remove_pointer 
@@ -77,7 +94,7 @@
 
     Iterator() {}
 
-    Iterator( iterator it ) : it( it ) {}    
+    Iterator( iterator it_ ) : it( it_ ) {}    
 
     bool operator!=( const iterator &i ) const { return it != i; }
     bool operator!=( const Iterator<iterator,_pointer> &i ) const { return it != i.it; }
@@ -88,6 +105,8 @@
     Iterator<iterator,_pointer>& operator=( const iterator& i ) { return it = i; }
     Iterator<iterator,_pointer>& operator--() { --it; return *this; }
     Iterator<iterator,_pointer>& operator++() { ++it; return *this; }
+
+    Iterator<iterator,_pointer> operator++(int c) { it.operator++(c); return *this; } 
     
     bool operator<( const Iterator<iterator,_pointer> &i ) const
     { 
@@ -129,5 +148,7 @@
   {
     return Iterator<T,U>(a) - i;
   }
+
+}
 
 #endif

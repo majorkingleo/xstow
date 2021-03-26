@@ -1,36 +1,7 @@
-/*
- * $Log: format.cpp,v $
- * Revision 1.3  2010/07/21 19:38:25  martin
- * gcc-4 Port
- *
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
-#include "format.h"
-#include <stdlib.h>
+#include "format1.h"
+#include <cstdlib>
 
-#ifndef NFORMAT
-
-void Format::CFormat::reset()
-{
-  valid = false;
-  adjust = RIGHT;
-  special = false;
-  precision = 6;
-  precision_explicit = false;
-  zero = false;
-  sign = false;
-  width = 0;
-  internal = false;
-  setupper = false;
-  grouping = false;
-  conversion = false;
-  base = DEC;
-  floating = FIXED;
-  showbase = false;
-  strlength = 0;
-}
+namespace Tools {
 
 int Format::skip_atoi( std::string s, ST start, ST& pos )
 {
@@ -49,8 +20,7 @@ void Format::CFormat::set( std::ostream& out )
     {
       return;
     }
-
-/*
+  /*
   printf( "valid: %d\n", valid );
   printf( "adjust: %d\n", adjust );
   printf( "special: %d\n", special );
@@ -67,8 +37,7 @@ void Format::CFormat::set( std::ostream& out )
   printf( "floating: %d\n", floating );
   printf( "showbase: %d\n", showbase );
   printf( "strlength: %d\n", strlength );
-*/
-
+  */
   if( base == HEX && special && showbase && zero ) 
   {
       // without this correction:
@@ -90,14 +59,19 @@ void Format::CFormat::set( std::ostream& out )
       
       if( width )
       {
-	  for( int i = 0; i + strlength + 2 + 1 < width; ++i )
-	      out << ' ';
+		  /* For M$ Compile */ {
+			  for( int i = 0; i + strlength + 2 + 1 < width; ++i )
+				  out << ' ';
+		  }
+
 	  width = 0;
       }
 
       out << '0' << ( setupper ? 'X' : 'x' );
-      for( int i = 0; i + strlength < precision; ++i )
-	  out << '0';
+	  /* For M$ Compile */  {
+		  for( int i = 0; i + strlength < precision; ++i )
+			  out << '0';
+	  }
   }  
 
   if( adjust == LEFT && zero )
@@ -149,4 +123,36 @@ void Format::CFormat::set( std::ostream& out )
   out << std::setprecision( precision );
 }
 
-#endif
+
+std::string Format::substitude( const std::string & str_orig, const std::string & what, const std::string & with, std::string::size_type start )
+{
+  std::string str( str_orig );
+  std::string::size_type pos=start;
+
+  if( what.empty() )
+      return str;
+
+  for(;;)
+    {
+      pos = str.find( what, pos );
+      if( pos == std::string::npos )
+        break;
+
+      if( with.empty() )
+    {
+      std::string s = str.substr( 0, pos );
+      s += str.substr( pos + what.size() );
+      str = s;
+      continue;
+    }
+      else
+    {
+      str.replace( pos, what.size(), with );
+    }
+
+      pos += with.size();
+    }
+  return str;
+}
+} /* namespace Tools */
+

@@ -1,16 +1,14 @@
-/*
- * $Log: backtrace.h,v $
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
-#ifndef BACKTRACE_H
-#define BACKTRACE_H
+#ifndef TOOLS_BACKTRACE_H
+#define TOOLS_BACKTRACE_H
 
 #include <list>
 #include <string>
+
 #include <ostream>
+
 #include "format.h"
+
+namespace Tools {
 
 class BackTrace
 {
@@ -21,7 +19,7 @@ private:
 	std::string message;
 	std::string info;
 
-	Ticket( int t, const std::string &m ) : ticket( t ), message( m ) {}
+	Ticket( int t, const std::string &m ) : ticket( t ), message( m ), info("") {}
     };
 
     std::list<Ticket> stack;
@@ -30,7 +28,7 @@ private:
     int count;
     
 public:
-    BackTrace() : count( 0 ) {}
+    BackTrace() : stack(std::list<Ticket>()), count(0) {}
 
 
     int push( const std::string & message )
@@ -74,13 +72,16 @@ public:
 	    }
 	}
 
-    std::string bt()
+    std::string bt( std::string prefix = " Backtrace: " )
 	{
 	    std::stringstream out;
 	    bt( out );
-	    return out.str();
-	}
 
+		if( !out.str().empty() )
+		  return prefix + out.str();	   
+		else
+		  return std::string();
+	}
 
     void add_info( int ticket, const std::string &info )
 	{
@@ -108,8 +109,9 @@ public:
 
 public:
     BackTraceHelper( const std::string &func_name )
+	  : ticket(bt.push( func_name ))
 	{
-	    ticket = bt.push( func_name );
+
 	}
 
     ~BackTraceHelper()
@@ -124,9 +126,14 @@ public:
 };
 
 #ifndef NDEBUG
+
 #define BT \
-  BackTraceHelper bt( format( "%s:%d:%s", __FILE__, __LINE__, __PRETTY_FUNCTION__ ) )
+  Tools::BackTraceHelper bt( Tools::format( "%s:%d:%s", __FILE__, __LINE__, __FUNCTION__ ) )
 #else
 #define BT
 #endif
+
+} // namespace
+
 #endif
+

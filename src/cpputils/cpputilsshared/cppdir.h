@@ -1,33 +1,16 @@
-/*
-  The CppDir classes are originally from the dirtree program
-  http://home.pages.at/kingleo/development/cpp-en.html#dirtree
+#ifndef TOOLS_cppdir_h
+#define TOOLS_cppdir_h
 
-  and adoped, as improved by the leohtml project
-  http://leohtml.sourceforge.net
-
-  extended for xstow 
-*/
-/*
- * $Log: cppdir.h,v $
- * Revision 1.3  2010/07/21 19:38:25  martin
- * gcc-4 Port
- *
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
-
-#ifndef cppdir_h
-#define cppdir_h
+#if (defined _WIN32 || defined WIN32)
+// Windows native  : Exclude file
+#else
 
 #include <string>
 #include <list>
 
 extern "C" {
-
 #include <dirent.h>
 #include <sys/types.h>
-
 }
 
 #include <iostream>
@@ -39,21 +22,25 @@ extern "C" {
     informations about files and directories.
 */
 
+namespace Tools {
+
 namespace CppDir 
 {
     struct EnumFile {
-	  enum ETYPE ///< possible file types
-		{
-		  FIRST__  = -1,
-		  UNKNOWN  =  0, ///< unknown file type
-		  FIFO     =  1, ///< fifo
-		  CHAR     =  2, ///< character device 
-		  DIR      =  4, ///< directory
-		  BLOCK    =  6, ///< blockdevice
-		  REGULAR  =  8, ///< regular file
-		  LINK     = 10, ///< link
-		  LAST__
-		};	
+	enum ETYPE ///< possible file types
+	{
+	    FIRST__  = -1,
+	    UNKNOWN  =  0, ///< unknown file type
+	    FIFO     =  1, ///< fifo
+	    CHAR     =  2, ///< character device 
+	    DIR      =  4, ///< directory
+	    BLOCK    =  6, ///< blockdevice
+	    REGULAR  =  8, ///< regular file
+	    LINK     = 10, ///< link
+	    LAST__
+	};	
+
+		virtual ~EnumFile() {}
     };
 
     typedef EnumRange<EnumFile> EFILE;
@@ -73,8 +60,8 @@ namespace CppDir
     bool link;
     std::string path;  
     size_type file_size;
-    size_type date;
-    size_type access_date;
+    time_t date;
+    time_t access_date;
     bool err;
     bool can_read;
     bool can_write;
@@ -83,9 +70,9 @@ namespace CppDir
 
   public:
     /** extract file informations from the dirent structure */
-    File( struct dirent d, std::string path ); 
+    File( struct dirent *d, std::string path ); 
     File( std::string path, std::string name );
-    File( std::string file );
+    File( const std::string & file );
 
     bool is_valid() const { return valid; }
     bool operator!() const { return !valid; }
@@ -120,8 +107,8 @@ namespace CppDir
     size_type   get_msize() const { return get_ksize() / 1024; }
     size_type   get_gsize() const { return get_msize() / 1024; }
 
-    size_type   get_date() const { return date; } /// last change date
-    size_type   get_access_date() const { return access_date; } /// last access date
+    time_t   get_date() const { return date; } /// last change date
+    time_t   get_access_date() const { return access_date; } /// last access date
 
     /** the function returns true if you have read access at the file */
     bool        read_access() const { return can_read; }
@@ -134,7 +121,9 @@ namespace CppDir
 
   private:
     EFILE get_type( const std::string& name );
+#if !defined WIN32 && !defined _WIN32
     inline bool in_groups( gid_t gid, const int size, gid_t list[] );
+#endif
     };
     
   //-------------------
@@ -154,6 +143,9 @@ namespace CppDir
       bool is_open;     /// true if the directory is open
       
       DIR* dir;  /// directory HANDLE
+
+	  Directory( const Directory & other );
+	  Directory & operator=( const Directory & other );
 
     public:
       Directory( std::string pname );
@@ -176,6 +168,11 @@ namespace CppDir
 
   /// concats 2 directory names, or dir and filename .....
   std::string concat_dir( std::string path, std::string name );
+
+  inline std::string concat_dir( std::string path, std::string path_part_2 , std::string name )
+  {
+    return concat_dir( concat_dir( path, path_part_2 ), name );
+  }
 
   /// gets the current directory
   std::string pwd();
@@ -202,5 +199,9 @@ namespace CppDir
   /// checks if dir is in path
   bool is_in_dir( const std::string &path, const std::string &dir );
 }
+
+} // namespace Tools
+
+#endif // WIN32 && _MSC_VER
 
 #endif

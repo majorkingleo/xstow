@@ -1,20 +1,48 @@
-/*
- * $Log: ref.h,v $
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
-#ifndef ref_h
-#define ref_h
+#ifndef TOOLS_ref_h
+#define TOOLS_ref_h
 
 #include <exception>
 
-class BaseException : std::exception
+#ifdef NOWAMAS
+#include "tools_config.h"
+#endif
+
+namespace Tools {
+
+#ifdef TOOLS_USE_GLOBAL_COUNT
+
+class GlobalCount
+{
+  int count;
+
+ public:
+ GlobalCount() : count(0) {}
+
+  void add() { count++; }
+  void del() { count--; }
+  int get() const { return count; }
+};
+
+extern GlobalCount GLOBALCOUNT;
+
+#define GLOBAL_COUNT_ADD GLOBALCOUNT.add()
+#define GLOBAL_COUNT_DEL GLOBALCOUNT.del()
+
+#else
+
+#define GLOBAL_COUNT_ADD
+#define GLOBAL_COUNT_DEL
+
+#endif
+
+class BaseException : public std::exception
 {
   const char *err;
 
  public:
-  BaseException( const char* err ) : err( err ) {}
+  BaseException(const BaseException& ex): std::exception() , err ( ex.err ) {}
+  BaseException( const char* e ) : std::exception(), err( e ) {}
+  BaseException & operator=(const Tools::BaseException& ex) { err = ex.err; return *this; }	
 
   virtual const char* what() const throw() { return err; }
 
@@ -51,13 +79,29 @@ template <class V> class Ref
     pointer obj;  ///< pointer to the object
     bool del;     ///< if this value is true, the object will be deleted, count <= 0
     
-    Rep( int c, pointer o, bool del = true ) : count(c), obj( o ), del( del ) {}
+    Rep( int c, pointer o, bool d = true ) : count(c), obj( o ), del( d ) {}
+    Rep( const Rep & other )
+    : count( other.count ),
+      obj( other.obj ),
+      del( other.del )
+    {
+
+    }
     
-    ~Rep() 
+    Rep & operator=( const Rep & other )
+    {
+    	count = other.count;
+    	obj = other.obj;
+    	del = other.del;
+    	return *this;
+    }
+
+    virtual ~Rep()
     { 
       if( del) 
 	{
 	  delete obj; 
+	  obj = 0;
 	}
     }
   };
@@ -73,19 +117,21 @@ template <class V> class Ref
      \param del  if the value is true (thats the default) the object will
      be deleted if the reference counter gets lower or equal zero
   */
-  explicit Ref( pointer v, bool del ) : rep( new Rep(1, v, del) ) {}
-  Ref( pointer v ) : rep( new Rep( 1, v, true ) ) {}
+  explicit Ref( pointer v, bool del ) : rep( new Rep(1, v, del) ) { GLOBAL_COUNT_ADD; }
+  Ref( pointer v ) : rep( new Rep( 1, v, true ) ) { GLOBAL_COUNT_ADD; }
   
-  explicit Ref( reference v, bool del ) : rep( new Rep( 1, &v, del ) ) {}
-  explicit Ref( reference v ) : rep( new Rep( 1, &v, false ) ) {}
+  explicit Ref( reference v, bool del ) : rep( new Rep( 1, &v, del ) ) { GLOBAL_COUNT_ADD; }
+  explicit Ref( reference v ) : rep( new Rep( 1, &v, false ) ) { GLOBAL_COUNT_ADD; }
   
-  explicit Ref( const_reference v, bool del ) : rep( new Rep( 1, &v, del ) ) {}
-  explicit Ref( const_reference v ) : rep( new Rep( 1, &v, false ) ) {}
+  explicit Ref( const_reference v, bool del ) : rep( new Rep( 1, &v, del ) ) { GLOBAL_COUNT_ADD; }
+  explicit Ref( const_reference v ) : rep( new Rep( 1, &v, false ) ) { GLOBAL_COUNT_ADD; }
   
-  Ref( const Ref &r ) : rep( r.rep )
+  Ref( const Ref<V> &r ) : rep( r.rep )
     {
-      if( rep )
-	rep->count++;
+      if( rep ) {
+		GLOBAL_COUNT_ADD;
+		rep->count++;
+	  }
     }    
   
   ~Ref() { unlink(); }
@@ -134,8 +180,10 @@ template <class V> class Ref
       unlink();
       rep = r.rep;
       
-      if( rep )
-	rep->count++;
+      if( rep ) {
+		GLOBAL_COUNT_ADD;
+		rep->count++;
+	  }
 
       return *this;
     }
@@ -205,10 +253,10 @@ template <class V> class Ref
       return true;
     }
 
-  operator V&() const { return *(address()); }
+  operator V() const { return *(address()); }
   operator V*() const { return address(); }
 
-  operator V&() { return *(address()); }
+  operator V() { return *(address()); }
   operator V*() { return address(); }
 
  private:
@@ -220,15 +268,20 @@ template <class V> class Ref
   void unlink()
     {
       if( rep )
-	{
-	  if( --rep->count <= 0 )
-	    {
-	      delete rep;
-	      rep = 0;
-	    }
-	}
+		{		  
+		  GLOBAL_COUNT_DEL;
+
+		  rep->count--;
+
+		  if( rep->count <= 0 )
+			{
+			  delete rep;
+			  rep = 0;
+			}
+		}
     }
 };
 
+} // namespace Tools
 
 #endif

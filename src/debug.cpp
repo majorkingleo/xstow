@@ -6,6 +6,7 @@
  */
 #include "debug.h"
 #include "string_utils.h"
+#include "config.h"
 
 Format::PrintF<std::ostream> out( std::cout );
 Format::PrintF<std::ostream> vout( std::cout );

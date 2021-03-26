@@ -1,31 +1,13 @@
-/** \class LeoIni
-    \brief Leo Ini file reader.
-    \author King Leo (Martin Oberzalek)
-    \version 2.0
-    \date    2002
-    \bug     there are no known bugs 
-    \warning This class reads an ini file into the memory. 
-             That can waste your memory.
- */
-/*
- * $Log: leoini.h,v $
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
-
-
-#ifndef Leo_Ini_h
-#define Leo_Ini_h
+#ifndef TOOLS_Leo_Ini_h
+#define TOOLS_Leo_Ini_h
 
 #include <string>
 #include <fstream>
 #include <list>
 
-#include "local_config.h"
 #include "range.h"
 
-#ifdef CAN_USE_INI
+namespace Tools {
 
 namespace Leo
 {
@@ -57,15 +39,24 @@ namespace Leo
 		UNDEF,        ///< not defined
 		LAST__
 	    };
+
+	    virtual ~EnumType() {}
 	};
       
-	typedef EnumRange<EnumType> TYPE;
+      typedef Tools::EnumRange<EnumType> TYPE;
 
       TYPE type; ///< the type of the element
       
-      Element( TYPE type = TYPE::UNDEF, std::string section = "", std::string key = "", std::string value = "" )
-	: section( section ), key( key ), value( value ), type( type ) {}
+      Element( TYPE type_ = TYPE::UNDEF, std::string section_ = "", std::string key_ = "", std::string value_ = "" )
+		  : section( section_ ),
+		    key( key_ ),
+		    value( value_ ),
+		    elements(),
+		    type( type_ )
+	  {}
       
+      virtual ~Element() {}
+
       /// adds a section to the section list, or adds a key to the section
       /** returns false on error */
       bool add( Element& element ); 
@@ -78,7 +69,7 @@ namespace Leo
       {
 	std::string::size_type pos;   ///< the cursor position
 	std::string str;              ///< the string
-	String() : pos(0) {}          
+	String() : pos(0), str() {}
 	void clear() { pos = 0; str =""; } ///< clear the String
       };
       
@@ -87,7 +78,7 @@ namespace Leo
       String tag;      ///< the stripped key, section,.. 
       std::string str; ///< the whole line
       
-      Line() : number( 0 ) {}
+      Line() : number( 0 ), comment(), tag(), str() {}
       void clear()  ///< clears the Line
       { number = 0; comment.clear(); tag.clear(); str = ""; }
       std::string get_line(); ///< returns regenerated Line
@@ -96,6 +87,7 @@ namespace Leo
     typedef std::list<Line> line_list;
     typedef line_list::iterator line_list_it;
     
+  public:
     struct MemElement : Element ///< class Representing an Element within the memory
     {
       Line line;   ///< the Line
@@ -105,17 +97,20 @@ namespace Leo
       
       mutable mem_element_list mem_elements; ///< list of subelements
       
-      MemElement() : Element(){}     
+      MemElement() : Element(), line(), mem_elements(){}
       
       MemElement( const Element& e )  ///< copy contructor for Elements
-	: Element() 
+	: Element() ,
+	  line(),
+	  mem_elements()
       { *this = e; }
       
-      void operator=( const Element& e ); ///< copy en Element
+      MemElement & operator=( const Element& e ); ///< copy en Element
       void clear(); ///< clear it
       
       Element get_element(); ///< returns en Element
     };
+  private:
     
     MemElement::mem_element_list elements; ///< list of MemElements
     line_list comments; ///< comment list
@@ -125,20 +120,47 @@ namespace Leo
     std::fstream file;          ///< fstream for accessing the file
     bool is_open;          ///< true if a file is opened
     bool valid;            ///< true if system is valid
-    bool file_readed;      ///< true if we already read the file
+	bool file_readed;      ///< true if we already read the file
     
     bool eof_reached;      ///< true if we reached eof
     int line_number;       ///< the current line number
     
     bool changed;          ///< true if something has changed and we have to write it to the file
+
+	std::string auto_global_section_name;
+
   public:
-    Ini() : is_open( false ), valid( false ), eof_reached( false ), changed( false ) {}
-    Ini( std::string filename, int mode = std::ios::in | std::ios::out);
-    
+    Ini()
+    : elements(),
+      comments(),
+      openmode(0),
+      file_name(),
+      file(),
+      is_open( false ),
+      valid( false ),
+      file_readed(false),
+      eof_reached( false ),
+      line_number(0),
+      changed( false ),
+	  auto_global_section_name()
+    {}
+
+    Ini( std::string filename, int mode = std::ios::in | std::ios::out);   
+
     /// destructor
     /** if a file is still open the buffer will be flushed and the file closed */
     ~Ini();
     
+	/// name of the autoglobal section
+	/*** automatically create a section for key value pairs that are 
+		 not assigned to a section and stores in a section named here
+		 call this function before reading any data from the ini file
+	*/
+	void setAutoGlobalSectionName( const std::string & name )
+	{
+	  auto_global_section_name = name;
+	}
+
     /// open a ini file
     /** returns false if we already opened a file or file opening failed */
     bool open( std::string filename, int mode = std::ios::in | std::ios::out );
@@ -195,9 +217,7 @@ namespace Leo
     bool is_valid() const { return valid; } ///< returns true if the system is valid
     bool operator!() const { return !valid; } 
     
-#ifdef DEBUG
     void print_mem();
-#endif
 
     friend bool operator == ( const Ini::MemElement& a, const Ini::MemElement& b );
   
@@ -222,10 +242,6 @@ namespace Leo
     void clear(); //clears the memory
     bool write_line( const Line& line, int last_line ); ///< write a line to file
     
-#ifndef DEBUG
-    void print_mem();
-#endif
-    
     bool is_section_empty( MemElement& element );
   }; // class Ini
   
@@ -237,10 +253,13 @@ namespace Leo
 /// print an element
 std::ostream& operator<<( std::ostream& out, const Leo::Ini::Element& e );
 
+} // namespace Tools
 
 #ifndef NO_STRSTREAM
 
 #include "string_utils.h"
+
+namespace Tools {
 
 namespace Leo
 {
@@ -270,6 +289,8 @@ namespace Leo
 
 #endif // NO_STRSTREAM
 
-#endif
+} // namespace Tools
 
 #endif
+
+

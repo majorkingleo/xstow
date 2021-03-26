@@ -10,9 +10,11 @@
 #ifndef debug_h
 #define debug_h
 
-#include "format.h"
+#include "printf_format.h"
 #include "range.h"
 #include "backtrace.h"
+
+using namespace Tools;
 
 struct EnumModule {
   enum ETYPE {

@@ -15,6 +15,8 @@
 #include "debug.h"
 #include "nignore.h"
 
+using namespace Tools;
+
 #undef OUT
 
 #define OUT( level ) DEBUG_OUT( level, MODULE::SETUP )
@@ -199,7 +201,7 @@ void Setup::read_ini()
 #ifdef CAN_USE_INI
   for( unsigned int i = 0; i < config_files.files.size(); ++i )
     {
-      Leo::Ini ini( config_files.files[i], std::ios_base::in );
+      Tools::Leo::Ini ini( config_files.files[i], std::ios_base::in );
 
       if( !ini )
 	continue;
@@ -296,6 +298,13 @@ void Setup::handle_config_files()
 	}
     }
 #endif  
+}
+
+namespace std {
+	inline std::ostream& operator<<( std::ostream& out, const vec_string &v )
+	{
+		return ::operator<<( out, v );
+	}
 }
 
 std::ostream& operator<<( std::ostream& out, const Setup &s )
@@ -397,7 +406,7 @@ std::ostream& operator<<( std::ostream& out, const Setup &s )
 
 #ifdef CAN_USE_NIGNORE
 
-void Setup::read_nignore( Leo::Ini &ini )
+void Setup::read_nignore( Tools::Leo::Ini &ini )
 {
     vec_string nrules;
 
@@ -439,25 +448,25 @@ void Setup::read_nignore( Leo::Ini &ini )
 
 
 #ifdef CAN_USE_INI
-void Setup::read_exec( Leo::Ini &ini )
+void Setup::read_exec( Tools::Leo::Ini &ini )
 {
     if( !ini )
 	return;
 
-    Leo::Ini::Element isections( Leo::Ini::Element::TYPE::SECTION_LIST );
+    Tools::Leo::Ini::Element isections( Tools::Leo::Ini::Element::TYPE::SECTION_LIST );
 
     if( !ini.read( isections ) )
 	return;
 
-    for( Leo::Ini::Element::element_list_it it = isections.elements.begin();
+    for( Tools::Leo::Ini::Element::element_list_it it = isections.elements.begin();
 	it != isections.elements.end(); ++it )
     {
-	if( it->type == Leo::Ini::Element::TYPE::SECTION &&
+	if( it->type == Tools::Leo::Ini::Element::TYPE::SECTION &&
 	    strip( it->section ) == "exec" )	    
 	{
 	    Exec e;
 
-	    for( Leo::Ini::Element::element_list_it sit = it->elements.begin();
+	    for( Tools::Leo::Ini::Element::element_list_it sit = it->elements.begin();
 		 sit != it->elements.end(); ++sit )
 	    {
 		if( sit->key == "match" )
@@ -480,7 +489,7 @@ void Setup::read_exec( Leo::Ini &ini )
 
 
 #ifdef CAN_USE_INI
-void Setup::check_ini( Leo::Ini &ini )
+void Setup::check_ini( Tools::Leo::Ini &ini )
 {
     if( !ini )
     {
@@ -520,15 +529,15 @@ void Setup::check_ini( Leo::Ini &ini )
     bool reported = false;
     bool value_error = false;
 
-    Leo::Ini::Element isections( Leo::Ini::Element::TYPE::SECTION_LIST );
+    Tools::Leo::Ini::Element isections( Tools::Leo::Ini::Element::TYPE::SECTION_LIST );
 
     if( !ini.read( isections ) )
 	return;
 
-    for( Leo::Ini::Element::element_list_it it = isections.elements.begin();
+    for( Tools::Leo::Ini::Element::element_list_it it = isections.elements.begin();
 	 it != isections.elements.end(); ++it )
     {
-	if( it->type == Leo::Ini::Element::TYPE::SECTION )
+	if( it->type == Tools::Leo::Ini::Element::TYPE::SECTION )
 	{
 	    std::string s = strip( it->section );
 	    bool found = false;	    
@@ -539,7 +548,7 @@ void Setup::check_ini( Leo::Ini &ini )
 		{
 		    found = true;
 		    
-		    for( Leo::Ini::Element::element_list_it sit = it->elements.begin();
+		    for( Tools::Leo::Ini::Element::element_list_it sit = it->elements.begin();
 			 sit != it->elements.end(); ++sit )
 		    {
 

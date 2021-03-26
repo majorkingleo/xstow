@@ -70,16 +70,16 @@ bool file_copy( std::string origin, std::string target )
 
 bool dir_copy( std::string origin, std::string target )
 {
-    CppDir::Directory dir( target );
-    
-    if( !dir )
-    {
-	// directory does not exist, create it
-	if( mkdir( target.c_str(), 0777 ) != 0 )
-	    return false;
+	{
+		CppDir::Directory dir( target );
 
-	dir = CppDir::Directory( target );
-    }
+		if( !dir )
+		{
+			// directory does not exist, create it
+			if( mkdir( target.c_str(), 0777 ) != 0 )
+				return false;
+		}
+	}
 
     CppDir::Directory odir( origin );    
 

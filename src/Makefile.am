@@ -1,3 +1,36 @@
+
+noinst_LIBRARIES=tools/libtools.a \
+	cpputils/cpputilsshared/libcpputilsshared.a \
+	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a
+
+
+tools_libtools_a_SOURCES= \
+	tools/arg.cpp \
+	tools/database.cpp \
+	tools/db.cpp \
+	tools/dbi.cpp \
+	tools/mysql_db.cpp \
+	tools/odbc_db.cpp \
+	tools/oracle_db.cpp \
+	tools/pairs.cpp \
+	tools/theme.cpp \
+	tools/thread.cpp
+
+cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
+	cpputils/cpputilsshared/backtrace.cc \
+	cpputils/cpputilsshared/cppdir.cc \
+	cpputils/cpputilsshared/leoini.cc \
+	cpputils/cpputilsshared/logtool2.cc \
+	cpputils/cpputilsshared/string_utils.cc \
+	cpputils/cpputilsshared/vec_utils.cc \
+	cpputils/cpputilsshared/xml.cc
+
+
+cpputils_cpputilsshared_cpputilsformat_libcpputilsformat_a_SOURCES= \
+	cpputils/cpputilsshared/cpputilsformat/format1.cc \
+	cpputils/cpputilsshared/cpputilsformat/format2.cc
+
+
 if ENABLE_MERGE
 
 MERGE_INFO=merge-info
@@ -15,55 +48,42 @@ bin_PROGRAMS=xstow $(MERGE_INFO)
 endif
 
 xstow_SOURCES=\
-	arg.cpp \
-	arg.h \
-	cppdir.cpp \
-	cppdir.h \
-	debug.h \
-	debug.cpp \
 	file_option.cpp \
 	file_option.h \
-	format.cpp \
-	format.h \
-	iterator.h \
 	main.cpp \
-	ref.h \
 	setup.h \
 	setup.cpp \
-	string_utils.cpp \
-	string_utils.h \
 	tree.cpp \
 	tree.h \
-	leoini.h \
-	leoini.cpp \
 	local_config.h \
 	setup_config.h \
 	setup_config.cpp \
 	nignore.cpp \
 	nignore.h \
 	copy.cpp \
-	range.h \
-	backtrace.h \
-	backtrace.cpp
+	debug.h \
+	debug.cpp \
+	printf_format.h
 
-xstow_LDADD= $(LDFLAGS_DYNAMIC)
+xstow_LDADD= tools/libtools.a \
+	cpputils/cpputilsshared/libcpputilsshared.a \
+	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a \
+	$(LDFLAGS_DYNAMIC)
 
 if ENABLE_MERGE
 
-merge_info_SOURCES= merge_info.cpp \
-			arg.cpp arg.h \
-			file_option.cpp file_option.h \
-			cppdir.cpp cppdir.h \
-			string_utils.cpp string_utils.h \
-			debug.cpp debug.h  \
-			local_config.h \
-			format.cpp format.h \
-			ref.h \
-			range.h \
-			backtrace.h \
-			backtrace.cpp
+merge_info_SOURCES= \
+	merge_info.cpp \
+	file_option.cpp \
+	file_option.h \
+	printf_format.h \
+	debug.cpp \
+	debug.h
 
-merge_info_LDADD= $(LDFLAGS_DYNAMIC)
+merge_info_LDADD= tools/libtools.a \
+	cpputils/cpputilsshared/libcpputilsshared.a \
+	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a \
+	$(LDFLAGS_DYNAMIC)
 
 endif
 
@@ -79,20 +99,11 @@ xstow_stow_CXXFLAGS= $(CXXFLAGS) -DSTATIC_COMPILE -DGNU_STOW
 
 endif
 
-DEFAULT_INCLUDES= -I$(top_builddir)
+AM_CPPFLAGS = \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src/tools \
+	-I$(top_srcdir)/src/cpputils/cpputilsshared  \
+	-I$(top_srcdir)/src/cpputils/cpputilsshared/cpputilsformat \
+	-std=c++11 \
+	-DNOWAMAS 
 
-xstow-mini.o: $(xstow_SOURCES)
-	cat $(xstow_SOURCES) > all.cc ; \
-	$(CXX) -c -o xstow-mini.o \
-	-DSTATIC_COMPILE -DGNU_STOW -DHAVE_CONFIG_H -DNDEBUG \
-	$(DEFAULT_INCLUDES) -fno-default-inline -O2 \
-	all.cc 
-
-
-xstow-mini: xstow-mini.o
-	$(CXX) -o xstow-mini xstow-mini.o ; \
-	strip xstow-mini
-
-xstow-mini-static: xstow-mini.o
-	$(CXX) -o xstow-mini-static xstow-mini.o -static ; \
-	strip xstow-mini-static

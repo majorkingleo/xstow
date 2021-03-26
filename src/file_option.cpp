@@ -1,17 +1,12 @@
-/*
- * $Log: file_option.cpp,v $
- * Revision 1.3  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
 #include "file_option.h"
 #include "cppdir.h"
 
-using namespace CppDir;
+using namespace Tools::CppDir;
 
-Arg::FileOptionRule::FileOptionRule( FILE type )
+namespace Tools {
+Arg::FileOptionRule::FileOptionRule( FILE type_ )
   : AnyStringRule(),
-    type( type )
+    type( type_ )
 {
   continue_on_fail = false;
 
@@ -25,9 +20,11 @@ Arg::FileOptionRule::FileOptionRule( FILE type )
     case FILE::ANY:     description = "FILE"; error += " file or directory"; break;
     case FILE::LINK_TO_DIR: description = "LINK"; error += " link to directory"; break;
     case FILE::LINK_TO_REGULAR: description = "LINK"; error += " link to a regular file"; break;
-	case FILE::FIRST__:
-	case FILE::LAST__:
-		break;
+
+    case FILE::FIRST__:
+    case FILE::LAST__:
+    	break;
+
     }
 }
 
@@ -46,9 +43,10 @@ bool Arg::FileOptionRule::match( const std::string &name ) const
     case FILE::LINK:    if( file.is_link() ) return true; break;
     case FILE::REGULAR: if( file.get_type() == EFILE::REGULAR ) return true; break;
     case FILE::ANY:     return true;
-	case FILE::FIRST__:
-	case FILE::LAST__:
-		break;
+
+    case FILE::FIRST__:
+    case FILE::LAST__:
+    	break;
     }
 
   return false;
@@ -80,4 +78,5 @@ Arg::EmptyFileOption::EmptyFileOption( FILE type )
 
   setMaxValues( 1 );
   setMinValues( 1 );
+}
 }

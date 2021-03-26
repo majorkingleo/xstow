@@ -1,14 +1,5 @@
-/*
- * $Log: arg.h,v $
- * Revision 1.3  2010/07/21 19:38:25  martin
- * gcc-4 Port
- *
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
-#ifndef arg_h
-#define arg_h
+#ifndef TOOLS_arg_h
+#define TOOLS_arg_h
 
 /*
   Experimental Version of LeoArg 2
@@ -20,6 +11,8 @@
 
 #include "ref.h"
 #include "range.h"
+
+namespace Tools {
 
 namespace Arg {
   
@@ -37,7 +30,7 @@ namespace Arg {
       Rule( bool com = true, bool cof = true );
       virtual ~Rule();
 
-      virtual bool match( const std::string &value ) const = 0;
+      virtual bool match( const std::string &value ) const { return false; }
       virtual bool continueOnMatch() const;
       virtual bool continueOnFail() const;
       virtual bool matchEmpty() const;
@@ -69,7 +62,7 @@ namespace Arg {
 
       bool match( const std::string &option ) const;
 
-      std::string getDescription( unsigned int s1 = 5, unsigned int s2 = 40) const;
+      std::string getFormattedDescription( unsigned int s1 = 5, unsigned int s2 = 40) const;
       bool hasDescription() const { return !names->empty(); }
     };
 
@@ -297,12 +290,12 @@ namespace Arg {
 
   struct EnumLink
   {
-	enum ETYPE {
+      enum ETYPE {
 	  FIRST__,
 	  AND,
 	  OR,
 	  LAST__
-	};
+      };
   };
   
   typedef EnumRange<EnumLink> LINK;
@@ -329,8 +322,8 @@ namespace Arg {
 	std::string value;
 	Ref<Option> option;	
 
-	Error( Ref<Option> option, const std::string err, const std::string value )
-	  : err( err ), value( value ), option( option )
+	Error( Ref<Option> option_, const std::string err_, const std::string value_ )
+	  : err( err_ ), value( value_ ), option( option_ )
 	{}
       };
 
@@ -463,5 +456,6 @@ namespace Arg {
 
 std::ostream& operator<<( std::ostream& out, Ref<Arg::vec_string> values );
 
+}
 
 #endif

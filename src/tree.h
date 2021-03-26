@@ -13,6 +13,8 @@
 #include <vector>
 #include <iostream>
 
+using namespace Tools;
+
 class Node
 {
  public:

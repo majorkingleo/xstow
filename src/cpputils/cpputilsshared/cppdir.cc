@@ -1,16 +1,13 @@
-/*
- * $Log: cppdir.cpp,v $
- * Revision 1.4  2010/07/21 19:38:25  martin
- * gcc-4 Port
- *
- * Revision 1.3  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
-#include "cppdir.h"
-#include "debug.h"
 
+#if (defined _WIN32 || defined WIN32)
+// Windows native  : Exclude file
+#else
+
+#include "cppdir.h"
+
+#undef OUT
 #define OUT(level) DEBUG_OUT( level, MODULE::CPPDIR)
+#define DEBUG( x )
 
 extern "C" {
 
@@ -21,22 +18,40 @@ extern "C" {
 }
 
 #include <vector>
-#include <stdlib.h>
+#include <cstdlib>
+
+#ifdef _WIN32
+#define WIN32
+#endif //_WIN32
+
+#ifdef WIN32
+#define PATH_SEP '\\'
+#define PATH_SEP_STR "\\"
+#else
+#define PATH_SEP '/'
+#define PATH_SEP_STR "/"
+#endif
+
+using namespace Tools;
 
 extern "C" { int lstat(const char *file_name, struct stat *buf); }
 
 std::string CppDir::concat_dir( std::string path, std::string name )
 {
   if( name.size() > 0 )
-    if( name[0] == '/' && !path.empty() )
+    if( name[0] == PATH_SEP && !path.empty() )
       name = name.substr( 1 );
 
   if( path.size() > 0 )
     {
-      if( path[path.size()-1] == '/' )
-	path = path.substr( 0, path.size() - 1 );
+      if( path[path.size()-1] == PATH_SEP )
+		path = path.substr( 0, path.size() - 1 );
 
-      path += "/" + name;
+	  if( path == "." ) {
+	    path = name;
+      } else {
+	    path += PATH_SEP + name;
+	  }	
     }
   else
     path = name;
@@ -45,7 +60,11 @@ std::string CppDir::concat_dir( std::string path, std::string name )
 
   while( true )
     {
+#ifdef WIN32	
+      pos = path.find( "\\.\\" );
+#else	  
       pos = path.find( "/./" );
+#endif	  
       if( pos == std::string::npos )
 	break;
 
@@ -67,10 +86,24 @@ std::string CppDir::concat_dir( std::string path, std::string name )
   return path;
 }
 
-CppDir::File::File( struct dirent d, std::string p)
+CppDir::File::File( struct dirent *d, std::string p)
+: name(),
+  type( EFILE::UNKNOWN ),
+  inode_number(0),
+  valid(false),
+  link(false),
+  path(),
+  file_size(0),
+  date(0),
+  access_date(0),
+  err(false),
+  can_read(false),
+  can_write(false),
+  can_exec(false),
+  fullpath()
 {
-  inode_number = d.d_ino;
-  name = d.d_name;
+  inode_number = d->d_ino;
+  name = d->d_name;
   path = p;
   link = false;
   
@@ -82,8 +115,21 @@ CppDir::File::File( struct dirent d, std::string p)
   valid = !err;
 }
 
-CppDir::File::File( std::string path, std::string name )
-  : name( name ), path( path )
+CppDir::File::File( std::string path_, std::string name_ )
+: name(name_),
+  type( EFILE::UNKNOWN ),
+  inode_number(0),
+  valid(false),
+  link(false),
+  path(path_),
+  file_size(0),
+  date(0),
+  access_date(0),
+  err(false),
+  can_read(false),
+  can_write(false),
+  can_exec(false),
+  fullpath()
 {
   inode_number = 0;
   link = false;
@@ -96,8 +142,21 @@ CppDir::File::File( std::string path, std::string name )
 }
 
 
-CppDir::File::File( std::string f )
-  : fullpath( f )
+CppDir::File::File( const std::string & f )
+: name(),
+  type( EFILE::UNKNOWN ),
+  inode_number(0),
+  valid(false),
+  link(false),
+  path(),
+  file_size(0),
+  date(0),
+  access_date(0),
+  err(false),
+  can_read(false),
+  can_write(false),
+  can_exec(false),
+  fullpath(f)
 {
   inode_number = 0;
   link = false;
@@ -109,37 +168,50 @@ CppDir::File::File( std::string f )
   split_name( f, path, name );
 }
 
-
-CppDir::EFILE CppDir::File::get_type( const std::string& name )
+CppDir::EFILE CppDir::File::get_type( const std::string& cname )
 {
+//#if defined WIN32 || defined _WIN32
+//    return EFILE::REGULAR;
+//#else
   struct stat stat_buf;
 
   err = false;
 
-  if( lstat( name.c_str(), &stat_buf ) == -1 )
+#ifdef WIN32
+  int rv =  stat( cname.c_str(), &stat_buf );
+#else
+  int rv =  lstat( cname.c_str(), &stat_buf );
+#endif
+
+//	std::cout << "DIR: " << cname << ' ' <<  S_ISDIR( stat_buf.st_mode ) << std::endl;
+
+  if( rv == -1 )
     {
       err = true;
       return EFILE::UNKNOWN;
     }
 
+#if !defined WIN32 || !defined _WIN32
   if( S_ISLNK( stat_buf.st_mode ) )
     {
       link = true;
 
-      if( stat( name.c_str(), &stat_buf ) == -1 )
+      if( stat( cname.c_str(), &stat_buf ) == -1 )
 	{
 	  err = true;
 	  return EFILE::UNKNOWN;
 	}
     }
+#endif	
 
 
   // extract some other informations
   file_size = stat_buf.st_size;
   date  = stat_buf.st_mtime;
   access_date = stat_buf.st_atime;
-  inode_number = stat_buf.st_ino;
 
+#ifndef USE_THREADS /* fixme, oda is des wurscht? */
+#ifndef WIN32
   /* getting ids */
   const uid_t fuid = stat_buf.st_uid;
   const gid_t fgid = stat_buf.st_gid;
@@ -199,38 +271,49 @@ CppDir::EFILE CppDir::File::get_type( const std::string& name )
       can_write = IS( S_IWOTH );
       can_exec = IS( S_IXOTH );
     }
+#endif	
+#else
+# ifndef _MSC_VER
+# warning TODO Thread safe implementation of cppdir, can_read, can_write,... disabled
+# endif
+#endif
 
 #undef IS
 
  if( S_ISREG( stat_buf.st_mode ) )
     return EFILE::REGULAR;
 
+
   if( S_ISDIR( stat_buf.st_mode ) )
     return EFILE::DIR;
     
   if( S_ISCHR( stat_buf.st_mode ) )
     return EFILE::CHAR;
-
+#ifndef WIN32
   if( S_ISBLK( stat_buf.st_mode ) )
     return EFILE::BLOCK;
 
   if( S_ISFIFO( stat_buf.st_mode ) )
     return EFILE::FIFO;
+#endif	
 
   if( link )
     return EFILE::LINK;
 
   return EFILE::UNKNOWN;
+//#endif
 }
 
+#if !defined WIN32 && !defined _WIN32
 inline bool CppDir::File::in_groups( gid_t gid, const int size, gid_t list[] )
 {
   for( int i = 0; i < size; ++i )
     if( gid == list[i] )
       return true;
-  
+
   return false;
 }
+#endif
 
 std::string CppDir::File::get_link_buf() const 
 {
@@ -240,18 +323,45 @@ std::string CppDir::File::get_link_buf() const
   return std::string();
 }
 
-CppDir::Directory::Directory( std::string pname )
-{
-  is_open = false;
 
+// private
+CppDir::Directory::Directory( const Directory & other )
+: error( other.error ),
+  name( other.name ),
+  valid(other.valid),
+  files( other.files),
+  is_open( false ),
+  dir( 0 )
+{
+
+}
+
+// private
+CppDir::Directory & CppDir::Directory::operator=( const Directory & other )
+{
+	return *this;
+}
+
+CppDir::Directory::Directory( std::string pname )
+: error(),
+  name(),
+  valid(false),
+  files(),
+  is_open( false ),
+  dir( 0 )
+{
   valid = open( pname );
 }
 
 
 CppDir::Directory::Directory( File file )
+: error(),
+  name(),
+  valid(false),
+  files(),
+  is_open( false ),
+  dir( 0 )
 {
-  is_open = false;
-
   valid = open( file );
 }
 
@@ -324,7 +434,7 @@ bool CppDir::Directory::open( std::string fname )
       if( d == 0 )
 	break;
 
-      files.push_back( File( *d , fname ) );
+      files.push_back( File( d , fname ) );
     }
 
   close();
@@ -352,9 +462,9 @@ std::ostream& CppDir::operator << ( std::ostream& out , EFILE type )
     case EFILE::BLOCK  : out << "BLOCK"  ; break;
     case EFILE::REGULAR: out << "REGULAR"; break;
     case EFILE::LINK   : out << "LINK"   ; break;
-	case EFILE::FIRST__:
-	case EFILE::LAST__:
-		break;
+    case EFILE::FIRST__:
+    case EFILE::LAST__:
+	break;
     }
   return out;
 }
@@ -405,7 +515,7 @@ std::string CppDir::get_full_path( std::string file, std::string current_dir )
   else
     if( !current_dir.empty() )
       {
-	if( current_dir[0] == '/' )
+	if( current_dir[0] == PATH_SEP )
 	  {
 	    DEBUG( OUT(4) << "current_dir: " << current_dir << std::endl );
 	    DEBUG( OUT(4) << "file: " << file << std::endl );
@@ -421,28 +531,28 @@ std::string CppDir::get_full_path( std::string file, std::string current_dir )
 
   // simplify path
 
-  DEBUG( OUT(5) << "current_dir1: " << current_dir << std::endl );
+  DEBUG( OUT(4) << "current_dir1: " << current_dir << std::endl );
 
   current_dir = beautify_path( current_dir );
 
-  DEBUG( OUT(5) << "current_dir2: " << current_dir << std::endl );
+  DEBUG( OUT(4) << "current_dir2: " << current_dir << std::endl );
 
   return current_dir;
 }
 
 void CppDir::split_name(std::string file_name, std::string & path, std::string & name )
 {
-  if( file_name == "/" )
+  if( file_name == PATH_SEP_STR )
     {
       name = file_name;
       path = file_name;
       return;
     }
 
-  if( file_name.rfind( '/' ) == file_name.size() - 1 )
+  if( file_name.rfind( PATH_SEP ) == file_name.size() - 1 )
     file_name = file_name.substr( 0, file_name.size() - 1 );
     
-  std::string::size_type p = file_name.rfind( '/' );
+  std::string::size_type p = file_name.rfind( PATH_SEP );
   if( p == std::string::npos )
     name = file_name;
   else
@@ -492,6 +602,9 @@ std::string CppDir::simplify_path( std::string path )
 
 std::string CppDir::readlink( const std::string &path )
 {
+#if defined WIN32 || defined _WIN32
+	return path;
+#else
 #ifndef PATH_MAX
   const unsigned int PATH_MAX = 100;
 #endif
@@ -520,6 +633,7 @@ std::string CppDir::readlink( const std::string &path )
   free( buffer );
 
   return s;
+#endif
 }
 
 std::string CppDir::beautify_path( std::string path )
@@ -528,10 +642,10 @@ std::string CppDir::beautify_path( std::string path )
     {
       std::string::size_type first, second;
       
-      if( (first = path.find( "/../" ) ) == std::string::npos )
+      if( (first = path.find( PATH_SEP_STR ".." PATH_SEP_STR ) ) == std::string::npos )
 	break;
 
-      if( (second = path.rfind( '/', first - 1 ) ) != std::string::npos )
+      if( (second = path.rfind( PATH_SEP, first - 1 ) ) != std::string::npos )
 	{
 	  std::string left = path.substr( 0, second );
 	  std::string right = path.substr( first + 4 );
@@ -547,19 +661,19 @@ std::string CppDir::beautify_path( std::string path )
 
   while( true )
     {
-      pos = path.find( "/./" );
+      pos = path.find( PATH_SEP_STR  "." PATH_SEP_STR );
       if( pos == std::string::npos )
 	break;
 
       path = path.substr( 0, pos ) + path.substr( pos + 2 );
     } 
 
-  if( path.rfind( "/." ) == path.size() - 2 )
+  if( path.rfind( PATH_SEP_STR "." ) == path.size() - 2 )
     path = path.substr( 0, path.size() - 2 );
   else
     {
 
-      if( path.rfind( '/' ) == path.size() - 1 )
+      if( path.rfind( PATH_SEP ) == path.size() - 1 )
 	path = path.substr( 0, path.size() - 1 );
 
     }
@@ -573,8 +687,8 @@ std::string CppDir::make_relative( std::string path, std::string dir )
 
   // split path into it's components
 
-  DEBUG( OUT(4) << "path: " << path << std::endl );
-  DEBUG( OUT(4) << "dir: " << dir << std::endl );
+  DEBUG( OUT(3) << "path: " << path << std::endl );
+  DEBUG( OUT(3) << "dir: " << dir << std::endl );
 
   vec_string lpath;
 
@@ -582,12 +696,12 @@ std::string CppDir::make_relative( std::string path, std::string dir )
     {
       std::string::size_type first;
 
-      if( (first = path.find( '/' ) ) == std::string::npos )
+      if( (first = path.find( PATH_SEP ) ) == std::string::npos )
 	{
 	  if( !path.empty()  )
 	    {
-	      DEBUG( OUT(3) << "push from path: " << path + '/'  << std::endl );
-	      lpath.push_back( path + '/' );
+	      DEBUG( OUT(3) << "push from path: " << path + PATH_SEP  << std::endl );
+	      lpath.push_back( path + PATH_SEP );
 	    }
 
 	  break;
@@ -595,7 +709,7 @@ std::string CppDir::make_relative( std::string path, std::string dir )
 
       std::string left = path.substr( 0, first + 1 );
 
-      DEBUG( OUT(4) << "push from path: " << left << std::endl );
+      DEBUG( OUT(3) << "push from path: " << left << std::endl );
 
       lpath.push_back( left );
 
@@ -608,12 +722,12 @@ std::string CppDir::make_relative( std::string path, std::string dir )
     {
       std::string::size_type first;
 
-      if( (first = dir.find( '/' ) ) == std::string::npos )
+      if( (first = dir.find( PATH_SEP ) ) == std::string::npos )
 	{
 	  if( !dir.empty()  )
 	    {
-	      DEBUG( OUT(3) << "push from dir: " << dir + '/' << std::endl );
-	      ldir.push_back( dir + '/' );
+	      DEBUG( OUT(3) << "push from dir: " << dir + PATH_SEP << std::endl );
+	      ldir.push_back( dir + PATH_SEP );
 	    }
 
 	  break;
@@ -621,7 +735,7 @@ std::string CppDir::make_relative( std::string path, std::string dir )
 
       std::string left = dir.substr( 0, first + 1 );
 
-      DEBUG( OUT(4) << "push from dir: " << left << std::endl );
+      DEBUG( OUT(3) << "push from dir: " << left << std::endl );
 
       ldir.push_back( left );
 
@@ -643,15 +757,15 @@ std::string CppDir::make_relative( std::string path, std::string dir )
   for( k = i; k < ldir.size(); ++k )
     {
       res += ldir[k];
-      DEBUG( OUT(4) << "res: " << res << std::endl );
+      DEBUG( OUT(3) << "res: " << res << std::endl );
     }
 
   // remove '/' 
   
-  if( res.rfind( '/' ) == res.size() - 1 )
+  if( res.rfind( PATH_SEP ) == res.size() - 1 )
     res = res.substr( 0, res.size() - 1 );
   
-  DEBUG( OUT(4) << "res: " << res << std::endl );
+  DEBUG( OUT(3) << "res: " << res << std::endl );
 
   return res;
 }
@@ -672,19 +786,21 @@ bool CppDir::is_in_dir( const std::string &path, const std::string &dir )
   if( path.find( dir ) != 0 )
     return false;
 
-  if( dir[ dir.size() -1 ] != '/' )
+  if( dir[ dir.size() -1 ] != PATH_SEP )
     {
       if( path.size() <= dir.size() )
 	return true;
 
-      if( path[dir.size()] == '/' )
+      if( path[dir.size()] == PATH_SEP )
 	return true;      
     }  
 
-  if( dir == "/" )
+  if( dir == PATH_SEP_STR )
       return true;
 
   DEBUG( OUT(4)( "failed is_in_dir: path: %s, dir %s\n", path, dir ) );
 
   return false;
 }
+
+#endif // WIN32 && _MSC_VER_

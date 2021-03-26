@@ -17,10 +17,17 @@ extern "C" {
 #  include <fnmatch.h>
 }
 
+namespace std {
+	inline std::ostream& operator<<( std::ostream& out, const vec_string &v )
+	{
+		return ::operator<<( out, v );
+	}
+}
+
 
 #define OUT(level) DEBUG_OUT(level, MODULE::NIGNORE)
 
-NIgnore::NIgnore( const std::string &name, Leo::Ini &ini  )
+NIgnore::NIgnore( const std::string &name, Tools::Leo::Ini &ini  )
     : name( name ),
       is_valid( true )
 {

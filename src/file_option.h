@@ -1,12 +1,3 @@
-/*
- * $Log: file_option.h,v $
- * Revision 1.3  2010/07/21 19:38:25  martin
- * gcc-4 Port
- *
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
 #ifndef file_option_h
 #define file_option_h
 
@@ -17,11 +8,12 @@
    cause they are depending on some CppDir functions.
 */
 
+namespace Tools {
 namespace Arg {
 
     struct EnumFile
     {
-	  enum ETYPE {
+	 enum ETYPE {
 	    FIRST__,
 	    ANY,
 	    DIR,
@@ -30,7 +22,7 @@ namespace Arg {
 	    LINK_TO_DIR,
 	    LINK_TO_REGULAR,
 	    LAST__
-	  };
+	};
     }; 
 
     typedef EnumRange<EnumFile> FILE;
@@ -60,6 +52,7 @@ namespace Arg {
       EmptyFileOption( FILE type = FILE::ANY );
 
     };
+}
 }
 
 #endif

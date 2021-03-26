@@ -1,14 +1,10 @@
-/*
- * $Log: setup_config.cpp,v $
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
 #include "setup_config.h"
 #include "string_utils.h"
 #include "leoini.h"
 #include "cppdir.h"
 #include "debug.h"
+
+using namespace std;
 
 #undef OUT
 
@@ -16,12 +12,12 @@
 
 #ifdef CAN_USE_INI
 
-bool read_ini_value( Leo::Ini &ini, const std::string &section, const std::string &key, std::string &value )
+bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std::string &key, std::string &value )
 {
   if( !ini )
     return false;
 
-  Leo::Ini::Element el( Leo::Ini::Element::TYPE::KEY, section, key );
+  Tools::Leo::Ini::Element el( Tools::Leo::Ini::Element::TYPE::KEY, section, key );
 
   if( ini.read( el ) )
     {
@@ -32,13 +28,13 @@ bool read_ini_value( Leo::Ini &ini, const std::string &section, const std::strin
   return false;
 }
 
-bool read_ini_value( Leo::Ini &ini, const std::string &section, const std::string &key, vec_string &values )
+bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std::string &key, vec_string &values )
 {
 
   if( !ini )
     return false;
 
-  Leo::Ini::Element el( Leo::Ini::Element::TYPE::SECTION, section );
+  Tools::Leo::Ini::Element el( Tools::Leo::Ini::Element::TYPE::SECTION, section );
 
   std::string k = toupper( key );
 
@@ -46,7 +42,7 @@ bool read_ini_value( Leo::Ini &ini, const std::string &section, const std::strin
     {
       bool found = false;
 
-      for( Leo::Ini::Element::element_list_it it = el.elements.begin();
+      for( Tools::Leo::Ini::Element::element_list_it it = el.elements.begin();
 	   it != el.elements.end(); ++it )
 	if( toupper( it->key ) == k )
 	  {
@@ -153,7 +149,7 @@ vec_string VecStringValue::string2data( const std::string &s )
 
 #ifdef CAN_USE_INI
 
-void VecStringValue::read_ini( Leo::Ini &ini )
+void VecStringValue::read_ini( Tools::Leo::Ini &ini )
 {
   if( !ini_section.empty() && !ini_key.empty() )
     {
@@ -204,7 +200,7 @@ void RegExVecStringValue::operator+=( const std::string &s )
 
 #ifdef CAN_USE_INI
 
-void Value<std::string>::read_ini( Leo::Ini &ini )
+void Value<std::string>::read_ini( Tools::Leo::Ini &ini )
 {
   if( !ini_section.empty() && !ini_key.empty() )
     {
@@ -241,7 +237,7 @@ std::ostream& operator<<( std::ostream& out, const vec_string &v )
 
 #ifdef CAN_USE_INI
 
-void Section::read_ini( Leo::Ini &ini )
+void Section::read_ini( Tools::Leo::Ini &ini )
 {
   for( unsigned int i = 0; i < values.size(); ++i )
     values[i]->read_ini( ini );
@@ -257,7 +253,7 @@ void Section::add( IniValue *value )
   values.push_back( value );
 }
 
-bool Section::check_ini( Leo::Ini &ini, const std::string &key )
+bool Section::check_ini( Tools::Leo::Ini &ini, const std::string &key )
 {
     for( unsigned int i = 0; i < values.size(); ++i )
 	if( values[i]->ini_key == key )

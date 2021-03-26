@@ -22,6 +22,7 @@
 #include "tree.h"
 
 using namespace std;
+using namespace Tools;
 
 #define OUT( level ) DEBUG_OUT( level, MODULE::MAIN )
 
@@ -685,13 +686,6 @@ int main( int argc, char** argv )
 #endif
 	return 2;
     }
-#ifndef NFORMAT
-  catch( Format::Error &err )
-    {
-	ERROR( "Format::Error: %s\n", err.err ); 
-	return 2;
-    }
-#endif
   catch( ... )
     {
       ERROR << "Error: unknown Exception caught\n";

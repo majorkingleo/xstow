@@ -1,9 +1,3 @@
-/*
- * $Log: setup_config.h,v $
- * Revision 1.2  2005/07/04 21:59:42  martin
- * added logging to all files
- *
- */
 #ifndef setup_config_h
 #define setup_config_h
 
@@ -14,6 +8,7 @@
 #include "debug.h"
 #include "string_utils.h"
 #include "local_config.h"
+#include <leoini.h>
 
 #ifdef HAVE_REGEX_H
 extern "C" {
@@ -34,6 +29,8 @@ extern "C" {
 */
 
 typedef std::vector<std::string> vec_string;
+
+std::ostream& operator<<( std::ostream& out, const vec_string &v );
 
 #ifdef CAN_USE_INI
 # define ON_INI( expr ) expr
@@ -56,8 +53,8 @@ namespace Leo {
 }
 
  
-bool read_ini_value( Leo::Ini &ini, const std::string &section, const std::string &key, std::string &value );
-bool read_ini_value( Leo::Ini &ini, const std::string &section, const std::string &key, vec_string &values );
+bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std::string &key, std::string &value );
+bool read_ini_value( Tools::Leo::Ini &ini, const std::string &section, const std::string &key, vec_string &values );
 
 #endif
 
@@ -74,7 +71,7 @@ struct IniValue
   std::string ini_section;
   std::string ini_key;
 
-  virtual void read_ini( Leo::Ini &ini ) = 0; 
+  virtual void read_ini( Tools::Leo::Ini &ini ) = 0;
 
 #else
 
@@ -165,7 +162,7 @@ template<typename T> struct Value : public IniValue
   virtual T string2data( const std::string &s ) = 0;
 
 #ifdef CAN_USE_INI
-  void read_ini( Leo::Ini &ini )
+  void read_ini( Tools::Leo::Ini &ini )
   { 
     if( !ini_section.empty() && !ini_key.empty() )
       {
@@ -190,7 +187,9 @@ template<typename T> struct Value : public IniValue
 
 };
 
-template<typename T> std::ostream& operator<<( std::ostream &out, const Value<T> &v ) { return out << x2s( v.data ); }
+template<typename T> std::ostream& operator<<( std::ostream &out, const Value<T> &v ) {
+	return out << Tools::x2s( v.data );
+}
 
 struct BoolValue : public Value<bool>
 {
@@ -214,7 +213,7 @@ struct VecStringValue : public Value<vec_string>
   vec_string string2data( const std::string &s );
   std::string& operator[]( unsigned int i ) { return data[i]; }
   unsigned int size() const { return data.size(); }
-  ON_INI( void read_ini( Leo::Ini &ini ); )
+  ON_INI( void read_ini( Tools::Leo::Ini &ini ); )
 
   bool already_have( const std::string &s );
 };
@@ -261,7 +260,7 @@ template<> struct Value<std::string> : public IniValue
   std::string& operator()() { return data; }
   void operator()( const std::string &data_ );
   std::ostream& operator<<( std::ostream &out ) { return out << x2s( data ); }
-  ON_INI( void read_ini( Leo::Ini &ini ); )
+  ON_INI( void read_ini( Tools::Leo::Ini &ini ); )
 };
 
 class Section
@@ -280,10 +279,10 @@ class Section
 
   virtual ~Section() {}
 
-  virtual void read_ini( Leo::Ini &ini );
+  virtual void read_ini( Tools::Leo::Ini &ini );
   void add( IniValue *value );
 
-  bool check_ini( Leo::Ini &ini, const std::string &key );
+  bool check_ini( Tools::Leo::Ini &ini, const std::string &key );
 
   std::string get_name() const { return ini_section; }
 #else
@@ -294,5 +293,6 @@ class Section
 
 #endif
 };
+
 
 #endif
