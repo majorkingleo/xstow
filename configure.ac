@@ -83,6 +83,8 @@ AC_ARG_WITH(regex,
 					])
 	])
 
+support_curses=1
+
 AC_MSG_CHECKING(for curses support)
 AC_ARG_WITH(curses,
 	[  --with-curses       Enable using curses library],
@@ -91,11 +93,12 @@ AC_ARG_WITH(curses,
 			AC_MSG_RESULT(disabled)
 			support_curses=0
 		else
+			AC_MSG_RESULT(enabled)
 			support_curses=1
 		fi
 	],
-	[
-		AC_MSG_RESULT(enabled)
+	[])
+if test "$support_curses" -eq 1; then
 		AC_CHECK_HEADER([curses.h],
 				[
 				  # test which libraray to use
@@ -146,7 +149,7 @@ AC_ARG_WITH(curses,
 				  fi
 
 				  if test $support_curses -eq 1; then
-				  	AC_SUBST(LDFLAGS_DYNAMIC, "$LDFLAGS -l$curseslib $tinfolib")
+				  	AC_SUBST(LDFLAGS_DYNAMIC, "-l$curseslib $tinfolib")
 				        AC_DEFINE(HAVE_CURSES_H, 1, [curses library can be used])
 				  fi
 
@@ -154,21 +157,6 @@ AC_ARG_WITH(curses,
 				[
 				  support_curses=0
 				])
-	])
-
-
-NO_STL_SSTREAM=0
-NO_STL_STRSTREAM=0
-
-AC_CHECK_HEADER([sstream],     [AC_DEFINE(HAVE_STL_SSTREAM, 1, [sstream is present])] , [ NO_STL_SSTREAM=1 ])
-AC_CHECK_HEADER([strstream],   [AC_DEFINE(HAVE_STL_STRSTREAM, 1, [old strstream can be used])], [ NO_STL_STRSTREAM=1 ])
-
-if test $NO_STL_SSTREAM -gt 0 ; then
-  if test $NO_STL_STRSTREAM -gt 0 ; then
-
-     AC_MSG_ERROR([sstream, or strstream header is required])
-
-  fi
 fi
 
 AC_MSG_CHECKING(for ini file support)

@@ -46,7 +46,7 @@ xstow_SOURCES=\
 	backtrace.h \
 	backtrace.cpp
 
-xstow_LDFLAGS= $(LDFLAGS) $(LDFLAGS_DYNAMIC)
+xstow_LDADD= $(LDFLAGS_DYNAMIC)
 
 if ENABLE_MERGE
 
@@ -63,7 +63,7 @@ merge_info_SOURCES= merge_info.cpp \
 			backtrace.h \
 			backtrace.cpp
 
-merge_info_LDFLAGS= $(LDFLAGS) $(LDFLAGS_DYNAMIC)
+merge_info_LDADD= $(LDFLAGS_DYNAMIC)
 
 endif
 
