@@ -1,14 +1,17 @@
-AC_INIT(xstow, 1.0.2)
+AC_INIT(xstow, 1.0.3)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects -Wall])
 
 AC_SEARCH_LIBS([strerror],[cposix])
+AC_PROG_CC
 AC_PROG_CXX
 AC_LANG(C++)
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AM_PROG_CC_STDC
+AC_PROG_RANLIB
+AM_PROG_AR
 AC_HEADER_STDC
 AC_C_CONST
 AC_C_INLINE
@@ -343,7 +346,6 @@ echo
 
 echo "make file targets:"
 echo "    make all"
-echo "    make mini"
 echo "    make docu"
 
 echo
