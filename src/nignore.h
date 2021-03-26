@@ -17,64 +17,63 @@ class Node;
 
 class NIgnore
 {
- public:
-    struct EnumMatch
-    {
-	  enum ETYPE
+public:
+	struct EnumMatch
+	{
+		enum ETYPE
 		{
-		  FIRST__ = -1,
-		  FALSE = 0,
-		  TRUE,
-		  REQUIRE_NEXT,
-		  LAST__
+			FIRST__ = -1,
+			FALSE = 0,
+			TRUE,
+			REQUIRE_NEXT,
+			LAST__
 		};
-    };
+	};
 
-    typedef Tools::EnumRange<EnumMatch> MATCH;
+	typedef Tools::EnumRange<EnumMatch> MATCH;
 
- private:
-    std::string name;
+private:
+	std::string name;
 
-    std::vector<std::string> dir;
-    bool                     follow;
+	std::vector<std::string> dir;
+	bool follow;
 
+	bool is_valid;
 
-    bool is_valid;
+public:
+	NIgnore( const std::string &name, Tools::Leo::Ini &ini );
 
- public:
-    NIgnore( const std::string &name, Tools::Leo::Ini &ini );
+	MATCH match( Tools::Ref<Node> node, std::string & strip );
 
-    MATCH match( Tools::Ref<Node> node, std::string & strip );
+	bool valid() const {return is_valid;}
 
-    bool valid() const { return is_valid; }
+	std::string getName() const {return name;}
 
-    std::string getName() const { return name; }
+	friend std::ostream & operator<<( std::ostream &out, Tools::Ref<NIgnore> ni );
 
-    friend std::ostream & operator<<( std::ostream &out, Tools::Ref<NIgnore> ni );
-    
- private:
-    MATCH match_dir( Tools::Ref<Node> node, std::string & strip );
+private:
+	MATCH match_dir( Tools::Ref<Node> node, std::string & strip );
 };
 
 std::ostream & operator<<( std::ostream &out, Tools::Ref<NIgnore> ni );
 
 class NIgnoreChain
 {
-    std::vector< Tools::Ref<NIgnore> > nignores;
- public:
+	std::vector< Tools::Ref<NIgnore> > nignores;
+public:
 
-    NIgnoreChain() {}
+	NIgnoreChain() {}
 
-    void add( Tools::Ref<NIgnore> ni ) { nignores.push_back( ni ); }
+	void add( Tools::Ref<NIgnore> ni ) {nignores.push_back( ni );}
 
-    bool match( Tools::Ref<Node> node );
+	bool match( Tools::Ref<Node> node );
 
-    unsigned size() const { return nignores.size(); }
-    bool empty() const { return nignores.size(); }
+	unsigned size() const {return nignores.size();}
+	bool empty() const {return nignores.size();}
 
-    std::string getName();
+	std::string getName();
 
-    friend std::ostream & operator<<( std::ostream &out, Tools::Ref<NIgnoreChain> nc );
+	friend std::ostream & operator<<( std::ostream &out, Tools::Ref<NIgnoreChain> nc );
 };
 
 std::ostream & operator<<( std::ostream &out, Tools::Ref<NIgnoreChain> nc );
