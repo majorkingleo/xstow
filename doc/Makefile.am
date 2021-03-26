@@ -52,7 +52,7 @@ man: predef
 	pod2man -s 1 -c "XStow Reference Guide" -r "XStow $$version" merge-info.pod merge-info.1 ;\
 	pod2man -s 5 -c "XStow Reference Guide" -r "XStow $$version" xstow.ini.pod xstow.ini.5
 
-html: predef
+html-local: predef
 	pod2html xstow.pod > xstow.html
 	pod2html xstow.ini.pod > xstow.ini.html
 	pod2html merge-info.pod > merge-info.html
