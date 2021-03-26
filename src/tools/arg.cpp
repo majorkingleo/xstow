@@ -24,14 +24,13 @@ int Arg::get_terminal_width()
     const int DEFAULT_COLS = 80;
     
 #ifdef HAVE_CURSES_H
-    
-    const char *tm  = termname();
-    
-    if( !tm || std::string( tm ).empty() )
-	return DEFAULT_COLS;
-    
     initscr();
     endwin();
+
+    if( COLS <= 0 ) {
+    	return DEFAULT_COLS;
+    }
+
     return COLS;
     
 #else
