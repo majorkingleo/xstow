@@ -63,6 +63,8 @@ xstow_SOURCES=\
 	copy.cpp \
 	debug.h \
 	debug.cpp \
+	colored_output.h \
+	colored_output.cpp \
 	printf_format.h
 
 xstow_LDADD= tools/libtools.a \
@@ -77,6 +79,8 @@ merge_info_SOURCES= \
 	file_option.cpp \
 	file_option.h \
 	printf_format.h \
+	colored_output.h \
+	colored_output.cpp \
 	debug.cpp \
 	debug.h
 
