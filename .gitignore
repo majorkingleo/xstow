@@ -13,3 +13,6 @@ stamp-h1
 *~
 autom4te.cache
 aclocal.m4
+missing
+depcomp
+install-sh
