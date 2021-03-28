@@ -162,25 +162,6 @@ if test "$support_curses" -eq 1; then
 				])
 fi
 
-AC_MSG_CHECKING([for debugging support])
-AC_ARG_ENABLE(debug,
-	[  --enable-debug             Enable extra debugging code],
-	[ 
-	   if test "x$enableval" = "xno" ; then
-	      AC_MSG_RESULT(disabled)
-	      support_debug=0
-              CXXFLAGS="$CXXFLAGS -DNDEBUG"
-           else
-	      AC_MSG_RESULT(enabled)
-	      support_debug=1
-	   fi   
-	],
-	[
-           CXXFLAGS="$CXXFLAGS -DNDEBUG"
-	   AC_MSG_RESULT(disabled)
-	   support_debug=0
-	] )
-
 AC_MSG_CHECKING([for new std::ios_base])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <fstream>
@@ -237,13 +218,6 @@ doc/Makefile])
 
 # report features:
 
-if test $support_debug -gt 0 ; then
-  support_debug=yes
-else
-  support_debug=no
-fi
-
-
 if test $support_fnmatch -gt 0 ; then
   AM_CONDITIONAL(ENABLE_FNMATCH, true )
   support_fnmatch=yes
@@ -292,7 +266,6 @@ echo
 echo "supported features:"
 
 
-echo "    debugging:                              $support_debug"
 echo "    shell pattern matching:                 $support_fnmatch"
 echo "    regex pattern matching:                 $support_regex"
 echo "    using curses library:                   $support_curses"

@@ -351,10 +351,6 @@ int main(int argc, char** argv)
 		{
 			out( "XStow Version %s (C) 2002-2005 by Martin Oberzalek\n", VERSION );
 
-#ifndef NDEBUG
-			out << "\t advanced debugging support\n";
-#endif
-
 #ifdef HAVE_REGEX_H
 			out << "\t regular expression support\n";
 #endif

@@ -29,9 +29,6 @@ extern Format::PrintF<std::ostream> out;
 extern Format::PrintF<std::ostream> vout;
 extern Format::PrintF<std::ostream> eout;
 
-/*
-DModule string2module( std::string module );
-*/
 MODULE::ETYPE string2module( std::string module );
 
 std::string x2s( MODULE module );
@@ -39,13 +36,10 @@ std::string x2s( MODULE module );
 extern std::string progname;
 
 #define ERROR eout( MODULE::ALL )[0]( "%s: ", progname )[0]
-
-#ifdef NDEBUG
-#  define DEBUG( expr )
-#  define DEBUG_OUT( level, module ) out(module)[level]
-#else
-#  define DEBUG( expr ) expr
-#  define DEBUG_OUT( level, module ) out(module)[level]( "%s:%s: ", __FILE__, __LINE__ )[level]
-#endif
+#define DEBUG( expr ) expr
+#define DEBUG_OUT( level, module ) \
+	out.setFinalizer( true ) \
+	(module)[level]( "%s:%s: ", __FILE__, __LINE__ ). \
+	setFinalizer( false )[level]
 
 #endif

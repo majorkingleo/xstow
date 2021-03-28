@@ -72,7 +72,9 @@ Node::Node(CppDir::File file, Ref<Node> parent)
 			type = TYPE::FILE;
 		}
 		else
-		OUT(0)( "unknown file type %s\n", ::getName( file ) );
+		{
+			OUT(0)( "unknown file type %s\n", ::getName( file ) );
+		}
 	}
 }
 

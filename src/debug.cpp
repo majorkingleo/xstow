@@ -1,10 +1,58 @@
 #include "debug.h"
 #include "string_utils.h"
 #include "config.h"
+#include "colored_output.h"
 
-Format::PrintF<std::ostream> out( std::cout );
-Format::PrintF<std::ostream> vout( std::cout );
-Format::PrintF<std::ostream> eout( std::cerr );
+class ColorModule : public Format::PrintF<std::ostream>::FinalizeString
+{
+	static ColoredOutput CO;
+
+public:
+
+	virtual std::string operator()( int module, const std::string & s ) override
+	{
+		std::string module_name = module2string( module );
+		std::string colored_module_name = CO.color_output(module2color( module ), module_name );
+
+		std::string debug_string = Tools::fill_trailing( colored_module_name, " ", 15 );
+
+		return debug_string + " " + s;
+	}
+
+private:
+	std::string module2string( int module )
+	{
+		MODULE m( static_cast<MODULE::ETYPE>(module) );
+		std::string module_name = x2s( m );
+
+		return module_name;
+	}
+
+	ColoredOutput::Color module2color( int module )
+	{
+		MODULE m( static_cast<MODULE::ETYPE>(module) );
+
+		switch( m )
+		{
+		case MODULE::ALL:        return ColoredOutput::GREEN;
+		case MODULE::ARG:        return ColoredOutput::GREEN;
+		case MODULE::MAIN:       return ColoredOutput::YELLOW;
+		case MODULE::TREE:       return ColoredOutput::YELLOW;
+		case MODULE::CPPDIR:     return ColoredOutput::GREEN;
+		case MODULE::SETUP:      return ColoredOutput::GREEN;
+		case MODULE::NIGNORE:    return ColoredOutput::MAGENTA;
+		case MODULE::MERGE_INFO: return ColoredOutput::MAGENTA;
+		}
+
+		return ColoredOutput::GREEN;
+	}
+};
+
+ColoredOutput ColorModule::CO;
+
+Format::PrintF<std::ostream> out( std::cout, -1, -1, new ColorModule() );
+Format::PrintF<std::ostream> vout( std::cout, -1, -1, new ColorModule() );
+Format::PrintF<std::ostream> eout( std::cerr, -1, -1, new ColorModule() );
 
 std::string progname = PACKAGE;
 

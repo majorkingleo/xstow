@@ -2,6 +2,7 @@
 #define printf_format_h
 
 #include <format.h>
+#include <ref.h>
 
 namespace Tools
 {
@@ -11,6 +12,17 @@ namespace Format
 template<typename ostream>
 	class PrintF
 	{
+	public:
+		class FinalizeString
+		{
+		public:
+			virtual ~FinalizeString() {}
+
+			virtual std::string operator()( int module, const std::string & s ) {
+				return s;
+			}
+		};
+
 	private:
 
 		int level;
@@ -19,14 +31,26 @@ template<typename ostream>
 		int dmodule;
 		int module;
 
+		Tools::Ref<FinalizeString> fs;
+		bool finalizerEnabled;
+
 	public:
 
 		ostream &out;
 
 	public:
 
-		PrintF(ostream &out = std::cout, int module = -1, int debug_level = -1)
-				: level(debug_level), dlevel(debug_level), dmodule(module), module(module), out(out)
+		PrintF(ostream &out = std::cout,
+				int module = -1,
+				int debug_level = -1,
+				Tools::Ref<FinalizeString> fs_ = Tools::Ref<FinalizeString>() )
+			: level(debug_level),
+			  dlevel(debug_level),
+			  dmodule(module),
+			  module(module),
+			  out(out),
+			  fs( fs_ ),
+			  finalizerEnabled ( true )
 		{
 		}
 
@@ -58,8 +82,9 @@ template<typename ostream>
 		template<typename T>
 			PrintF& operator<<(const T &t)
 			{
-				if (check())
+				if (check()) {
 					out << t;
+				}
 
 				return *this;
 			}
@@ -67,73 +92,47 @@ template<typename ostream>
 		// io manipulator overloading
 		PrintF& operator<<(ostream& (*f)(ostream&))
 		{
-			if (check())
+			if (check()) {
 				out << f;
+			}
 
 			return *this;
 		}
 
 		PrintF& operator()(std::string fs)
 		{
-			if (check())
+			if (check()) {
 				out << fs;
+			}
 
 			return *this;
 		}
 
-		template<typename A>
-			PrintF& operator()(std::string fs, const A &a)
-			{
-				if (check())
-					out << format(fs, a);
+		 template <typename... Args> PrintF& operator()( const std::string & format, Args... args )
+		  {
+			 if( check() ) {
+				 std::vector<Format2::BaseArg*> v_args;
 
-				return *this;
-			}
+				 Format2::add_args( v_args, args... );
 
-		template<typename A, typename B>
-			PrintF& operator()(std::string fs, const A &a, const B &b)
-			{
-				if (check())
-					out << format(fs, a, b);
+				 Format2::Format2 f2( format, v_args );
 
-				return *this;
-			}
+				 for( auto x: v_args )
+				 {
+					 delete x;
+				 }
 
-		template<typename A, typename B, typename C>
-			PrintF& operator()(std::string fs, const A &a, const B &b, const C &c)
-			{
-				if (check())
-					out << format(fs, a, b, c);
+				 std::string res = f2.get_string();
 
-				return *this;
-			}
+				 if( finalizerEnabled && fs.valid() ) {
+					 res = fs->operator()( module, res );
+				 }
 
-		template<typename A, typename B, typename C, typename D>
-			PrintF& operator()(std::string fs, const A &a, const B &b, const C &c, const D &d)
-			{
-				if (check())
-					out << format(fs, a, b, c, d);
+				 out << res;
+			 }
 
-				return *this;
-			}
-
-		template<typename A, typename B, typename C, typename D, typename E>
-			PrintF& operator()(std::string fs, const A &a, const B &b, const C &c, const D &d, const E &e)
-			{
-				if (check())
-					out << format(fs, a, b, c, d, e);
-
-				return *this;
-			}
-
-		template<typename A, typename B, typename C, typename D, typename E, typename F>
-			PrintF& operator()(std::string fs, const A &a, const B &b, const C &c, const D &d, const E &e, const F &f)
-			{
-				if (check())
-					out << format(fs, a, b, c, d, e, f);
-
-				return *this;
-			}
+			 return *this;
+		  }
 
 		bool check(int module, int level) const
 		{
@@ -146,6 +145,11 @@ template<typename ostream>
 			}
 
 			return false;
+		}
+
+		PrintF & setFinalizer( bool enabled ) {
+			finalizerEnabled = enabled;
+			return *this;
 		}
 
 	private:
