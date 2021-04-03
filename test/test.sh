@@ -24,7 +24,8 @@ for i in t* ; do
         echo 
         echo "testing $i" 
         ( cd work && rm -rf * )
-        cp -a $i/* work && find work -name ".svn" | xargs rm -rf
+        cp -a $i/* work
+        ( echo "cd work && ./test.sh $i" )
         ( cd work && ./test.sh $i )
     fi
 done
