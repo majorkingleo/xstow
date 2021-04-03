@@ -349,7 +349,7 @@ int main(int argc, char** argv)
 
 		if( version.getState() )
 		{
-			out( "XStow Version %s (C) 2002-2005 by Martin Oberzalek\n", VERSION );
+			out( "XStow Version %s (C) 2002-2021 by Martin Oberzalek\n", VERSION );
 
 #ifdef HAVE_REGEX_H
 			out << "\t regular expression support\n";
