@@ -52,7 +52,7 @@ ColoredOutput ColorModule::CO;
 
 Format::PrintF<std::ostream> out( std::cout, -1, -1, new ColorModule() );
 Format::PrintF<std::ostream> vout( std::cout, -1, -1, new ColorModule() );
-Format::PrintF<std::ostream> eout( std::cerr, -1, -1, new ColorModule() );
+Format::PrintF<std::ostream> eout( std::cerr );
 
 std::string progname = PACKAGE;
 
