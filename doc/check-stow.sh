@@ -7,7 +7,7 @@
 #
 # This script belongs to the xstow package
 #
-# (C) 2004 by Martin Oberzalek <kingleo@gmx.at> under the terms of the GPL
+# (C) 2004-2012 by Martin Oberzalek <kingleo@gmx.at> under the terms of the GPL2
 #
 
 index_p=0;
