@@ -1,3 +1,14 @@
+
+*) code cleanups
+
+*) fixed using the curses library
+
+*) moved to github
+
+*) upgraded libs
+
+*) make it compile with gcc-10-x
+
 *) make it compile with gcc-4.0.x
 
 Version 0.6.0
