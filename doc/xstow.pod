@@ -360,7 +360,7 @@ XStow was written by Martin Oberzalek <kingleo@gmx.at>.
 
 XStow a replacement of GNU Stow written in C++.	
 
-Copyright (C) 2002-2005 by Martin Oberzalek <kingleo@gmx.at>
+Copyright (C) 2002-2021 by Martin Oberzalek <kingleo@gmx.at>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
