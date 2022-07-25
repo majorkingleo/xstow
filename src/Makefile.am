@@ -6,29 +6,43 @@ noinst_LIBRARIES=tools/libtools.a \
 
 tools_libtools_a_SOURCES= \
 	tools/arg.cpp \
-	tools/database.cpp \
-	tools/db.cpp \
-	tools/dbi.cpp \
-	tools/mysql_db.cpp \
-	tools/odbc_db.cpp \
-	tools/oracle_db.cpp \
+	tools/arg.h \
 	tools/pairs.cpp \
-	tools/theme.cpp \
-	tools/thread.cpp
+	tools/pairs.h 
 
 cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/backtrace.cc \
+	cpputils/cpputilsshared/backtrace.h \
 	cpputils/cpputilsshared/cppdir.cc \
+	cpputils/cpputilsshared/cppdir.h \
 	cpputils/cpputilsshared/leoini.cc \
+	cpputils/cpputilsshared/leoini.h \
 	cpputils/cpputilsshared/logtool2.cc \
+	cpputils/cpputilsshared/logtool2.h \
 	cpputils/cpputilsshared/string_utils.cc \
+	cpputils/cpputilsshared/string_utils.h \
 	cpputils/cpputilsshared/vec_utils.cc \
-	cpputils/cpputilsshared/xml.cc
+	cpputils/cpputilsshared/vec_utils.h \
+	cpputils/cpputilsshared/ref.h \
+	cpputils/cpputilsshared/range.h \
+	cpputils/cpputilsshared/cpp_util.h \
+	cpputils/cpputilsshared/jvector.h \
+	cpputils/cpputilsshared/report_exception.h \
+	cpputils/cpputilsshared/sql_exception.h \
+	cpputils/cpputilsshared/iterator.h \
+	cpputils/cpputilsshared/cpp_util_min_max.h \
+	cpputils/cpputilsshared/zvector.h \
+	cpputils/cpputilsshared/xml.cc \
+	cpputils/cpputilsshared/xml.h
 
 
 cpputils_cpputilsshared_cpputilsformat_libcpputilsformat_a_SOURCES= \
 	cpputils/cpputilsshared/cpputilsformat/format1.cc \
-	cpputils/cpputilsshared/cpputilsformat/format2.cc
+	cpputils/cpputilsshared/cpputilsformat/format1.h \
+	cpputils/cpputilsshared/cpputilsformat/format2.cc \
+	cpputils/cpputilsshared/cpputilsformat/format2.h \
+	cpputils/cpputilsshared/cpputilsformat/format.h \
+	cpputils/cpputilsshared/cpputilsformat/cformat.h
 
 
 if ENABLE_MERGE
@@ -65,7 +79,8 @@ xstow_SOURCES=\
 	debug.cpp \
 	colored_output.h \
 	colored_output.cpp \
-	printf_format.h
+	printf_format.h \
+	tools_config.h
 
 xstow_LDADD= tools/libtools.a \
 	cpputils/cpputilsshared/libcpputilsshared.a \
