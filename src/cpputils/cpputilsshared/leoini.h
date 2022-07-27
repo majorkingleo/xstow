@@ -278,12 +278,11 @@ namespace Leo
     std::string::size_type end = s.find( ']', start );
 
     if( start == std::string::npos ||
-	end == std::string::npos )
-      s = "";
-    else
-      s = s.substr( start+1, start-end -1 );
-
-    return s2x<A>(s);
+		end == std::string::npos ) {
+      return s2x<A>("");
+    } else {
+      return s2x<A>( s.substr( start+1, start-end -1 ) );
+	}  
   }
 } // namespace Leo
 

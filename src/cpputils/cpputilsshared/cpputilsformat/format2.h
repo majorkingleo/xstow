@@ -40,7 +40,7 @@ namespace Tools {
       bool _is_string;
 
     public:
-      BaseArg( bool is_int_, bool is_string_ )
+      BaseArg( bool is_int_ = false, bool is_string_ = false )
     : _is_int( is_int_ ),
       _is_string( is_string_ )
     {}
