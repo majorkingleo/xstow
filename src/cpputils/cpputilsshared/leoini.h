@@ -1,9 +1,15 @@
+/**
+ * Read and write ini files
+ * @author Copyright (c) 2001 - 2022 Martin Oberzalek
+ */
+
 #ifndef TOOLS_Leo_Ini_h
 #define TOOLS_Leo_Ini_h
 
 #include <string>
 #include <fstream>
 #include <list>
+#include <set>
 
 #include "range.h"
 
@@ -129,21 +135,10 @@ namespace Leo
 
 	std::string auto_global_section_name;
 
+	std::set<std::string> comment_signs; ///< comment signs, default is only ';'
+
   public:
-    Ini()
-    : elements(),
-      comments(),
-      openmode(0),
-      file_name(),
-      file(),
-      is_open( false ),
-      valid( false ),
-      file_readed(false),
-      eof_reached( false ),
-      line_number(0),
-      changed( false ),
-	  auto_global_section_name()
-    {}
+    Ini();
 
     Ini( std::string filename, int mode = std::ios::in | std::ios::out);   
 
@@ -223,6 +218,14 @@ namespace Leo
   
     std::string get_file_name() const { return file_name; }
 
+    void add_comment_sign( const std::string & sign ) {
+    	comment_signs.insert( sign );
+    }
+
+    void clear_comment_signs() {
+    	comment_signs.clear();
+    }
+
   private:
     Line read_line(); ///< reads one line
     std::string strip( std::string str, std::string what = " \t\0\n" ); ///< strips a string
@@ -278,11 +281,11 @@ namespace Leo
     std::string::size_type end = s.find( ']', start );
 
     if( start == std::string::npos ||
-		end == std::string::npos ) {
+        end == std::string::npos ) {
       return s2x<A>("");
     } else {
       return s2x<A>( s.substr( start+1, start-end -1 ) );
-	}  
+    }
   }
 } // namespace Leo
 

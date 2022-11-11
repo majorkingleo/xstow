@@ -1,11 +1,10 @@
 /**
- * @file
- * @todo describe file content
- * @author Copyright (c) 2009 Salomon Automation GmbH
+ * Alias for cpp_util.h
+ * @author Copyright (c) 2022 Salomon Automation GmbH
  */
 
-#ifndef _wamas_CPPUTILS_H
-#define _wamas_CPPUTILS_H
+#ifndef _TOOLS_CPPUTILS_H
+#define _TOOLS_CPPUTILS_H
 
 #include <cpp_util.h>
 

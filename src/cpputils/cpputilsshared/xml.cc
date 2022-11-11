@@ -1,3 +1,7 @@
+/**
+ * class for reading XML like files
+ * @author Copyright (c) 2001 - 2022 Martin Oberzalek
+ */
 #include "xml.h"
 #include "string_utils.h"
 #include <iostream>
@@ -110,10 +114,10 @@ bool XML::parse_tag( std::string s, Item &item )
   if( !s.size() )
     return false;
 
-  if( !s[0] == '<' )
+  if( !(s[0] == '<') )
     return false;
 
-  if( !s[s.size()-1] == '>' )
+  if( !(s[s.size()-1] == '>') )
     return false;
 
   item.end_close = false;

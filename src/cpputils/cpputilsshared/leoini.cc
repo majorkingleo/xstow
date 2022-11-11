@@ -1,3 +1,8 @@
+/**
+ * Read and write ini files
+ * @author Copyright (c) 2001 - 2022 Martin Oberzalek
+ */
+
 #include "leoini.h"
 #include <iostream>
 
@@ -90,6 +95,24 @@ Leo::Ini::MemElement & Leo::Ini::MemElement::operator=(const Element& e )
   return *this;
 }
 
+Leo::Ini::Ini()
+: elements(),
+  comments(),
+  openmode(0),
+  file_name(),
+  file(),
+  is_open( false ),
+  valid( false ),
+  file_readed(false),
+  eof_reached( false ),
+  line_number(0),
+  changed( false ),
+  auto_global_section_name(),
+  comment_signs()
+{
+	comment_signs.insert(";");
+}
+
 Leo::Ini::Ini( std::string filename, int mode )
 : elements(),
   comments(),
@@ -102,13 +125,17 @@ Leo::Ini::Ini( std::string filename, int mode )
   eof_reached(false),
   line_number(0),
   changed(false),
-  auto_global_section_name()
+  auto_global_section_name(),
+  comment_signs()
 {
   is_open = false;
   valid = false;
   eof_reached = false;
+  comment_signs.insert(";");
   open( filename, mode );
 }
+
+
 
 Leo::Ini::~Ini()
 {
@@ -295,7 +322,19 @@ bool Leo::Ini::read()
 std::string::size_type Leo::Ini::find_comment( const std::string& str )
 {
   // maybe I'll add later an better implementation if this
-  return str.find( ";" );
+
+  for( std::set<std::string>::const_iterator it = comment_signs.begin();
+	   it != comment_signs.end();
+	   it++ ) {
+
+	  std::string::size_type pos = str.find( *it );
+
+	  if( pos != std::string::npos ) {
+		  return pos;
+	  }
+  }
+
+  return std::string::npos;
 }
 
 bool Leo::Ini::find_tag( std::string::size_type& start, std::string::size_type& end, const std::string& str )
@@ -318,14 +357,16 @@ bool Leo::Ini::is_section( const std::string& str )
 {
   std::string::size_type size = str.size();
 
-  if( size <= 2 )
+  if( size <= 2 ) {
     return false;
+  }
 
-    if( str[0] == '[' && str[size-1] == ']' )
-    {
-      if( !strip(str.substr( 1, size - 2 )).empty() )
-	return true;
-    }
+  if( str[0] == '[' && str[size-1] == ']' )
+  {
+  	if( !strip(str.substr( 1, size - 2 )).empty() ) {
+		return true;
+	}
+  }
   return false;
 }
 
@@ -438,7 +479,10 @@ bool Leo::Ini::is_good_element( Element& e )
     case Element::TYPE::KEY:
       e.key = strip( e.key );
       e.section = strip( e.section );
-      if( e.key.empty() || e.section.empty() ) return false;
+      if( e.key.empty() || e.section.empty() ){
+		 return false;
+	  }
+	  /* Fallthrough */
 
     case Element::TYPE::SECTION:
       e.section = strip( e.section );
@@ -625,18 +669,14 @@ void Leo::Ini::flush()
       if( next_comment_at == -1 && next_element_at == -1 )
 	break;
 
-      int next = 0;
-
       if( ((next_comment_at < next_element_at) || next_element_at == -1 ) && next_comment_at != -1 )
 	{
-	  next = next_comment_at;
 	  line = *cit;
 	  
 	  cit++;
 	}
       else if( next_element_at != -1 )
 	{
-	  next = next_element_at;	  
 	  line = mit->line;
 	  
 	  if( mit->type == Element::TYPE::SECTION )

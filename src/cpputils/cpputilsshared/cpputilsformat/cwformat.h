@@ -1,16 +1,18 @@
 /**
  * Helper class for formating iostream with printf style format strings.
- * std::string version
+ * std::wstring version
  * @author Copyright (c) 2001 - 2022 Martin Oberzalek
  */
 
-#ifndef _TOOLS_CFORMAT_H
-#define _TOOLS_CFORMAT_H
+#ifndef _TOOLS_CWFORMAT_H
+#define _TOOLS_CWFORMAT_H
+
+#include <string>
 
 namespace Tools {
-  namespace Format {
+  namespace WFormat2 {
 
-    class CFormat
+    class CWFormat
     {
     public:
 
@@ -51,13 +53,13 @@ namespace Tools {
       int precision;
       int strlength;
 
-      std::string format;
+      std::wstring format;
 
       bool numerical_representation; // cast a character to int
       bool character_representation; // cast a int to char
 
     public:
-      CFormat() :
+      CWFormat() :
         valid(false),
         adjust(RIGHT),
         special(false),
@@ -74,17 +76,17 @@ namespace Tools {
         width(0),
         precision(6),
         strlength(0),
-        format(""),
+        format(),
         numerical_representation(false),
         character_representation(false)
     { }
 
-      void set( std::ostream& out );
+      void set( std::wostream& out );
     };
 
   } // /namespace Format
 
-  inline std::ostream& operator<<( std::ostream& out, Format::CFormat cf )
+  inline std::wostream& operator<<( std::wostream& out, WFormat2::CWFormat cf )
   {
     cf.set( out );
     return out;

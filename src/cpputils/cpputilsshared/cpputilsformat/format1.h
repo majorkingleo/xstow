@@ -1,14 +1,11 @@
-/*
-  Format a C++ library for typesafe string formating in printf style
-      (C) 2001 - 2009 by Martin Oberzalek <kingleo@gmx.at>  
-
-   2004-01-01 remerged version 1.1 of Format with xstow's Format
-
-  Examples:
-     std::cout << format( "Hello %s, I have $05d$ in my pocket", "world", 5 ) << std::endl;
-     std::cout << format( "Do not try this with printf: %s", 10101 ) << std::endl;
-
-
+/**
+ * Classes for typesave versions of sprintf() that are returning a std::string
+ * @author Copyright (c) 2001 - 2022 Martin Oberzalek
+ *
+ * Examples:
+ *    std::cout << format( "Hello %s, I have $05d$ in my pocket", "world", 5 ) << std::endl;
+ *    std::cout << format( "Do not try this with printf: %s", 10101 ) << std::endl;
+ *
  */
 
 #ifndef TOOLS_format1_h

@@ -1,3 +1,8 @@
+/**
+ * Backtrace helper class
+ * @author Copyright (c) 2022 Martin Oberzalek
+ */
+
 #ifndef TOOLS_BACKTRACE_H
 #define TOOLS_BACKTRACE_H
 

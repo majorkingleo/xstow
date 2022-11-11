@@ -1,17 +1,16 @@
 /**
- * Classes for typesave versions of sprintf() that are returning a std::string
+ * Classes for typesave versions of sprintf() that are returning a std::wstring
  * @author Copyright (c) 2001 - 2022 Martin Oberzalek
  *
- * C++-11 version with variadic templates
- *
  * Examples:
- *    std::cout << format( "Hello %s, I have $05d$ in my pocket", "world", 5 ) << std::endl;
- *    std::cout << format( "Do not try this with printf: %s", 10101 ) << std::endl;
+ *
+ *    std::wcout << wformat( L"Hello %s, I have $05d$ in my pocket", L"world", 5 ) << std::endl;
+ *    std::wcout << wformat( L"Do not try this with printf: %s", 10101 ) << std::endl;
  *
  */
 
-#ifndef _wamas_FORMAT2_H
-#define _wamas_FORMAT2_H
+#ifndef _TOOLS_WFORMAT2_H
+#define _TOOLS_WFORMAT2_H
 
 #if __cplusplus - 0 >= 201103L
 
@@ -22,11 +21,11 @@
 #include <sstream>
 #include <cctype>
 #include <vector>
-#include <cformat.h>
+#include "cwformat.h"
 
 namespace Tools {
 
-  namespace Format2
+  namespace WFormat2
   {
     class BaseException : public std::exception
     {
@@ -46,7 +45,7 @@ namespace Tools {
       bool _is_string;
 
     public:
-      BaseArg( bool is_int_ = false, bool is_string_  = false )
+      BaseArg( bool is_int_ = false, bool is_string_ = false )
     : _is_int( is_int_ ),
       _is_string( is_string_ )
     {}
@@ -55,7 +54,7 @@ namespace Tools {
       bool isInt() { return _is_int; }
       bool isString() { return _is_string; }
 
-      virtual std::string doFormat( const Format::CFormat & cf ) = 0;
+      virtual std::wstring doFormat( const WFormat2::CWFormat & cf ) = 0;
       virtual int get_int() {
         if( !isInt() ) {
             throw BaseException( "expecting int arg" );
@@ -104,27 +103,27 @@ namespace Tools {
 
     private:
 
-      template <class S> std::string x2s( S ss, const Format::CFormat &cf )
+      template <class S> std::wstring x2s( S ss, const WFormat2::CWFormat &cf )
       {
-        std::stringstream str;
+        std::wstringstream str;
         str << cf << ss;
         return str.str();
       }
 
-      virtual std::string doFormat( const Format::CFormat & cf )
+      virtual std::wstring doFormat( const WFormat2::CWFormat & cf )
       {
         return x2s( arg, cf );
       }
 
       template<class T> int get_int( const T &t ) { return 0; }
-      int get_int( int n ) { return (int)n; }
-      int get_int( unsigned int n ) { return (int)n; }
-      int get_int( short n ) { return (int)n; }
-      int get_int( unsigned short n ) { return (int)n; }
-      int get_int( long long n ) { return (int)n; }
-      int get_int( unsigned long long n  ) { return (int)n; }
-      int get_int( long n ) { return (int)n; }
-      int get_int( unsigned long n ) { return (int)n; }
+      int get_int( int n ) { return n; }
+      int get_int( unsigned int n ) { return n; }
+      int get_int( short n ) { return n; }
+      int get_int( unsigned short n ) { return n; }
+      int get_int( long long n ) { return n; }
+      int get_int( unsigned long long n  ) { return n; }
+      int get_int( long n ) { return n; }
+      int get_int( unsigned long n ) { return n; }
 
       virtual int get_int() {
         BaseArg::get_int();
@@ -142,9 +141,9 @@ namespace Tools {
         {}
 
         private:
-          virtual std::string doFormat( const Format::CFormat & cf )
+          virtual std::wstring doFormat( const WFormat2::CWFormat & cf )
           {
-            std::stringstream str;
+            std::wstringstream str;
             str << cf;
 
             if( cf.numerical_representation )
@@ -183,9 +182,9 @@ namespace Tools {
         {}
 
         private:
-          virtual std::string doFormat( const Format::CFormat & cf )
+          virtual std::wstring doFormat( const WFormat2::CWFormat & cf )
           {
-            std::stringstream str;
+            std::wstringstream str;
             str << cf;
 
             if( cf.character_representation )
@@ -243,7 +242,7 @@ namespace Tools {
 
     }
 
-    class Format2
+    class WFormat2
     {
     private:
       struct Arg
@@ -254,61 +253,54 @@ namespace Tools {
 
       std::vector<BaseArg*> args;
 
-      std::string format;
+      std::wstring format;
 
 
       unsigned int num_of_args;
 
-      std::string s;
+      std::wstring s;
 
     private:
-      Format2();
-      Format2(const Format2 & f);
-      Format2 & operator=(const Format2 & f);
+      WFormat2();
+      WFormat2(const WFormat2 & f);
+      WFormat2 & operator=(const WFormat2 & f);
 
     public:
-      Format2( const std::string &format, std::vector<BaseArg*> & args );
+      WFormat2( const std::wstring &format, std::vector<BaseArg*> & args );
 
-      std::string get_string() const { return s; }
+      std::wstring get_string() const { return s; }
 
     private:
       void parse();
 
       int get_int_arg( int num );
       void gen_arg_list();
-      std::string use_arg( unsigned int i, const Format::CFormat &cf );
+      std::wstring use_arg( unsigned int i, const Tools::WFormat2::CWFormat &cf );
 
       template<class T> int get_int( const T &t ) { return 0; }
-      int get_int( int n ) { return (int)n; }
-      int get_int( unsigned int n ) { return (int)n; }
-      int get_int( short n ) { return (int)n; }
-      int get_int( unsigned short n ) { return (int)n; }
+      int get_int( int n ) { return n; }
+      int get_int( unsigned int n ) { return n; }
+      int get_int( short n ) { return n; }
+      int get_int( unsigned short n ) { return n; }
       int get_int( long long n ) { return (int)n; }
       int get_int( unsigned long long n  ) { return (int)n; }
-      int get_int( long n ) { return (int)n; }
-      int get_int( unsigned long n ) { return (int)n; }
+      int get_int( long n ) { return n; }
+      int get_int( unsigned long n ) { return n; }
 
 
-      int skip_atoi( std::string s, std::string::size_type start, std::string::size_type & pos ) const;
-      std::string substitude( const std::string & str_orig, const std::string & what, const std::string & with, std::string::size_type start = 0 ) const;
+      int skip_atoi( std::wstring s, std::wstring::size_type start, std::wstring::size_type & pos ) const;
+      std::wstring substitude( const std::wstring & str_orig, const std::wstring & what, const std::wstring & with, std::wstring::size_type start = 0 ) const;
     }; // class Format2
 
   } // namespace Format2
-} // /namespace Tools
 
-#if TOOLS_VERSION+0 >= 40
-
-// forward to tools implementation
-#include <sstring.h>
-
-namespace Tools {
-  template <typename... Args> std::string format( const std::string & format, Args... args )
+  template <typename... Args> std::wstring wformat( const std::wstring & format, Args... args )
   {
-    std::vector<wamas::platform::format_2011::BaseArg*> v_args;
+    std::vector<WFormat2::BaseArg*> v_args;
 
-    wamas::platform::format_2011::add_args( v_args, args... );
+    WFormat2::add_args( v_args, args... );
 
-    wamas::platform::format_2011::Format2011 f2( format, v_args );
+    WFormat2::WFormat2 f2( format, v_args );
 
     for( auto x: v_args )
       {
@@ -319,25 +311,5 @@ namespace Tools {
   }
 } // /namespace Tools
 
-#else
-namespace Tools {
-  template <typename... Args> std::string format( const std::string & format, Args... args )
-  {
-    std::vector<Format2::BaseArg*> v_args;
-
-    Format2::add_args( v_args, args... );
-
-    Format2::Format2 f2( format, v_args );
-
-    for( auto x: v_args )
-      {
-        delete x;
-      }
-
-    return f2.get_string();
-  }
-} // /namespace Tools
 #endif
-
-#endif
-#endif  /* _wamas_FORMAT2_H */
+#endif  /* _TOOLS_WFORMAT2_H */

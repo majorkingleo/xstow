@@ -1,3 +1,7 @@
+/**
+ * Simple reference counting smart pointer template
+ * @author Copyright (c) 2001 - 2022 Martin Oberzalek
+ */
 #ifndef TOOLS_ref_h
 #define TOOLS_ref_h
 

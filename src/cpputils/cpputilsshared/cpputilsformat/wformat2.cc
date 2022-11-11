@@ -1,25 +1,19 @@
 /**
- * Classes for typesave versions of sprintf() that are returning a std::string
+ * Classes for typesave versions of sprintf() that are returning a std::wstring
  * @author Copyright (c) 2001 - 2022 Martin Oberzalek
- *
- * C++-11 version with variadic templates
- *
- * Examples:
- *    std::cout << format( "Hello %s, I have $05d$ in my pocket", "world", 5 ) << std::endl;
- *    std::cout << format( "Do not try this with printf: %s", 10101 ) << std::endl;
- *
  */
 
-#include "format2.h"
+#include "wformat2.h"
 
 #if __cplusplus - 0 >= 201103L
 
-using namespace Tools::Format;
+using namespace Tools::WFormat2;
 
 namespace Tools {
-  namespace Format2 {
 
-    Format2::Format2()
+  namespace WFormat2 {
+
+    WFormat2::WFormat2()
     : args(),
       format(),
       num_of_args(0),
@@ -28,7 +22,7 @@ namespace Tools {
 
     }
 
-    Format2::Format2(const Format2 & f)
+    WFormat2::WFormat2(const WFormat2 & f)
     : args(),
       format(),
       num_of_args(0),
@@ -37,21 +31,21 @@ namespace Tools {
 
     }
 
-    Format2 & Format2::operator=(const Format2 & f)
+    WFormat2 & WFormat2::operator=(const WFormat2 & f)
     {
       return *this;
     }
 
-    Format2::Format2( const std::string &format_, std::vector<BaseArg*> & args_ )
+    WFormat2::WFormat2( const std::wstring &format_, std::vector<BaseArg*> & args_ )
     : args(args_),
       format(format_),
-      num_of_args((int)args.size()),
+      num_of_args(args.size()),
       s()
     {
       parse();
     }
 
-    int Format2::get_int_arg( int num )
+    int WFormat2::get_int_arg( int num )
     {
       if( static_cast<unsigned int>(num) > num_of_args - 1 )
         throw BaseException( "The arg you wan't to use is out of range" );
@@ -69,26 +63,26 @@ namespace Tools {
       return 0; // should never be reached
     }
 
-    std::string Format2::use_arg( unsigned int i, const Format::CFormat &cf )
+    std::wstring WFormat2::use_arg( unsigned int i, const Tools::WFormat2::CWFormat &cf )
     {
       if( i > num_of_args )
         throw BaseException( "out of arg range" );
 
-      std::string s = args[i]->doFormat(cf);
+      std::wstring s = args[i]->doFormat(cf);
 
       return s;
     }
 
-    void Format2::parse()
+    void WFormat2::parse()
     {
       if( format.empty() )
         return;
 
       unsigned int par = 0;
       unsigned int use_par = 0;
-      std::string::size_type pos = 0;
-      std::string::size_type  len = format.size();
-      s = "";
+      std::wstring::size_type pos = 0;
+      std::wstring::size_type  len = format.size();
+      s.clear();
 
       while( par < num_of_args && pos < len )
         { // while
@@ -120,7 +114,7 @@ namespace Tools {
           // format string found
 
           std::string::size_type start = pos - 1;
-          CFormat cf;
+          CWFormat cf;
 
           // process flags
 
@@ -130,7 +124,7 @@ namespace Tools {
 
               switch( format[pos] )
               {
-              case '-' : cf.adjust = CFormat::LEFT; break;
+              case '-' : cf.adjust = CWFormat::LEFT; break;
               case '+' : cf.sign = true; break;
               case ' ' : cf.zero = false; break;
               case '#' : cf.special = true; break;
@@ -150,7 +144,7 @@ namespace Tools {
           if( pos < len )
             {
               // search for the $ digit
-              unsigned int dp = (int)pos;
+              unsigned int dp = pos;
 
               while( dp < len && isdigit( format[dp] ) )
                 dp++;
@@ -172,7 +166,7 @@ namespace Tools {
                   pos++;
 
                   // search for the $ digit
-                  unsigned int dp = (int)pos;
+                  unsigned int dp = pos;
 
                   while( dp < len && isdigit( format[dp] ) )
                     dp++;
@@ -196,7 +190,7 @@ namespace Tools {
                   if( cf.width < 0 )
                     {
                       cf.width *= -1;
-                      cf.adjust = CFormat::LEFT;
+                      cf.adjust = CWFormat::LEFT;
                     }
                 }
             }
@@ -220,7 +214,7 @@ namespace Tools {
 
 
                       // search for the $ digit
-                      unsigned int dp = (int)pos;
+                      unsigned int dp = pos;
 
                       while( dp < len && isdigit( format[dp] ) )
                         dp++;
@@ -307,8 +301,8 @@ namespace Tools {
               case 'u':
               case 'i':
                 cf.numerical_representation = true;
-                cf.base = CFormat::DEC;
-                if( cf.zero && (cf.adjust != CFormat::LEFT) )
+                cf.base = CWFormat::DEC;
+                if( cf.zero && (cf.adjust != CWFormat::LEFT) )
                   cf.internal = true;
                 break;
 
@@ -316,14 +310,14 @@ namespace Tools {
 				/* Fallthrough */				
               case 'x':
                 cf.numerical_representation = true;
-                cf.base = CFormat::HEX;
+                cf.base = CWFormat::HEX;
                 if( cf.special )
                   cf.showbase = true;
                 break;
 
               case 'o':
                 cf.numerical_representation = true;
-                cf.base = CFormat::OCT;
+                cf.base = CWFormat::OCT;
                 if( cf.special )
                   cf.showbase = true;
                 break;
@@ -336,14 +330,14 @@ namespace Tools {
               case 'e':
                 if( cf.special )
                   cf.sign = true;
-                cf.floating = CFormat::SCIENTIFIC;
+                cf.floating = CWFormat::SCIENTIFIC;
                 break;
 
               case 'F': // not supported
               case 'f':
                 if( cf.special )
                   cf.sign = true;
-                cf.floating = CFormat::FIXED;
+                cf.floating = CWFormat::FIXED;
                 break;
 
               case 's':
@@ -353,7 +347,7 @@ namespace Tools {
 
 
               case 'p':
-                cf.base = CFormat::HEX;
+                cf.base = CWFormat::HEX;
                 cf.showbase = true;
                 break;
 
@@ -385,18 +379,18 @@ namespace Tools {
 
           if( cf.valid )
             {
-              std::string str;
+              std::wstring str;
               int upar = par;
 
               if( use_par != par )
                 upar = use_par;
 
-              if( cf.base == CFormat::HEX && had_precision && cf.special )
+              if( cf.base == CWFormat::HEX && had_precision && cf.special )
                 {
-                  CFormat f2;
+                  CWFormat f2;
                   f2.base = cf.base;
-                  std::string ss = use_arg( upar, f2 );
-                  cf.strlength = (int)ss.size();
+                  std::wstring ss = use_arg( upar, f2 );
+                  cf.strlength = ss.size();
                   //        printf( "str: %s\n", s.c_str() );
                 }
 
@@ -414,7 +408,7 @@ namespace Tools {
               //     will result in only the string "foo"
               //     we avoid this by cutting zeor bytes out
 
-              for( std::string::size_type p = 0; p < str.size(); p++ )
+              for( std::wstring::size_type p = 0; p < str.size(); p++ )
                 {
                   if( str[p] ==  '\0' )
                     {
@@ -431,7 +425,7 @@ namespace Tools {
           else
             {
               // copy the invalid format string
-              for( std::string::size_type  i = start;  i<= pos; i++ )
+              for( std::wstring::size_type  i = start;  i<= pos; i++ )
                 if( i < len )
                   s += format[i];
             }
@@ -442,25 +436,31 @@ namespace Tools {
 
       if( pos < len )
         {
-          s += substitude( format.substr(pos), "%%", "%" );
+          s += substitude( format.substr(pos), L"%%", L"%" );
         }
     }
 
-    int Format2::skip_atoi( std::string s, std::string::size_type start, std::string::size_type & pos ) const
+    int WFormat2::skip_atoi( std::wstring s, std::wstring::size_type start, std::wstring::size_type & pos ) const
     {
       pos = start;
-      std::string::size_type len = s.size();
+      std::wstring::size_type len = s.size();
 
       while( (pos < len) && isdigit( s[pos] ) )
         pos++;
 
-      return atoi( s.substr( start, start-pos ).c_str() );
+      int num = 0;
+
+      std::wstringstream str;
+      str << s.substr( start, start-pos );
+      str >> num;
+
+      return num;
     }
 
-    std::string Format2::substitude( const std::string & str_orig, const std::string & what, const std::string & with, std::string::size_type start  ) const
+    std::wstring WFormat2::substitude( const std::wstring & str_orig, const std::wstring & what, const std::wstring & with, std::wstring::size_type start  ) const
     {
-      std::string str( str_orig );
-      std::string::size_type pos=start;
+      std::wstring str( str_orig );
+      std::wstring::size_type pos=start;
 
       if( what.empty() )
         return str;
@@ -468,12 +468,12 @@ namespace Tools {
       for(;;)
         {
           pos = str.find( what, pos );
-          if( pos == std::string::npos )
+          if( pos == std::wstring::npos )
             break;
 
           if( with.empty() )
             {
-              std::string s = str.substr( 0, pos );
+              std::wstring s = str.substr( 0, pos );
               s += str.substr( pos + what.size() );
               str = s;
               continue;

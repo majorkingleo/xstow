@@ -1,3 +1,7 @@
+/**
+ * class for reading XML like files
+ * @author Copyright (c) 2001 - 2022 Martin Oberzalek
+ */
 #ifndef TOOLS_XML_H
 #define TOOLS_XML_H
 

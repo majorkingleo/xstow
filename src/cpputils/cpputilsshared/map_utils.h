@@ -1,7 +1,6 @@
 /**
- * @file
- * @todo describe file content
- * @author Copyright (c) 2011 Salomon Automation GmbH
+ * std::map utility functions
+ * @author Copyright (c) 2011 - 2022 Mario Mattl
  */
 
 #ifndef _Tools_MAP_UTILS_H
