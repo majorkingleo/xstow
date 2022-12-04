@@ -16,3 +16,6 @@ aclocal.m4
 missing
 depcomp
 install-sh
+.deps
+Makefile
+Makefile.in
