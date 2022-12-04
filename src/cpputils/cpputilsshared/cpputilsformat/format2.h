@@ -63,20 +63,20 @@ namespace Tools {
         return 0;
       }
 
-      template <class N> bool is_int( const N &n ) { return false; }
-      bool is_int( const int &n ) { return true; }
-      bool is_int( const unsigned int &n ) { return true; }
-      bool is_int( const short &n ) { return true; }
-      bool is_int( const unsigned short ) { return true; }
-      bool is_int( const unsigned long ) { return true; }
-      bool is_int( const unsigned long long ) { return true; }
-      bool is_int( const long long ) { return true; }
+      template <class N> bool is_int( const N &n ) const { return false; }
+      bool is_int( const int &n ) const { return true; }
+      bool is_int( const unsigned int &n ) const { return true; }
+      bool is_int( const short &n ) const { return true; }
+      bool is_int( const unsigned short ) const { return true; }
+      bool is_int( const unsigned long ) const { return true; }
+      bool is_int( const unsigned long long ) const { return true; }
+      bool is_int( const long long ) const { return true; }
 
-      template <class S> bool is_string( const S &s_ ) { return false; }
-      bool is_string( std::string& s_ ) { return true; }
-      bool is_string( const std::string& s_ ) { return true; }
-      bool is_string( char* ) { return true; }
-      bool is_string( const char* ) { return true; }
+      template <class S> bool is_string( const S &s_ ) const { return false; }
+      bool is_string( std::string& s_ ) const { return true; }
+      bool is_string( const std::string& s_ ) const { return true; }
+      bool is_string( char* ) const { return true; }
+      bool is_string( const char* ) const { return true; }
     };
 
     template<typename Arg> class RealArg : public BaseArg
