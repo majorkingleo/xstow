@@ -17,15 +17,23 @@ cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/cppdir.h \
 	cpputils/cpputilsshared/leoini.cc \
 	cpputils/cpputilsshared/leoini.h \
-	cpputils/cpputilsshared/stderr_exception.h \
 	cpputils/cpputilsshared/string_utils.cc \
 	cpputils/cpputilsshared/string_utils.h \
 	cpputils/cpputilsshared/ref.h \
 	cpputils/cpputilsshared/range.h \
 	cpputils/cpputilsshared/iterator.h \
-	cpputils/cpputilsshared/zvector.h \
 	cpputils/cpputilsshared/xml.cc \
-	cpputils/cpputilsshared/xml.h
+	cpputils/cpputilsshared/xml.h \
+	cpputils/cpputilsshared/stderr_exception.h \
+	cpputils/cpputilsshared/TupleReverse.h
+	cpputils/cpputilsshared/utf8.h \
+	cpputils/cpputilsshared/utf8/core.h \
+	cpputils/cpputilsshared/utf8/checked.h \
+	cpputils/cpputilsshared/utf8/unchecked.h \
+	cpputils/cpputilsshared/utf8/cpp11.h \
+	cpputils/cpputilsshared/utf8/cpp17.h \
+	cpputils/cpputilsshared/utf8_util.h \
+	cpputils/cpputilsshared/utf8_util.cc
 
 
 cpputils_cpputilsshared_cpputilsformat_libcpputilsformat_a_SOURCES= \
@@ -34,7 +42,11 @@ cpputils_cpputilsshared_cpputilsformat_libcpputilsformat_a_SOURCES= \
 	cpputils/cpputilsshared/cpputilsformat/format2.cc \
 	cpputils/cpputilsshared/cpputilsformat/format2.h \
 	cpputils/cpputilsshared/cpputilsformat/format.h \
-	cpputils/cpputilsshared/cpputilsformat/cformat.h
+	cpputils/cpputilsshared/cpputilsformat/cformat.h \
+	cpputils/cpputilsshared/cpputilsformat/cwformat.h \
+	cpputils/cpputilsshared/cpputilsformat/cwformat.cc \
+	cpputils/cpputilsshared/cpputilsformat/wformat2.h \
+	cpputils/cpputilsshared/cpputilsformat/wformat2.cc
 
 
 if ENABLE_MERGE
