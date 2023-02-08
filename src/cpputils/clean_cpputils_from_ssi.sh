@@ -17,3 +17,7 @@ done
 
 find . -name "*.pl" | xargs rm 
 
+rm -rf cpputilsterm
+rm -rf dbutils_s
+rm -rf wamex_s
+rm -rf dummy
