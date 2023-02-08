@@ -199,6 +199,12 @@ namespace CppDir
 
   /// checks if dir is in path
   bool is_in_dir( const std::string &path, const std::string &dir );
+
+  // returns maximum path length for a buffer
+  // example how to create a char array buffer:
+  // std::vector<char> buf( CppDir::get_path_max(), 0 );
+  // will return 253 on Windows, 4096 usaly on a Linux system
+  size_t get_path_max();
 }
 
 } // namespace Tools

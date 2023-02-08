@@ -43,6 +43,11 @@ class StderrException : public std::exception
 	  std::cerr << "Exception from: " << combined_error << std::endl;
   }
 
+
+  // gcc4: error: looser throw specifier for `virtual ~StderrException()`
+  // bcause std::exception has: ~exception() throw ()'
+  virtual ~StderrException() throw() {}
+
   virtual const char* what() const throw() { return combined_error.c_str(); }
   const std::string & get_simple_error() const throw() { return err; }
 

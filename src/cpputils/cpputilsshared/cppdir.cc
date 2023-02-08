@@ -3,6 +3,10 @@
  * @author Copyright (c) 2001 - 2022 Martin Oberzalek
  */
 
+#if defined(_WIN32) || defined(WIN32)
+#include <windows.h>
+#endif
+
 #include "cppdir.h"
 
 #undef OUT
@@ -821,4 +825,19 @@ bool CppDir::is_in_dir( const std::string &path, const std::string &dir )
   DEBUG( OUT(4)( "failed is_in_dir: path: %s, dir %s\n", path, dir ) );
 
   return false;
+}
+
+size_t CppDir::get_path_max()
+{
+#if defined WIN32 || defined _WIN32
+	return MAX_PATH;
+#else
+	long len = pathconf( pwd().c_str(), _PC_PATH_MAX );
+
+	if( len <= 0 ) {
+		return PATH_MAX;
+	}
+
+	return len;
+#endif
 }
