@@ -1,0 +1,3 @@
+[submodule "src/cpputils"]
+	path = src/cpputils
+	url = https://github.com/majorkingleo/cpputils.git
