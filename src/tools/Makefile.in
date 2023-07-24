@@ -1,7 +1,0 @@
-EXE=libtools.a
-
-all: $(EXE)
-
-libtools.a: $(OFILES)
-	ar r libtools.a $(OFILES)
-
