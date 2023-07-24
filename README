@@ -57,15 +57,11 @@ It works fine.
 
 *) Static versions
    
-  If you enable static compiling 3 binaries 'xstow', 'xstow-static' 
-  and 'xstow-stow' will be created.
+  If you enable static compiling 2 binaries 'xstow', 'xstow-static' 
+  will be created.
 
   The 'xstow-static' version has no ncurses support 
   and the binary is compiled statically.
-
-  Some extensions in the 'xstow-stow' target are disabled. This 
-  results in a static replacement of GNU Stow, with less extensions and
-  the binary is smaller than the xstow-static binary.
 
   If you are heaviliy using xstow it is recomended compiling these static 
   versions, since you are using xstow like one of the base system tools.

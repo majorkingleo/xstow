@@ -1,14 +1,20 @@
 
-noinst_LIBRARIES=tools/libtools.a \
+noinst_LIBRARIES= \
 	cpputils/cpputilsshared/libcpputilsshared.a \
-	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a
+	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a \
+	cpputils/cpputilsshared/libarg.a \
+	cpputils/cpputilsshared/libargstatic.a
 
+cpputils_cpputilsshared_libarg_a_SOURCES= \
+	cpputils/cpputilsshared/arg.h \
+	cpputils/cpputilsshared/arg.cc
 
-tools_libtools_a_SOURCES= \
-	tools/arg.cpp \
-	tools/arg.h \
-	tools/pairs.cpp \
-	tools/pairs.h 
+cpputils_cpputilsshared_libargstatic_a_SOURCES= \
+	cpputils/cpputilsshared/arg.h \
+	cpputils/cpputilsshared/arg.cc
+
+cpputils_cpputilsshared_libargstatic_a_CXXFLAGS=\
+	-DDISABLE_CURSES
 
 cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/backtrace.cc \
@@ -21,6 +27,8 @@ cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/string_utils.h \
 	cpputils/cpputilsshared/ref.h \
 	cpputils/cpputilsshared/range.h \
+	cpputils/cpputilsshared/pairs.h \
+	cpputils/cpputilsshared/pairs.cpp \
 	cpputils/cpputilsshared/iterator.h \
 	cpputils/cpputilsshared/xml.cc \
 	cpputils/cpputilsshared/xml.h \
@@ -86,8 +94,9 @@ xstow_SOURCES=\
 	printf_format.h \
 	tools_config.h
 
-xstow_LDADD= tools/libtools.a \
+xstow_LDADD= \
 	cpputils/cpputilsshared/libcpputilsshared.a \
+	cpputils/cpputilsshared/libarg.a \
 	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a \
 	$(LDFLAGS_DYNAMIC)
 
@@ -103,8 +112,9 @@ merge_info_SOURCES= \
 	debug.cpp \
 	debug.h
 
-merge_info_LDADD= tools/libtools.a \
+merge_info_LDADD= \
 	cpputils/cpputilsshared/libcpputilsshared.a \
+	cpputils/cpputilsshared/libarg.a \
 	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a \
 	$(LDFLAGS_DYNAMIC)
 
@@ -116,15 +126,15 @@ xstow_static_SOURCES= $(xstow_SOURCES)
 xstow_static_LDFLAGS= -static
 xstow_static_CXXFLAGS= $(CXXFLAGS) -DSTATIC_COMPILE
 
-xstow_stow_SOURCES= $(xstow_SOURCES)
-xstow_stow_LDFLAGS= -static
-xstow_stow_CXXFLAGS= $(CXXFLAGS) -DSTATIC_COMPILE -DGNU_STOW
+xstow_static_LDADD= \
+	cpputils/cpputilsshared/libcpputilsshared.a \
+	cpputils/cpputilsshared/libargstatic.a \
+	cpputils/cpputilsshared/cpputilsformat/libcpputilsformat.a 
 
 endif
 
 AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src/tools \
 	-I$(top_srcdir)/src/cpputils/cpputilsshared  \
 	-I$(top_srcdir)/src/cpputils/cpputilsshared/cpputilsformat \
 	-std=c++11 \
