@@ -65,7 +65,7 @@ endif
 
 if ENABLE_STATIC
 
-bin_PROGRAMS=xstow xstow-static xstow-stow $(MERGE_INFO)
+bin_PROGRAMS=xstow xstow-static $(MERGE_INFO)
 
 else
 
