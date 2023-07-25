@@ -28,7 +28,7 @@ cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/ref.h \
 	cpputils/cpputilsshared/range.h \
 	cpputils/cpputilsshared/pairs.h \
-	cpputils/cpputilsshared/pairs.cpp \
+	cpputils/cpputilsshared/pairs.cc \
 	cpputils/cpputilsshared/iterator.h \
 	cpputils/cpputilsshared/xml.cc \
 	cpputils/cpputilsshared/xml.h \
