@@ -33,7 +33,7 @@ cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/xml.cc \
 	cpputils/cpputilsshared/xml.h \
 	cpputils/cpputilsshared/stderr_exception.h \
-	cpputils/cpputilsshared/TupleReverse.h
+	cpputils/cpputilsshared/TupleReverse.h \
 	cpputils/cpputilsshared/utf8.h \
 	cpputils/cpputilsshared/utf8/core.h \
 	cpputils/cpputilsshared/utf8/checked.h \
