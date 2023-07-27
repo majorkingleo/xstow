@@ -32,6 +32,8 @@ cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/iterator.h \
 	cpputils/cpputilsshared/xml.cc \
 	cpputils/cpputilsshared/xml.h \
+	cpputils/cpputilsshared/file_option.h \
+	cpputils/cpputilsshared/file_option.cc \
 	cpputils/cpputilsshared/stderr_exception.h \
 	cpputils/cpputilsshared/TupleReverse.h \
 	cpputils/cpputilsshared/utf8.h \
@@ -74,8 +76,6 @@ bin_PROGRAMS=xstow $(MERGE_INFO)
 endif
 
 xstow_SOURCES=\
-	file_option.cpp \
-	file_option.h \
 	main.cpp \
 	setup.h \
 	setup.cpp \
@@ -104,8 +104,6 @@ if ENABLE_MERGE
 
 merge_info_SOURCES= \
 	merge_info.cpp \
-	file_option.cpp \
-	file_option.h \
 	printf_format.h \
 	colored_output.h \
 	colored_output.cpp \
