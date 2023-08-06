@@ -1,3 +1,6 @@
+Clone from github: 
+`git clone --recurse-submodules --recurse-submodules git@github.com:majorkingleo/xstow.git`
+
 XStow is a replacement of GNU Stow (http://www.gnu.org/software/stow/)
 written in C++. It supports all features of Stow with some extensions.
 
@@ -83,6 +86,7 @@ It works fine.
 *) checkout from git
 
   when checking out from github you need to get all submodules by command
-
-  `git submodule update --init --recursive`
+  `git clone --recurse-submodules --recurse-submodules git@github.com:majorkingleo/xstow.git`
+  or if you already checked out:
+  `cd xstow && git submodule update --init --recursive`
 
