@@ -88,7 +88,7 @@ It works fine.
   When checking out from github you need to get all submodules by command:
 
   ```
-  git clone --recurse-submodules --recurse-submodules git@github.com:majorkingleo/xstow.git
+  git clone --recurse-submodules git@github.com:majorkingleo/xstow.git
   ```
 
   Or if you already checked out:
