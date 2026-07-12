@@ -19,3 +19,4 @@ install-sh
 .deps
 Makefile
 Makefile.in
+.aider*
