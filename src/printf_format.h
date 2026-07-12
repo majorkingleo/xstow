@@ -3,6 +3,8 @@
 
 #include <format.h>
 #include <ref.h>
+#include <iostream>
+
 
 namespace Tools
 {

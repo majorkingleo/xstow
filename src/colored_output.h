@@ -1,6 +1,8 @@
 #ifndef COLORED_OUTPUT_H_
 #define COLORED_OUTPUT_H_
 
+#include <string>
+
 class ColoredOutput {
 public:
     enum Color {

@@ -28,7 +28,6 @@ cpputils_cpputilsshared_libcpputilsshared_a_SOURCES= \
 	cpputils/cpputilsshared/ref.h \
 	cpputils/cpputilsshared/range.h \
 	cpputils/cpputilsshared/pairs.h \
-	cpputils/cpputilsshared/pairs.cc \
 	cpputils/cpputilsshared/iterator.h \
 	cpputils/cpputilsshared/xml.cc \
 	cpputils/cpputilsshared/xml.h \
@@ -53,6 +52,7 @@ cpputils_cpputilsshared_cpputilsformat_libcpputilsformat_a_SOURCES= \
 	cpputils/cpputilsshared/cpputilsformat/format2.h \
 	cpputils/cpputilsshared/cpputilsformat/format.h \
 	cpputils/cpputilsshared/cpputilsformat/cformat.h \
+	cpputils/cpputilsshared/cpputilsformat/cformat.cc \
 	cpputils/cpputilsshared/cpputilsformat/cwformat.h \
 	cpputils/cpputilsshared/cpputilsformat/cwformat.cc \
 	cpputils/cpputilsshared/cpputilsformat/wformat2.h \
@@ -135,6 +135,6 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/cpputils/cpputilsshared  \
 	-I$(top_srcdir)/src/cpputils/cpputilsshared/cpputilsformat \
-	-std=c++11 \
+	-std=c++20 \
 	-DNOWAMAS 
 
